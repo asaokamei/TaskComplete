@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Symfony To-Do
+{% endblock %}
+
+{% block body %}
+
+    <div id="welcome">
+        <h1><span>task </span>create a new task</h1>
+    </div>
+
+    <form method="post" action="">
+
+        <div class="form-group">
+            <label for="title" class="required">task title</label>
+            <input type="text" class="form-control" name="project[title]" required="required" id="title" placeholder="title name">
+        </div>
+
+        <div class="form-group">
+            <label for="done_by" class="">done by</label>
+            <input type="datetime-local" class="form-control" name="group[done_by]" id="done_by">
+        </div>
+
+        <div class="form-group">
+            <label for="details" class="">details</label>
+            <textarea style="height: 5em;" class="form-control" name="group[details]" id="details" placeholder="details here..."></textarea>
+        </div>
+
+        <input type="submit" value="create" class="btn btn-primary">
+        <a href="/" class="btn btn-default">return to top</a>
+        
+    </form>
+
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}

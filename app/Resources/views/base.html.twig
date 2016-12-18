@@ -15,7 +15,8 @@
         <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material.css" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/ripples.css" rel="stylesheet">
-        
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
@@ -53,6 +54,10 @@
                 font-weight:bold;
                 margin: .2rem .2rem .5rem .2rem;
             }
+            .required:after {
+                content:"*";
+                color:red;
+            }
         </style>
 
     </head>
@@ -71,12 +76,15 @@
                 <li><a href="/">by projects</a></li>
                 <li><a href="/date">by date</a></li>
             </ul>
+            <!-- 
             <form class="navbar-form navbar-right">
                 <input type="text" class="form-control col-lg-8" placeholder="Search">
                 <input type="submit" class="btn btn-sm btn-info" value="?">
             </form>
+            -->
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="javascript:void(0)">create a project</a></li>
+                <li><a href="/projects/create">create a project</a></li>
+                <!--
                 <li class="dropdown">
                     <a href="bootstrap-elements.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
                     <ul class="dropdown-menu">
@@ -86,6 +94,10 @@
                         <li class="divider"></li>
                         <li><a href="javascript:void(0)">Separated link</a></li>
                     </ul>
+                </li>
+                -->
+                <li>
+                    <a href="#"><span class="glyphicon glyphicon-cog"></span></a>
                 </li>
             </ul>
         </div>

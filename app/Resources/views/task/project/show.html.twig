@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Symfony To-Do
+{% endblock %}
+
+{% block body %}
+
+    <div id="welcome">
+        <h1><span>project in details</span>project title here (#{{ project_id }})</h1>
+    </div>
+    
+    <div class="clearfix"></div>
+    
+    <div class="col-md-3">
+        <h3>add new group</h3>
+        <form class="form-group">
+            <label><input type="text" placeholder="group name" ></label>
+            <input type="submit" value="add" class="btn btn-xs btn-primary">
+        </form>
+    </div>
+
+    <div class="col-md-9">
+        <h2>group list</h2>
+
+        <div class="task-group">
+            <h3>プロジェクト一覧</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>done</th>
+                        <th>date</th>
+                        <th>task name</th>
+                        <th>details...</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><label><input type="checkbox"> </label></td>
+                        <td>01/31</td>
+                        <td>CPE</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><label><input type="checkbox"> </label></td>
+                        <td>03/31</td>
+                        <td>保険アプリ</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><label><input type="checkbox"> </label></td>
+                        <td>02/28</td>
+                        <td>JFAEL</td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item"><a href="/tasks/create">タスク追加</a>
+                    <div id="add-task-1" style="display: none;">
+                        <form class="form-group">
+                            <label><input type="text" placeholder="task name" ></label>
+                            <label><input type="date" value=""></label>
+                            <input type="submit" value="add" class="btn btn-xs btn-primary">
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}

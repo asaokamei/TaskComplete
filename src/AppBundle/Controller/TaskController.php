@@ -7,26 +7,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DefaultController extends Controller
+class TaskController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/tasks/create", name="task-create")
      * @param Request $request
      * @return Response
      */
-    public function indexAction(Request $request)
+    public function createAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('task/index.html.twig');
+        return $this->render('task/task/create.html.twig');
     }
 
     /**
-     * @Route("/date", name="by-date")
-     * @param Request $request
+     * @Route("/tasks/{id}", name="task-detail")
      * @return Response
      */
-    public function dateAction(Request $request)
+    public function showAction($id)
     {
-        return $this->render('task/date.html.twig');
+        return $this->render('task/task/show.html.twig', [
+            'project_id' => $id,
+        ]);
     }
 }
