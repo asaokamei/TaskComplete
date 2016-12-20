@@ -11,22 +11,12 @@
     </div>
     
     <div class="clearfix"></div>
-    
-    <div class="col-md-3">
-        <h3>add new group</h3>
-        <form class="form-group">
-            <label><input type="text" placeholder="group name" ></label>
-            <input type="submit" value="add" class="btn btn-xs btn-primary">
-        </form>
-    </div>
 
-    <div class="col-md-9">
-        <h2>group list</h2>
-
+    <div class="col-sm-6">
         <div class="task-group">
             <h3>プロジェクト一覧</h3>
             <div class="table-responsive">
-                <table class="table">
+                <table class="table table-hover table-striped">
                     <thead>
                     <tr>
                         <th>done</th>
@@ -54,23 +44,85 @@
                         <td>JFAEL</td>
                         <td></td>
                     </tr>
+                    <tr>
+                        <td colspan="4">
+                            <a href="/tasks/create">タスク追加</a>
+                        </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
-            <ul class="list-group">
-                <li class="list-group-item"><a href="/tasks/create">タスク追加</a>
-                    <div id="add-task-1" style="display: none;">
-                        <form class="form-group">
-                            <label><input type="text" placeholder="task name" ></label>
-                            <label><input type="date" value=""></label>
-                            <input type="submit" value="add" class="btn btn-xs btn-primary">
-                        </form>
-                    </div>
-                </li>
-            </ul>
         </div>
-    
     </div>
+
+    <div class="col-sm-6">
+        <div class="task-group">
+            <h3>保険アプリ</h3>
+            <div class="table-responsive">
+                <table class="table table-hover table-striped">
+                    <thead>
+                    <tr>
+                        <th>done</th>
+                        <th>date</th>
+                        <th>task name</th>
+                        <th>details...</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><label><input type="checkbox"> </label></td>
+                        <td>01/31</td>
+                        <td>DB設計</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><label><input type="checkbox"> </label></td>
+                        <td>03/31</td>
+                        <td>デモアプリ</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><label><input type="checkbox"> </label></td>
+                        <td>02/28</td>
+                        <td>開発開始</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <a href="/tasks/create">タスク追加</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="task-group">
+            <h3>add a new task-group</h3>
+            <form class="form-group">
+                <label><input type="text" name="name" class="form-control" placeholder="group name" ></label>
+                <input type="submit" value="add" class="btn btn-xs btn-primary">
+            </form>
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="task-group" style="padding: 1rem;">
+            <h3>change project name</h3>
+            <form class="form-group">
+                <input type="text" name="title" id="title" placeholder="group name" class="form-control">
+                <input type="submit" value="change" class="btn btn-xs btn-primary">
+            </form>
+            <h3>close this project</h3>
+            <form class="form-group">
+                <label><input type="checkbox" name="action" id="action" value="close"> ← check here and </label>
+                <input type="submit" value="close" class="btn btn-xs btn-warning">
+            </form>
+        </div>
+    </div>
+    
 
 {% endblock %}
 

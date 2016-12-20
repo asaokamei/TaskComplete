@@ -21,6 +21,17 @@ class DefaultController extends Controller
     }
 
     /**
+     * @Route("/projects", name="by-project")
+     * @param Request $request
+     * @return Response
+     */
+    public function projectAction(Request $request)
+    {
+        // replace this example code with whatever you need
+        return $this->render('task/project.html.twig');
+    }
+
+    /**
      * @Route("/date", name="by-date")
      * @param Request $request
      * @return Response
