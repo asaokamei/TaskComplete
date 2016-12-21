@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Repository\Base;
+namespace AppBundle\Repository\Tasks;
 
 use Doctrine\ORM\EntityRepository;
 

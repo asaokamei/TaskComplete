@@ -1,14 +1,16 @@
 <?php
 
-namespace AppBundle\Entity\Base;
+namespace AppBundle\Entity\Tasks;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\ManyToOne;
 
 /**
  * Task
  *
- * @ORM\Table(name="base_task")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Base\TaskRepository")
+ * @ORM\Table(name="task_task")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\Tasks\TaskRepository")
  */
 class Task
 {
@@ -26,7 +28,7 @@ class Task
      *
      * @ORM\Column(name="status", type="string", length=16)
      */
-    private $status;
+    private $status = TaskStatus::ACTIVE;
 
     /**
      * @var string
@@ -38,17 +40,31 @@ class Task
     /**
      * @var string
      *
-     * @ORM\Column(name="details", type="text")
+     * @ORM\Column(name="details", type="text", nullable=true)
      */
     private $details;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="done_by", type="datetime")
+     * @ORM\Column(name="done_by", type="datetime", nullable=true)
      */
     private $doneBy;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="done_at", type="datetime", nullable=true)
+     */
+    private $doneAt;
+
+    /**
+     * A Group have one Project.
+     * @ManyToOne(targetEntity="AppBundle\Entity\Tasks\Group", inversedBy="tasks")
+     * @JoinColumn(name="group_id", referencedColumnName="id")
+     * @var Group
+     */
+    private $group;
 
     /**
      * Get id
@@ -154,6 +170,46 @@ class Task
     public function getDoneBy()
     {
         return $this->doneBy;
+    }
+
+    /**
+     * Set doneBy
+     *
+     * @param \DateTime $doneAt
+     *
+     * @return Task
+     */
+    public function setDoneAt($doneAt)
+    {
+        $this->doneAt = $doneAt;
+
+        return $this;
+    }
+
+    /**
+     * Get doneAt
+     *
+     * @return \DateTime
+     */
+    public function getDoneAt()
+    {
+        return $this->doneAt;
+    }
+
+    /**
+     * @return Group
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * @param Group $groups
+     */
+    public function setGroup($groups)
+    {
+        $this->group = $groups;
     }
 }
 

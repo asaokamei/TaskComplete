@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -16,7 +15,6 @@ class TaskController extends Controller
      */
     public function createAction(Request $request)
     {
-        // replace this example code with whatever you need
         return $this->render('task/task/create.html.twig');
     }
 

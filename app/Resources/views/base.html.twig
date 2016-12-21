@@ -58,6 +58,20 @@
                 content:"*";
                 color:red;
             }
+            div.flash-notice {
+                border: 2px solid #dda6a5;
+                background-color: #f9c7c7;
+                border-radius: 1rem;
+                padding:1rem;
+                font-weight:400;
+                margin-bottom:2rem;
+            }
+            hr.line {
+                color: #333333;
+                width: 80%;
+                height: 3px;
+                border-bottom:1px solid #9bcd9f;
+            }
         </style>
 
     </head>
@@ -97,13 +111,19 @@
                 </li>
                 -->
                 <li>
-                    <a href="#"><span class="glyphicon glyphicon-cog"></span></a>
+                    <a href="/initialize"><span class="glyphicon glyphicon-cog"></span></a>
                 </li>
             </ul>
         </div>
     </div>
     <div class="container">
 
+        {% for flash_message in app.session.flashBag.get('notice') %}
+            <div class="flash-notice">
+                {{ flash_message }}
+            </div>
+        {% endfor %}
+        
         {% block body %}{% endblock %}
     </div>
     {% block javascripts %}{% endblock %}
