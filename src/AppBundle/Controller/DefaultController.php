@@ -1,6 +1,8 @@
 <?php
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Tasks\Project;
+use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +17,13 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        return $this->render('task/index.html.twig');
+        /** @var EntityManager $em */
+        $em =$this->getDoctrine()->getManager();
+        $projectRepo = $em->getRepository(Project::class);
+        $projects = $projectRepo->findAll();
+        return $this->render('task/index.html.twig', [
+            'projects' => $projects,
+        ]);
     }
 
     /**
@@ -25,7 +33,13 @@ class DefaultController extends Controller
      */
     public function projectAction(Request $request)
     {
-        return $this->render('task/project.html.twig');
+        /** @var EntityManager $em */
+        $em =$this->getDoctrine()->getManager();
+        $projects = $em->getRepository(Project::class);
+        $projects = $projects->findAll();
+        return $this->render('task/project.html.twig', [
+            'projects' => $projects,
+        ]);
     }
 
     /**

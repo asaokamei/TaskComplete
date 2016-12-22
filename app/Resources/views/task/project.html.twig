@@ -12,71 +12,31 @@
 
     <script type="text/javascript">
         function toggleGroup(id) {
-            $('div#'+id).toggle();
+            $('div#' + id).toggle();
             return false;
         }
     </script>
-    <div class="col-md-3 col-sm-4 task-project">
-        
-            <h2>NSB <a href="/projects/1000"><span class="small glyphicon glyphicon-pencil"></span></a></h2>
-            <div class="task-group">
-                <h3>プロジェクト一覧</h3>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <label><input type="checkbox"> </label> CPE</li>
-                    <li class="list-group-item"><label><input type="checkbox"> </label> 保険アプリ</li>
-                    <li class="list-group-item"><label><input type="checkbox"> </label> JFAEL</li>
-                    <li class="list-group-item"><a href="javascript: toggleGroup('add-task-1')">タスク追加</a>
-                        <div id="add-task-1" style="display: none;">
-                            <form class="form-group">
-                                <input type="text" name="name" placeholder="task name" class="form-control">
-                                <input type="date" name="done_by" value="" class="form-control">
-                                <input type="submit" value="add" class="btn btn-xs btn-primary">
-                            </form>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            
-            <div class="task-group">
-                <h3>保険アプリ</h3>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <label><input type="checkbox"> </label> DB定義</li>
-                    <li class="list-group-item"><label><input type="checkbox"> </label> FW選定</li>
-                    <li class="list-group-item"><label><input type="checkbox"> </label> 開発開始</li>
-                </ul>
-            </div>
 
-            <div class="task-group">
-                <a href="javascript: toggleGroup('add-group-1')">グループ追加</a>
-                <div id="add-group-1" style="display: none;">
-                    <form class="form-group">
-                        <input type="text" placeholder="group name" class="form-control">
-                        <input type="submit" value="add" class="btn btn-xs btn-primary">
-                    </form>
+    {% for project in projects %}
+
+        <div class="col-md-3 col-sm-4 task-project">
+            <h2>{{ project.name }} <a href="/projects/{{ project.getId() }}"><span
+                            class="small glyphicon glyphicon-pencil"></span></a></h2>
+            {% for group in project.groups %}
+                <div class="task-group">
+                    <h3>{{ group.name }}</h3>
+                    <ul class="list-group">
+                        {% for task in group.tasks %}
+                            <li class="list-group-item">
+                                <label><input type="checkbox"> </label> {{ task.doneBy }}{{ task.title }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
-            </div>
-            
+            {% endfor %}
         </div>
 
-        <div class="col-md-3 col-sm-4 task-project">
-            <h2>Private</h2>
-        </div>
+    {% endfor %}
 
-        <div class="col-md-3 col-sm-4 task-project">
-            <h2>JSRAE</h2>
-        </div>
-
-        <div class="col-md-3 col-sm-4 task-project">
-            <h2>Valxl</h2>
-        </div>
-
-        <div class="col-md-3 col-sm-4 task-project">
-            <h2>伝熱</h2>
-        </div>
-
-    </div>
 {% endblock %}
 
 {% block stylesheets %}

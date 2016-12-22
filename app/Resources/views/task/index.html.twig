@@ -14,6 +14,39 @@
         <table class="table table-hover table-striped">
             <thead>
             <tr>
+                <th rowspan="2">project <br>name</th>
+                <th colspan="4">completed tasks</th>
+                <th rowspan="2">remaining tasks</th>
+                <th rowspan="2">completion&nbsp;(%)</th>
+            </tr>
+            <tr>
+                <th>today</th>
+                <th>yesterday</th>
+                <th>last week</th>
+                <th>all</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for project in projects %}
+            <tr>
+                <th>{{ project.name }} <a href="/projects/{{ project.getId() }}"><span class="small glyphicon glyphicon-pencil"></span></a></th>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+                <td>-</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h3>wishes to be </h3>
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead>
+            <tr>
                 <th rowspan="2">project</th>
                 <th colspan="4">completed tasks</th>
                 <th rowspan="2">remaining tasks</th>
