@@ -12,21 +12,28 @@
 
     <div class="col-md-6">
 
+        <h3>1. make directory writable.</h3>
+
         <p>please check if 'PROJECT_ROOT/var/sqlite' folder accessible for console application as well as for web server. </p>
 
         <hr class="line">
-        
+
+        <h3>2. create schema using Doctrine.</h3>
+
         <p>run the following script to create database scheme. </p>
-        <pre>
-        php bin/console doctrine:schema:update --force</pre>
+        <pre>php bin/console doctrine:schema:update --force</pre>
 
         <hr class="line">
+
+        <h3>3. populate sample tasks.</h3>
 
         <form method="post" action="">
 
             <div class="form-group">
-                <label for="action" class="">check here...</label>
-                <input type="checkbox" name="action" id="action" value="initialize">
+                to populate some sample tasks, <br><label for="action" class="">
+                    <input type="checkbox" name="action" id="action" value="initialize">
+                    ←check here</label>, and click "INITIALIZE" button.
+
             </div>
 
             <input type="submit" value="initialize" class="btn btn-primary">
