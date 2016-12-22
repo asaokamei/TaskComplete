@@ -5,17 +5,15 @@ use AppBundle\Entity\Tasks\Project;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
-     * @param Request $request
      * @return Response
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
         /** @var EntityManager $em */
         $em =$this->getDoctrine()->getManager();
@@ -28,10 +26,9 @@ class DefaultController extends Controller
 
     /**
      * @Route("/projects", name="by-project")
-     * @param Request $request
      * @return Response
      */
-    public function projectAction(Request $request)
+    public function projectAction()
     {
         /** @var EntityManager $em */
         $em =$this->getDoctrine()->getManager();
@@ -44,10 +41,9 @@ class DefaultController extends Controller
 
     /**
      * @Route("/date", name="by-date")
-     * @param Request $request
      * @return Response
      */
-    public function dateAction(Request $request)
+    public function dateAction()
     {
         return $this->render('task/date.html.twig');
     }

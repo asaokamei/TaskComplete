@@ -10,16 +10,16 @@ class TaskController extends Controller
 {
     /**
      * @Route("/tasks/create", name="task-create")
-     * @param Request $request
      * @return Response
      */
-    public function createAction(Request $request)
+    public function createAction()
     {
         return $this->render('task/task/create.html.twig');
     }
 
     /**
      * @Route("/tasks/{id}", name="task-detail")
+     * @param int $id
      * @return Response
      */
     public function showAction($id)

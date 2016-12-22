@@ -17,10 +17,9 @@ class SystemController extends Controller
     /**
      * @Route("/initialize", name="initialize")
      * @Method({"GET"})
-     * @param Request $request
      * @return Response
      */
-    public function askInitializeAction(Request $request)
+    public function askInitializeAction()
     {
         return $this->render('task/system/initialize.html.twig');
     }
