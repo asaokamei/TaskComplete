@@ -6,6 +6,15 @@
 
 {% block body %}
 
+    <style type="text/css">
+        tr.task-done {
+            color: #666;
+            text-decoration: line-through;
+        }
+        tr.task-active {
+            
+        }
+    </style>
     <script type="text/javascript">
         function toggleGroup(id) {
             $('div#' + id).toggle();
@@ -38,9 +47,15 @@
                         </thead>
                         <tbody>
                         {% for task in group.tasks %}
-                            <tr>
-                                <td><label><input type="checkbox"> </label></td>
-                                <td>{{ task.doneBy }}</td>
+                            <tr class="task-{{ task.getStatus() }}">
+                                <td><label>
+                                        {% if (task.isActive()) %}
+                                            <input type="checkbox">
+                                        {% else %}
+                                            <input type="checkbox" checked>
+                                        {% endif %}
+                                    </label></td>
+                                <td>{{ task.getDate() }}</td>
                                 <td>{{ task.title }}</td>
                                 <td>{{ task.details }}</td>
                             </tr>
