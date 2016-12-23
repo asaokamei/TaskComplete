@@ -2,9 +2,8 @@
 
 namespace AppBundle\Entity\Tasks;
 
+use AppBundle\Entity\EntityTrait;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\ManyToOne;
 
 /**
  * Task
@@ -14,6 +13,8 @@ use Doctrine\ORM\Mapping\ManyToOne;
  */
 class Task
 {
+    use EntityTrait;
+
     /**
      * @var int
      *
@@ -60,11 +61,21 @@ class Task
 
     /**
      * A Group have one Project.
-     * @ManyToOne(targetEntity="AppBundle\Entity\Tasks\Group", inversedBy="tasks")
-     * @JoinColumn(name="group_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Tasks\Group", inversedBy="tasks")
+     * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
      * @var Group
      */
     private $group;
+
+    /**
+     * Task constructor.
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = [])
+    {
+        $this->fill($data);
+    }
 
     /**
      * Get id
@@ -77,40 +88,23 @@ class Task
     }
 
     /**
-     * Set status
-     *
-     * @param string $status
-     *
-     * @return Task
+     * @return bool
      */
-    public function setStatus($status)
+    public function isActive()
     {
-        $this->status = $status;
-
-        return $this;
+        return $this->status === TaskStatus::ACTIVE;
     }
 
     /**
      * Get status
      *
+     * @param null|\DateTime $doneAt
      * @return string
      */
-    public function getStatus()
+    public function done($doneAt = null)
     {
-        return $this->status;
-    }
-
-    /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return Task
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
+        $this->setDoneAt($doneAt);
+        $this->status = TaskStatus::DONE;
         return $this;
     }
 
@@ -123,21 +117,7 @@ class Task
     {
         return $this->title;
     }
-
-    /**
-     * Set details
-     *
-     * @param string $details
-     *
-     * @return Task
-     */
-    public function setDetails($details)
-    {
-        $this->details = $details;
-
-        return $this;
-    }
-
+    
     /**
      * Get details
      *
@@ -146,20 +126,6 @@ class Task
     public function getDetails()
     {
         return $this->details;
-    }
-
-    /**
-     * Set doneBy
-     *
-     * @param \DateTime $doneBy
-     *
-     * @return Task
-     */
-    public function setDoneBy($doneBy)
-    {
-        $this->doneBy = $doneBy;
-
-        return $this;
     }
 
     /**
@@ -179,8 +145,16 @@ class Task
      *
      * @return Task
      */
-    public function setDoneAt($doneAt)
+    protected function setDoneAt($doneAt)
     {
+        if (!$doneAt) {
+            $doneAt = new \DateTime('now');
+        } elseif (is_string($doneAt)) {
+            $doneAt = new \DateTime($doneAt);
+        } elseif (!$doneAt instanceof \DateTime) {
+            throw new \InvalidArgumentException();
+        }
+
         $this->doneAt = $doneAt;
 
         return $this;

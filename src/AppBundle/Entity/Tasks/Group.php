@@ -2,11 +2,9 @@
 
 namespace AppBundle\Entity\Tasks;
 
+use AppBundle\Entity\EntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\JoinColumn;
-use Doctrine\ORM\Mapping\ManyToOne;
-use Doctrine\ORM\Mapping\OneToMany;
 
 /**
  * Group
@@ -16,6 +14,8 @@ use Doctrine\ORM\Mapping\OneToMany;
  */
 class Group
 {
+    use EntityTrait;
+
     /**
      * @var int
      *
@@ -34,24 +34,27 @@ class Group
 
     /**
      * A Group have one Project.
-     * @ManyToOne(targetEntity="AppBundle\Entity\Tasks\Project", inversedBy="groups")
-     * @JoinColumn(name="project_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Tasks\Project", inversedBy="groups")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      * @var Project
      */
     private $project;
 
     /**
      * Project Many Groups.
-     * @OneToMany(targetEntity="AppBundle\Entity\Tasks\Task", mappedBy="group")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tasks\Task", mappedBy="group")
      * @var ArrayCollection|Task[]
      */
     private $tasks;
 
     /**
      * Group constructor.
+     * 
+     * @param array $data
      */
-    public function __construct()
+    public function __construct(array $data = [])
     {
+        $this->fill($data);
         $this->tasks = new ArrayCollection();
     }
 
@@ -63,20 +66,6 @@ class Group
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Group
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     /**

@@ -1,9 +1,9 @@
 <?php
 namespace AppBundle\Entity\Tasks;
 
+use AppBundle\Entity\EntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\OneToMany;
 
 /**
  * Class Projects
@@ -14,6 +14,8 @@ use Doctrine\ORM\Mapping\OneToMany;
  */
 class Project
 {
+    use EntityTrait;
+    
     /**
      * @var integer
      * @ORM\Column(name="id", type="integer")
@@ -43,16 +45,19 @@ class Project
 
     /**
      * Project Many Groups.
-     * @OneToMany(targetEntity="AppBundle\Entity\Tasks\Group", mappedBy="project")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tasks\Group", mappedBy="project")
      * @var ArrayCollection|Group[]
      */
     private $groups;
 
     /**
      * Project constructor.
+     *
+     * @param array $data
      */
-    public function __construct()
+    public function __construct(array $data = [])
     {
+        $this->fill($data);
         $this->groups = new ArrayCollection();
     }
 
@@ -65,28 +70,19 @@ class Project
     }
 
     /**
-     * @param int $id
+     * @return bool
      */
-    public function setId($id)
+    public function isActive()
     {
-        $this->id = $id;
+        return $this->isActive === ProjectIsActive::ACTIVE;
     }
 
     /**
-     * @return string
-     */
-    public function getIsActive()
-    {
-        return $this->isActive;
-    }
-
-    /**
-     * @param string $isActive
      * @return Project
      */
-    public function setIsActive($isActive)
+    public function close()
     {
-        $this->isActive = $isActive;
+        $this->isActive = ProjectIsActive::INACTIVE;
 
         return $this;
     }
@@ -97,30 +93,6 @@ class Project
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @param string $name
-     * @return Project
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Set doneBy
-     *
-     * @param \DateTime $doneBy
-     * @return Project
-     */
-    public function setDoneBy($doneBy)
-    {
-        $this->doneBy = $doneBy;
-
-        return $this;
     }
 
     /**
