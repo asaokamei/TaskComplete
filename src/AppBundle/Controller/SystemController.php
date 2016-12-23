@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;
 use AppBundle\Entity\Tasks\Task;
+use AppBundle\Entity\Tasks\TaskStatus;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -66,45 +67,48 @@ class SystemController extends Controller
      */
     private function populateDb($em)
     {
+        $now = new \DateTime('now');
+        
         // create 2 projects: work and life. 
-        $work = new Project();
-        $work->setName('work');
+        $work = new Project(['name' => 'work']);
         $em->persist($work);
 
-        $life = new Project();
-        $life->setName('life');
+        $life = new Project(['name' => 'life']);
         $em->persist($life);
         
         // create basic groups for work and life.
-        $group1 = new Group();
-        $group1->setName('tasks');
+        $group1 = new Group(['name' => 'tasks']);
         $group1->setProject($work);
         $em->persist($group1);
 
-        $group2 = new Group();
-        $group2->setName('plans');
+        $group2 = new Group(['name' => 'plans']);
         $group2->setProject($life);
         $em->persist($group2);
         
         // add tasks for work/tasks
-        $task1 = new Task();
-        $task1->setTitle('write proposal');
+        $task1 = new Task([
+            'status' => TaskStatus::DONE,
+            'title' => 'brain storm', 
+            'doneBy' => (clone $now)->sub(new \DateInterval('P1D')),
+            'doneAt' => (clone $now),
+        ]);
         $task1->setGroup($group1);
         $em->persist($task1);
 
-        $task2 = new Task();
-        $task2->setTitle('develop product');
+        $task1 = new Task(['title' => 'write proposal', 'doneBy' => (clone $now)->add(new \DateInterval('P1D'))]);
+        $task1->setGroup($group1);
+        $em->persist($task1);
+
+        $task2 = new Task(['title' => 'develop product', 'doneBy' => (clone $now)->add(new \DateInterval('P2D'))]);
         $task2->setGroup($group1);
         $em->persist($task2);
         
         // add tasks for life/plans
-        $task3 = new Task();
-        $task3->setTitle('go camping');
+        $task3 = new Task(['title' => 'go camping']);
         $task3->setGroup($group2);
         $em->persist($task3);
 
-        $task4 = new Task();
-        $task4->setTitle('go to beach');
+        $task4 = new Task(['title' => 'go to beach']);
         $task4->setGroup($group2);
         $em->persist($task4);
 

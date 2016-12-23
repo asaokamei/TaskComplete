@@ -88,6 +88,14 @@ class Task
     }
 
     /**
+     * @return TaskStatus
+     */
+    public function getStatus()
+    {
+        return new TaskStatus($this->status);
+    }
+
+    /**
      * @return bool
      */
     public function isActive()
@@ -184,6 +192,14 @@ class Task
     public function setGroup($groups)
     {
         $this->group = $groups;
+    }
+
+    /**
+     * @return TaskDate
+     */
+    public function getDate()
+    {
+        return new TaskDate($this->getStatus(), $this->doneBy, $this->doneAt);
     }
 }
 
