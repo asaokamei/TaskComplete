@@ -96,10 +96,11 @@
 
         <div class="task-group">
             <h3>change project info</h3>
-            <form class="form-group">
-                <input type="text" name="title" id="title" placeholder="group name" class="form-control">
+            {{ form_start(updater) }}
+                {{ form_widget(updater.name, {"attr":{"class":"form-control", "placeholder":"REQUIRED: new group name"}}) }}
+                {{ form_widget(updater.done_by, {"attr":{"class":"form-control", "placeholder":"done by"}}) }}
                 <input type="submit" value="change" class="btn btn-xs btn-primary">
-            </form>
+            {{ form_end(updater) }}
         </div>
 
         <div class="task-group">

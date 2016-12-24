@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,7 +29,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Config\Route("/projects/create", name="project-create-do")
+     * @Config\Route("/projects/create")
      * @param Request $request
      * @return Response
      */
@@ -49,23 +50,50 @@ class ProjectController extends Controller
 
     /**
      * @Config\Route("/projects/{id}", name="project-detail")
+     * @Config\Method({"GET"})
      * @param int $id
      * @return Response
      */
     public function showAction($id)
     {
-        /** @var EntityManager $em */
-        $em =$this->getDoctrine()->getManager();
-        $projectRepo = $em->getRepository(Project::class);
-        $project = $projectRepo->findOneBy(['id' => $id]);
+        $project = $this->getProjectById($id);
+        $updater = $this->getUpdateForm();
+
         return $this->render('task/project/show.html.twig', [
             'project_id' => $id,
             'project' => $project,
+            'updater' => $updater->createView(),
         ]);
     }
 
     /**
-     * @return \Symfony\Component\Form\FormInterface
+     * @Config\Route("/projects/{id}")
+     * @param Request $request
+     * @param int     $id
+     * @return Response
+     */
+    public function updateAction(Request $request, $id)
+    {
+        $project = $this->getProjectById($id);
+        
+        $form = $this->getUpdateForm();
+        $form->handleRequest($request);
+        if (!$form->isValid()) {
+            $this->addFlash('notice', 'bad input: not updated');
+            return $this->redirectToRoute('project-detail', ['id' => $id]);
+        }
+
+        $project->fill($form->getData());
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
+
+        $this->addFlash('message', 'updated project information!');
+        return $this->redirectToRoute('project-detail', ['id' => $id]);
+    }
+
+    /**
+     * @return FormInterface
      */
     private function getCreateForm()
     {
@@ -73,6 +101,19 @@ class ProjectController extends Controller
             ->add('name', TextType::class, ['required' => true, 'label' => 'Project name'])
             ->add('done_by', DateType::class, ['widget' => 'single_text', 'required' => false])
             ->add('group_name', TextType::class, ['required' => true])
+            ->getForm();
+
+        return $form;
+    }
+
+    /**
+     * @return FormInterface
+     */
+    private function getUpdateForm()
+    {
+        $form = $this->createFormBuilder()
+            ->add('name', TextType::class, ['required' => true,])
+            ->add('done_by', DateType::class, ['required' => false, 'widget' => 'single_text'])
             ->getForm();
 
         return $form;
@@ -97,5 +138,19 @@ class ProjectController extends Controller
         $em->flush();
         
         return $project->getId();
+    }
+
+    /**
+     * @param int $id
+     * @return Project|null|object
+     */
+    private function getProjectById($id)
+    {
+        /** @var EntityManager $em */
+        $em          = $this->getDoctrine()->getManager();
+        $projectRepo = $em->getRepository(Project::class);
+        $project     = $projectRepo->findOneBy(['id' => $id]);
+
+        return $project;
     }
 }
