@@ -40,7 +40,7 @@ class ProjectController extends Controller
         if (!$form->isValid()) {
             return $this->render('task/project/create.html.twig', [
                 'form' => $form->createView(),
-                'error' => 'please check the input values!',
+                'notice' => 'please check the input values!',
             ]);
         }
         $id = $this->createNewProject($form->getData());

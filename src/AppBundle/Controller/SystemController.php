@@ -46,7 +46,7 @@ class SystemController extends Controller
         $this->populateDb($em);
         
         $this->addFlash(
-            'success',
+            'message',
             'filled up initial tasks!'
         );
         return $this->redirectToRoute('initialize');
