@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProjectController extends Controller
@@ -18,31 +19,31 @@ class ProjectController extends Controller
      */
     public function createAction()
     {
-        $project = new Project();
-        $form = $this->createFormBuilder($project)
-            ->add('name', TextType::class)
-            ->add('done_by', DateType::class)
-            ->getForm();
+        $form    = $this->getCreateForm();
+
         return $this->render('task/project/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Config\Route("/projects/create", name="project-create")
-     * @Config\Method({"POST"})
+     * @Config\Route("/projects/create", name="project-create-do")
+     * @param Request $request
      * @return Response
      */
-    public function insertAction()
+    public function insertAction(Request $request)
     {
-        $project = new Project();
-        $form = $this->createFormBuilder($project)
-            ->add('name', TextType::class)
-            ->add('done_by', DateType::class)
-            ->getForm();
-        return $this->render('task/project/create.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        $form = $this->getCreateForm();
+        $form->handleRequest($request);
+        if (!$form->isValid()) {
+            return $this->render('task/project/create.html.twig', [
+                'form' => $form->createView(),
+                'error' => 'please check the input values!',
+            ]);
+        }
+        $id = $this->createNewProject($form->getData());
+        $this->addFlash('message', 'created a new project!');
+        return $this->redirectToRoute('project-detail', ['id' => $id]);
     }
 
     /**
@@ -60,5 +61,28 @@ class ProjectController extends Controller
             'project_id' => $id,
             'project' => $project,
         ]);
+    }
+
+    /**
+     * @return \Symfony\Component\Form\FormInterface
+     */
+    private function getCreateForm()
+    {
+        $form = $this->createFormBuilder()
+            ->add('name', TextType::class, ['required' => true, 'label' => 'Project name'])
+            ->add('done_by', DateType::class, ['widget' => 'single_text', 'required' => false])
+            ->add('group_name', TextType::class, ['required' => true])
+            ->getForm();
+
+        return $form;
+    }
+
+    /**
+     * @param array $data
+     * @return int
+     */
+    private function createNewProject(array $data)
+    {
+        return 1;
     }
 }

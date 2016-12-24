@@ -61,13 +61,21 @@
                 content:"*";
                 color:red;
             }
-            div.flash-notice {
-                border: 2px solid #dda6a5;
-                background-color: #f9c7c7;
-                border-radius: 1rem;
+            div.flash {
+                border: 2px solid #dadada;
+                background-color: #f4f4f4;
+                border-radius: .5rem;
                 padding:1rem;
                 font-weight:400;
                 margin-bottom:2rem;
+            }
+            div.flash-notice {
+                border: 2px solid #dda6a5;
+                background-color: #f9c7c7;
+            }
+            div.flash-message {
+                border: 2px solid #b2ddbb;
+                background-color: #ebf9e7;
             }
             hr.line {
                 color: #333333;
@@ -113,10 +121,24 @@
     <div class="container">
 
         {% for flash_message in app.session.flashBag.get('notice') %}
-            <div class="flash-notice">
+            <div class="flash flash-notice">
                 {{ flash_message }}
             </div>
         {% endfor %}
+        {% for flash_message in app.session.flashBag.get('message') %}
+            <div class="flash flash-message">
+                {{ flash_message }}
+            </div>
+        {% endfor %}
+        {% if (error is defined) %}
+            <div class="flash flash-notice">
+                {{ error }}
+            </div>
+        {% elseif (message is defined) %}
+            <div class="flash flash-message">
+                {{ message }}
+            </div>
+        {% endif %}
         
         {% block body %}{% endblock %}
     </div>
