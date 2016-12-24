@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
@@ -83,6 +84,18 @@ class ProjectController extends Controller
      */
     private function createNewProject(array $data)
     {
-        return 1;
+        $group_data = ['name' => $data['group_name']];
+        unset($data['group_name']);
+        
+        $project = new Project($data);
+        $group   = new Group($group_data);
+        $group->setProject($project);
+        
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($project);
+        $em->persist($group);
+        $em->flush();
+        
+        return $project->getId();
     }
 }
