@@ -162,4 +162,14 @@ class ProjectController extends Controller
         $em = $this->getDoctrine()->getManager();
         $em->flush();
     }
+
+    /**
+     * @Config\Route("/projects/{id}")
+     * @Config\Method({"DELETE"})
+     * @param int $id
+     * @return Response
+     */
+    public function closeAction($id)
+    {
+    }
 }

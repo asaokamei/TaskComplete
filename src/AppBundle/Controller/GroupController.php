@@ -6,19 +6,20 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TaskController extends Controller
+class GroupController extends Controller
 {
     /**
-     * @Config\Route("/tasks/create/{project_id}/{group_id}", name="task-create")
+     * @Config\Route("/groups/create/{project_id}", name="group-create")
+     * @Config\Method({"GET"})
      * @return Response
      */
     public function createAction()
     {
-        return $this->render('task/task/create.html.twig');
+        return $this->render('');
     }
 
     /**
-     * @Config\Route("/tasks/create/{project_id}/{group_id}")
+     * @Config\Route("/groups/create/{project_id}")
      * @Config\Method({"POST"})
      * @param Request $request
      * @param int     $group_id
@@ -27,19 +28,6 @@ class TaskController extends Controller
      */
     public function insertAction(Request $request, $group_id, $project_id)
     {
-    }
-
-    /**
-     * @Config\Route("/tasks/{id}", name="task-detail")
-     * @Config\Method({"GET"})
-     * @param int $id
-     * @return Response
-     */
-    public function showAction($id)
-    {
-        return $this->render('task/task/show.html.twig', [
-            'project_id' => $id,
-        ]);
     }
 
     /**
@@ -53,26 +41,6 @@ class TaskController extends Controller
         return $this->render('task/task/show.html.twig', [
             'project_id' => $id,
         ]);
-    }
-
-    /**
-     * @Config\Route("/tasks/{id}/done")
-     * @Config\Method({"POST"})
-     * @param int $id
-     * @return Response
-     */
-    public function doneAction($id)
-    {
-    }
-
-    /**
-     * @Config\Route("/tasks/{id}/activate")
-     * @Config\Method({"POST"})
-     * @param int $id
-     * @return Response
-     */
-    public function activateAction($id)
-    {
     }
 
     /**
