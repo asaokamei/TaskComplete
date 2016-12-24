@@ -3,23 +3,50 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Tasks\Project;
 use Doctrine\ORM\EntityManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProjectController extends Controller
 {
     /**
-     * @Route("/projects/create", name="project-create")
+     * @Config\Route("/projects/create", name="project-create")
+     * @Config\Method({"GET"})
      * @return Response
      */
     public function createAction()
     {
-        return $this->render('task/project/create.html.twig');
+        $project = new Project();
+        $form = $this->createFormBuilder($project)
+            ->add('name', TextType::class)
+            ->add('done_by', DateType::class)
+            ->getForm();
+        return $this->render('task/project/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
-     * @Route("/projects/{id}", name="project-detail")
+     * @Config\Route("/projects/create", name="project-create")
+     * @Config\Method({"POST"})
+     * @return Response
+     */
+    public function insertAction()
+    {
+        $project = new Project();
+        $form = $this->createFormBuilder($project)
+            ->add('name', TextType::class)
+            ->add('done_by', DateType::class)
+            ->getForm();
+        return $this->render('task/project/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Config\Route("/projects/{id}", name="project-detail")
      * @param int $id
      * @return Response
      */

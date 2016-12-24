@@ -4,6 +4,7 @@ namespace AppBundle\Entity\Tasks;
 use AppBundle\Entity\EntityTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Projects
@@ -18,6 +19,7 @@ class Project
     
     /**
      * @var integer
+     * 
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -32,6 +34,8 @@ class Project
 
     /**
      * @var string
+     * 
+     * @Assert\NotBlank()
      * @ORM\Column(name="project_name", type="string")
      */
     private $name;
@@ -45,8 +49,9 @@ class Project
 
     /**
      * Project Many Groups.
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tasks\Group", mappedBy="project")
      * @var ArrayCollection|Group[]
+     * 
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tasks\Group", mappedBy="project")
      */
     private $groups;
 
