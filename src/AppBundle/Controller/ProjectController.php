@@ -83,10 +83,7 @@ class ProjectController extends Controller
             return $this->redirectToRoute('project-detail', ['id' => $id]);
         }
 
-        $project->fill($form->getData());
-        /** @var EntityManager $em */
-        $em = $this->getDoctrine()->getManager();
-        $em->flush();
+        $this->updateProject($project, $form->getData());
 
         $this->addFlash('message', 'updated project information!');
         return $this->redirectToRoute('project-detail', ['id' => $id]);
@@ -152,5 +149,17 @@ class ProjectController extends Controller
         $project     = $projectRepo->findOneBy(['id' => $id]);
 
         return $project;
+    }
+
+    /**
+     * @param Project $project
+     * @param array $data
+     */
+    private function updateProject($project, $data)
+    {
+        $project->fill($data);
+        /** @var EntityManager $em */
+        $em = $this->getDoctrine()->getManager();
+        $em->flush();
     }
 }
