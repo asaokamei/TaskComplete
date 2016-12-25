@@ -1,0 +1,6 @@
+parameters:
+
+services:
+    app.project-crud: 
+        class:  AppBundle\Controller\Project\ProjectCrud
+        arguments:  ["@doctrine.orm.default_entity_manager"]

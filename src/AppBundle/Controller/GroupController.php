@@ -22,16 +22,16 @@ class GroupController extends Controller
      * @Config\Route("/groups/create/{project_id}")
      * @Config\Method({"POST"})
      * @param Request $request
-     * @param int     $group_id
      * @param int     $project_id
      * @return Response
      */
-    public function insertAction(Request $request, $group_id, $project_id)
+    public function insertAction(Request $request, $project_id)
     {
+        
     }
 
     /**
-     * @Config\Route("/tasks/{id}")
+     * @Config\Route("/groups/{id}")
      * @Config\Method({"POST"})
      * @param int $id
      * @return Response
@@ -44,7 +44,7 @@ class GroupController extends Controller
     }
 
     /**
-     * @Config\Route("/tasks/{id}")
+     * @Config\Route("/groups/{id}")
      * @Config\Method({"DELETE"})
      * @param int $id
      * @return Response

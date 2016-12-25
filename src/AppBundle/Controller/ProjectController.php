@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Controller;
 
+use AppBundle\Controller\Project\ProjectCrud;
 use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;
 use Doctrine\ORM\EntityManager;
@@ -56,7 +57,9 @@ class ProjectController extends Controller
      */
     public function showAction($id)
     {
-        $project = $this->getProjectById($id);
+        /** @var ProjectCrud $crud */
+        $crud = $this->get('app.project-crud');
+        $project = $crud->findById($id);
         $updater = $this->getUpdateForm();
 
         return $this->render('task/project/show.html.twig', [
