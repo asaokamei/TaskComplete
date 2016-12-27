@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Controller\Project;
+namespace AppBundle\Controller\CrudService;
 
 use AppBundle\Entity\Tasks\Project;
 use Doctrine\ORM\EntityManager;

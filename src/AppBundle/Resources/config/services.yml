@@ -2,5 +2,9 @@ parameters:
 
 services:
     app.project-crud: 
-        class:  AppBundle\Controller\Project\ProjectCrud
+        class:  AppBundle\Controller\CrudService\ProjectCrud
         arguments:  ["@doctrine.orm.default_entity_manager"]
+        
+    app.group-crud:
+        class:  AppBundle\Controller\CrudService\GroupCrud
+        arguments:  ["@doctrine.orm.default_entity_manager", "@form.factory", "@router"]

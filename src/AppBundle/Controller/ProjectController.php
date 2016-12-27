@@ -1,7 +1,8 @@
 <?php
 namespace AppBundle\Controller;
 
-use AppBundle\Controller\Project\ProjectCrud;
+use AppBundle\Controller\CrudService\GroupCrud;
+use AppBundle\Controller\CrudService\ProjectCrud;
 use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;
 use Doctrine\ORM\EntityManager;
@@ -62,10 +63,15 @@ class ProjectController extends Controller
         $project = $crud->findById($id);
         $updater = $this->getUpdateForm();
 
+        /** @var GroupCrud $gCrud */
+        $gCrud = $this->get('app.group-crud');
+        $gForm = $gCrud->getCreateForm($id);
+        
         return $this->render('task/project/show.html.twig', [
             'project_id' => $id,
             'project' => $project,
             'updater' => $updater->createView(),
+            'newGroup' => $gForm->createView(),
         ]);
     }
 

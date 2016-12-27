@@ -87,17 +87,17 @@
         <h2>Managing Project</h2>
         <div class="task-group">
             <h3>add a new group</h3>
-            <form class="form-group">
-                <label for="name">name</label>
-                <input type="text" name="name" id="name" class="form-control" placeholder="group name">
+            {{ form_start(newGroup) }}
+                {{ form_widget(newGroup.name, {"attr":{"class":"form-control", "placeholder":"new group name"}}) }}
+                {{ form_errors(newGroup.name) }}
                 <input type="submit" value="add" class="btn btn-xs btn-primary">
-            </form>
+            {{ form_end(newGroup) }}
         </div>
 
         <div class="task-group">
             <h3>change project info</h3>
             {{ form_start(updater) }}
-                {{ form_widget(updater.name, {"attr":{"class":"form-control", "placeholder":"REQUIRED: new group name"}}) }}
+                {{ form_widget(updater.name, {"attr":{"class":"form-control", "placeholder":"REQUIRED: new project name"}}) }}
                 {{ form_widget(updater.done_by, {"attr":{"class":"form-control", "placeholder":"done by"}}) }}
                 <input type="submit" value="change" class="btn btn-xs btn-primary">
             {{ form_end(updater) }}
