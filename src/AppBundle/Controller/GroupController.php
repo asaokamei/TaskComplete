@@ -3,9 +3,6 @@ namespace AppBundle\Controller;
 
 use AppBundle\Controller\CrudService\GroupCrud;
 use AppBundle\Controller\CrudService\ProjectCrud;
-use AppBundle\Entity\Tasks\Group;
-use AppBundle\Entity\Tasks\Project;
-use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,7 +42,7 @@ class GroupController extends Controller
             $this->addFlash('notice', 'Please check input for group');
             return $this->redirectToRoute("project-detail", ['id' => $project_id]);
         }
-        $this->createNewGroup($project, $form->getData());
+        $gCrud->create($project, $form->getData());
         $this->addFlash('message', 'created a new group. ');
         return $this->redirectToRoute("project-detail", ['id' => $project_id]);
     }
@@ -71,19 +68,5 @@ class GroupController extends Controller
      */
     public function deleteAction($id)
     {
-    }
-
-    /**
-     * @param Project $project
-     * @param array $data
-     */
-    private function createNewGroup($project, array $data)
-    {
-        $group   = new Group($data);
-        $group->setProject($project);
-        /** @var EntityManager $em */
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($group);
-        $em->flush();
     }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace AppBundle\Controller\CrudService;
 
+use AppBundle\Entity\Tasks\Group;
+use AppBundle\Entity\Tasks\Project;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -57,6 +59,18 @@ class GroupCrud
             ->add('name', TextType::class, ['required' => true, 'label' => 'Group name'])
             ->getForm();
     }
-
+    
+    /**
+     * @param Project $project
+     * @param array $data
+     */
+    public function create($project, array $data)
+    {
+        $group   = new Group($data);
+        $group->setProject($project);
+        $em = $this->em;
+        $em->persist($group);
+        $em->flush();
+    }
 
 }
