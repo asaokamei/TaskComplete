@@ -3,7 +3,7 @@ parameters:
 services:
     app.project-crud: 
         class:  AppBundle\Controller\CrudService\ProjectCrud
-        arguments:  ["@doctrine.orm.default_entity_manager"]
+        arguments:  ["@doctrine.orm.default_entity_manager", "@form.factory"]
         
     app.group-crud:
         class:  AppBundle\Controller\CrudService\GroupCrud
