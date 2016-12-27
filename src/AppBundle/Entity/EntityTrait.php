@@ -39,4 +39,12 @@ trait EntityTrait
             $this->_setVariable($key, $value);
         }
     }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return get_object_vars($this);
+    }
 }

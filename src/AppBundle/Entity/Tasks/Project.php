@@ -2,6 +2,7 @@
 namespace AppBundle\Entity\Tasks;
 
 use AppBundle\Entity\EntityTrait;
+use AppBundle\Entity\Tasks\Generic\DoneDate;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -45,7 +46,7 @@ class Project
      *
      * @ORM\Column(name="done_by", type="datetime", nullable=true)
      */
-    private $doneBy;
+    private $done_by;
 
     /**
      * Project Many Groups.
@@ -103,11 +104,11 @@ class Project
     /**
      * Get doneBy
      *
-     * @return \DateTime
+     * @return DoneDate
      */
     public function getDoneBy()
     {
-        return $this->doneBy;
+        return new DoneDate($this->done_by);
     }
 
     /**

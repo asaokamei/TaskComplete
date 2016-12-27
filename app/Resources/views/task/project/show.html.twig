@@ -23,7 +23,7 @@
     </script>
 
     <div id="welcome">
-        <h1><span>project in details</span>{{ project.name }} (#{{ project_id }})</h1>
+        <h1><span>project by ({{ project.doneBy.format() }})</span>{{ project.name }}</h1>
     </div>
 
     <div class="clearfix"></div>

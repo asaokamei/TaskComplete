@@ -82,11 +82,12 @@ class ProjectCrud
     }
 
     /**
+     * @param array $data
      * @return FormInterface
      */
-    public function getUpdateForm()
+    public function getUpdateForm(array $data = [])
     {
-        $form = $this->builder->createBuilder(FormType::class)
+        $form = $this->builder->createBuilder(FormType::class, $data)
             ->add('name', TextType::class, ['required' => true,])
             ->add('done_by', DateType::class, ['required' => false, 'widget' => 'single_text'])
             ->getForm();

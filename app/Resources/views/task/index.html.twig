@@ -15,6 +15,7 @@
             <thead>
             <tr>
                 <th rowspan="2">project <br>name</th>
+                <th rowspan="2">done <br>by</th>
                 <th colspan="4">completed tasks</th>
                 <th rowspan="2">remaining tasks</th>
                 <th rowspan="2">completion&nbsp;(%)</th>
@@ -30,6 +31,7 @@
             {% for project in projects %}
             <tr>
                 <th>{{ project.name }} <a href="/projects/{{ project.getId() }}"><span class="small glyphicon glyphicon-pencil"></span></a></th>
+                <td>{{ project.doneBy }}</td>
                 <td>-</td>
                 <td>-</td>
                 <td>-</td>

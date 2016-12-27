@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity\Tasks;
 
+use AppBundle\Entity\Tasks\Generic\DoneDate;
 use DateTime;
 
 class TaskDate
@@ -36,18 +37,14 @@ class TaskDate
     }
 
     /**
-     * @param string $format
-     * @return string
+     * @return DoneDate
      */
-    public function format($format = 'm/d')
+    public function format()
     {
         $date = $this->status->is(TaskStatus::DONE) 
             ? $this->doneAt
             : $this->doneBy;
-        if ($date) {
-            return $date->format($format);
-        }
-        return '';
+        return new DoneDate($date);
     }
 
     /**
@@ -55,6 +52,6 @@ class TaskDate
      */
     public function __toString()
     {
-        return $this->format();
+        return (string) $this->format();
     }
 }

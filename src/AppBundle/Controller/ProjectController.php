@@ -57,7 +57,7 @@ class ProjectController extends Controller
         /** @var ProjectCrud $crud */
         $crud = $this->get('app.project-crud');
         $project = $crud->findById($id);
-        $updater = $crud->getUpdateForm();
+        $updater = $crud->getUpdateForm($project->toArray());
 
         /** @var GroupCrud $gCrud */
         $gCrud = $this->get('app.group-crud');
