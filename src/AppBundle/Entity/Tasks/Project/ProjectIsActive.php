@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Entity\Tasks;
+namespace AppBundle\Entity\Tasks\Project;
 
 class ProjectIsActive
 {

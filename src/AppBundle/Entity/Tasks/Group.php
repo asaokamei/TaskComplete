@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Group
  *
  * @ORM\Table(name="task_group")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Tasks\GroupRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Tasks\Group\GroupRepository")
  */
 class Group
 {

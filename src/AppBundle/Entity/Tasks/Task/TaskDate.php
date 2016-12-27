@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity\Tasks;
+namespace AppBundle\Entity\Tasks\Task;
 
 use AppBundle\Entity\Tasks\Generic\DoneDate;
 use DateTime;

@@ -3,13 +3,15 @@
 namespace AppBundle\Entity\Tasks;
 
 use AppBundle\Entity\EntityTrait;
+use AppBundle\Entity\Tasks\Task\TaskDate;
+use AppBundle\Entity\Tasks\Task\TaskStatus;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Task
  *
  * @ORM\Table(name="task_task")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Tasks\TaskRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Tasks\Task\TaskRepository")
  */
 class Task
 {

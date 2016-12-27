@@ -3,6 +3,7 @@ namespace AppBundle\Entity\Tasks;
 
 use AppBundle\Entity\EntityTrait;
 use AppBundle\Entity\Tasks\Generic\DoneDate;
+use AppBundle\Entity\Tasks\Project\ProjectIsActive;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -12,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @package AppBundle\Base
  * @ORM\Table("task_project")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\Tasks\ProjectsRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Entity\Tasks\Project\ProjectsRepository")
  */
 class Project
 {

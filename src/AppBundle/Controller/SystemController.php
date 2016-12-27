@@ -4,11 +4,10 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;
 use AppBundle\Entity\Tasks\Task;
-use AppBundle\Entity\Tasks\TaskStatus;
+use AppBundle\Entity\Tasks\Task\TaskStatus;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,8 +15,8 @@ use Symfony\Component\HttpFoundation\Response;
 class SystemController extends Controller
 {
     /**
-     * @Route("/initialize", name="initialize")
-     * @Method({"GET"})
+     * @Config\Route("/initialize", name="initialize")
+     * @Config\Method({"GET"})
      * @return Response
      */
     public function askInitializeAction()
@@ -26,8 +25,8 @@ class SystemController extends Controller
     }
 
     /**
-     * @Route("/initialize")
-     * @Method({"POST"})
+     * @Config\Route("/initialize")
+     * @Config\Method({"POST"})
      * @param Request $request
      * @return Response
      */
