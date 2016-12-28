@@ -15,15 +15,11 @@
             
         }
     </style>
-    <script type="text/javascript">
-        function toggleGroup(id) {
-            $('div#' + id).toggle();
-            return false;
-        }
-    </script>
 
     <div id="welcome">
-        <h1><span>project by ({{ project.doneBy.format() }})</span>{{ project.name }}</h1>
+        <h1><span>project detail</span>
+            {{ project.name }}
+            <span>{% if(project.doneBy) %}(done by: {{ project.doneBy.format() }}){% endif %}</span></h1>
     </div>
 
     <div class="clearfix"></div>
@@ -48,13 +44,13 @@
                         <tbody>
                         {% for task in group.tasks %}
                             <tr class="task-{{ task.getStatus() }}">
-                                <td><label>
-                                        {% if (task.isActive()) %}
-                                            <input type="checkbox">
-                                        {% else %}
-                                            <input type="checkbox" checked>
-                                        {% endif %}
-                                    </label></td>
+                                <td>                               
+                                    {% if (task.isActive()) %}
+                                        <a href="" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-unchecked"></span></a>
+                                    {% else %}
+                                        <a href="" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-check"></span></a>
+                                    {% endif %}
+                                </td>
                                 <td>{{ task.getDate() }}</td>
                                 <td>{{ task.title }}</td>
                                 <td>{{ task.details }}</td>
@@ -62,39 +58,28 @@
                         {% endfor %}
                         </tbody>
                     </table>
-                    <a class="btn btn-success btn-sm" href="{{ path('task-create', {'project_id': project.getId(), 'group_id': group.getId()}) }}">add a task</a>
-                    <a href="javascript: toggleGroup('add-task-{{ group.getId() }}')">add a task</a>
-                    <div id="add-task-{{ group.getId() }}" style="display: none; padding: 1rem;">
-                        <form class="form-group">
-                            <dl class="dl-horizontal">
-                                <dt><label for="name">name</label></dt>
-                                <dd><input type="text" name="name" id="name" placeholder="task name" class="form-control"></dd>
-
-                                <dt><label for="done-by">done by</label></dt>
-                                <dd><input type="date" name="done_by" id="done-by" value="" class="form-control"></dd>
-
-                                <dt></dt>
-                                <dd><input type="submit" value="add" class="btn btn-xs btn-primary"></dd>
-                            </dl>
-                        </form>
-                    </div>
+                    <a class="btn btn-primary btn-sm" href="{{ path('task-create', {'project_id': project.getId(), 'group_id': group.getId()}) }}">add a task</a>
                 </div>
             </div>
 
         {% endfor %}
+        
     </div>
 
     <div class="col-sm-4 pull-left">
-        <h2>Managing Project</h2>
+        
+        <h2>Groups</h2>
+        
         <div class="task-group">
             <h3>add a new group</h3>
             {{ form_start(newGroup) }}
-                {{ form_widget(newGroup.name, {"attr":{"class":"form-control", "placeholder":"new group name"}}) }}
-                {{ form_errors(newGroup.name) }}
-                <input type="submit" value="add" class="btn btn-xs btn-primary">
+            {{ form_widget(newGroup.name, {"attr":{"class":"form-control", "placeholder":"new group name"}}) }}
+            {{ form_errors(newGroup.name) }}
+            <input type="submit" value="add" class="btn btn-xs btn-primary">
             {{ form_end(newGroup) }}
         </div>
-
+        
+        <h2>Managing Project</h2>
         <div class="task-group">
             <h3>change project info</h3>
             {{ form_start(updater) }}

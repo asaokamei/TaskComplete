@@ -7,7 +7,7 @@
 {% block body %}
 
     <div id="welcome">
-        <h1><span>{{ project.name }} / {{ group.name }} </span>create a new task</h1>
+        <h1><span><a href="{{ path('project-detail', {'id': project.getId()}) }}">{{ project.name }}</a> / {{ group.name }} </span>create a new task</h1>
     </div>
 
     {{ form_start(form) }}

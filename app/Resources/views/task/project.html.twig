@@ -6,6 +6,16 @@
 
 {% block body %}
 
+    <style type="text/css">
+        li.task-done {
+            color: #666;
+            text-decoration: line-through;
+        }
+        li.task-active {
+
+        }
+    </style>
+    
     <div id="welcome">
         <h1><span>task list </span>by projects</h1>
     </div>
@@ -27,13 +37,13 @@
                     <h3>{{ group.name }}</h3>
                     <ul class="list-group">
                         {% for task in group.tasks %}
-                            <li class="list-group-item" style="">
+                            <li class="list-group-item task-{{ task.getStatus() }}" style="">
                                 {% if (task.isActive()) %}
-                                    <label><input type="checkbox"> </label> {{ task.getDate() }} {{ task.title }}
+                                    <a href="" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-unchecked"></span></a>
                                 {% else %}
-                                    <label><input type="checkbox" checked> </label> 
-                                    <span style="text-decoration: line-through;">{{ task.getDate() }} {{ task.title }}</span>
+                                    <a href="" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-check"></span></a>
                                 {% endif %}
+                                {{ task.getDate() }} {{ task.title }}
                             </li>
                         {% endfor %}
                     </ul>
