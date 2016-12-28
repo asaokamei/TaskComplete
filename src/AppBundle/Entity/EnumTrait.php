@@ -4,14 +4,14 @@ namespace AppBundle\Entity;
 trait EnumTrait
 {
     /**
-     * @var string[]
-     */
-    protected static $choices;
-
-    /**
      * @var string
      */
     protected $value;
+
+    /**
+     * @return array
+     */
+    abstract public function getChoices();
 
     /**
      * TaskStatus constructor.
@@ -24,14 +24,6 @@ trait EnumTrait
             throw new \InvalidArgumentException(__CLASS__ . ' has no such value: '.$value);
         }
         $this->value = (string) $value;
-    }
-
-    /**
-     * @return string[]
-     */
-    public static function choices()
-    {
-        return static::$choices;
     }
 
     /**
@@ -49,7 +41,7 @@ trait EnumTrait
      */
     public function isDefined($value)
     {
-        return array_key_exists($value, static::$choices);
+        return array_key_exists($value, $this->getChoices());
     }
 
     /**
@@ -57,7 +49,7 @@ trait EnumTrait
      */
     public function label()
     {
-        return static::$choices[$this->value];
+        return $this->getChoices()[$this->value];
     }
 
     /**

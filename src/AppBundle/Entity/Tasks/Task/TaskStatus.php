@@ -10,8 +10,16 @@ class TaskStatus
     const ACTIVE = 'active';
     const DONE = 'done';
     
-    protected static $choices = [
+    protected $choices = [
         self::ACTIVE => 'active',
         self::DONE => 'done',
     ];
+
+    /**
+     * @return array
+     */
+    public function getChoices()
+    {
+        return $this->choices;
+    }
 }
