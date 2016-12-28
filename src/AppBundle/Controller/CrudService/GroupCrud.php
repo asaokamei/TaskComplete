@@ -44,6 +44,18 @@ class GroupCrud
     }
 
     /**
+     * @param int $id
+     * @return Group
+     */
+    public function findById($id)
+    {
+        $repo   = $this->em->getRepository(Group::class);
+        $entity = $repo->findOneBy(['id' => $id]);
+
+        return $entity;
+    }
+
+    /**
      * @param int $project_id
      * @return Form|FormInterface
      */

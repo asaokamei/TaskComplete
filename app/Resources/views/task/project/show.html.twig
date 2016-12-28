@@ -62,6 +62,7 @@
                         {% endfor %}
                         </tbody>
                     </table>
+                    <a class="btn btn-success btn-sm" href="{{ path('task-create', {'project_id': project.getId(), 'group_id': group.getId()}) }}">add a task</a>
                     <a href="javascript: toggleGroup('add-task-{{ group.getId() }}')">add a task</a>
                     <div id="add-task-{{ group.getId() }}" style="display: none; padding: 1rem;">
                         <form class="form-group">

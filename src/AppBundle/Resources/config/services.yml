@@ -8,3 +8,7 @@ services:
     app.group-crud:
         class:  AppBundle\Controller\CrudService\GroupCrud
         arguments:  ["@doctrine.orm.default_entity_manager", "@form.factory", "@router"]
+        
+    app.task-crud:
+        class: AppBundle\Controller\CrudService\TaskCrud
+        arguments:  ["@doctrine.orm.default_entity_manager", "@form.factory", "@router"]
