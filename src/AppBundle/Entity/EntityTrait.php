@@ -17,6 +17,11 @@ trait EntityTrait
             $this->$method($value);
             return;
         }
+        $method = 'set' . str_replace('_', '', $key);
+        if (method_exists($this, $method)) {
+            $this->$method($value);
+            return;
+        }
         $this->$key = $value;
     }
 

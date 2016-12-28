@@ -151,6 +151,26 @@ class Task
     /**
      * Set doneBy
      *
+     * @param \DateTime $doneBy
+     *
+     * @return Task
+     */
+    protected function setDoneBy($doneBy)
+    {
+        if (is_string($doneBy)) {
+            $doneBy = new \DateTime($doneBy);
+        } elseif (!$doneBy instanceof \DateTime) {
+            throw new \InvalidArgumentException();
+        }
+
+        $this->doneBy = $doneBy;
+
+        return $this;
+    }
+
+    /**
+     * Set doneBy
+     *
      * @param \DateTime $doneAt
      *
      * @return Task
