@@ -30,14 +30,11 @@ class DefaultController extends Controller
      */
     public function projectAction()
     {
-        /** @var EntityManager $em */
-        $em =$this->getDoctrine()->getManager();
-        $projects = $em->getRepository(Project::class);
-        $projects = $projects->findAll();
-        $taskJs = $this->get('app.task-crud')->getDoneActivateJS();
+        $projects = $this->get('app.query-by-project')->getProjects();
+        $taskJS = $this->get('app.task-crud')->getDoneActivateJS();
         return $this->render('task/project.html.twig', [
             'projects' => $projects,
-            'taskJS' => $taskJs,
+            'taskJS' => $taskJS,
         ]);
     }
 

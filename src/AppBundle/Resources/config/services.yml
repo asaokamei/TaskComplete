@@ -12,3 +12,7 @@ services:
     app.task-crud:
         class: AppBundle\Controller\CrudService\TaskCrud
         arguments:  ["@doctrine.orm.default_entity_manager", "@form.factory", "@router"]
+
+    app.query-by-project:
+        class: AppBundle\Controller\QueryService\ByProjectView
+        arguments: ["@doctrine.orm.default_entity_manager"]
