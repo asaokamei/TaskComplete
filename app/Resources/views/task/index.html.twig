@@ -16,93 +16,36 @@
             <tr>
                 <th rowspan="2">project <br>name</th>
                 <th rowspan="2">done <br>by</th>
+                <th rowspan="2">all tasks<br>count</th>
                 <th colspan="4">completed tasks</th>
-                <th rowspan="2">remaining tasks</th>
-                <th rowspan="2">completion&nbsp;(%)</th>
+                <th rowspan="2">remaining<br>tasks</th>
+                <th rowspan="2">completion <br>(%)</th>
             </tr>
             <tr>
-                <th>today</th>
-                <th>yesterday</th>
-                <th>last week</th>
+                <th>24 hrs</th>
+                <th>48 hrs</th>
+                <th>last 7 days</th>
                 <th>all</th>
             </tr>
             </thead>
             <tbody>
-            {% for project in projects %}
+            {% for project in summary %}
             <tr>
-                <th>{{ project.name }} <a href="/projects/{{ project.getId() }}"><span class="small glyphicon glyphicon-pencil"></span></a></th>
-                <td>{{ project.doneBy }}</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
-                <td>-</td>
+                <th>{{ project.project_name }} <a href="/projects/{{ project.id }}"><span class="small glyphicon glyphicon-pencil"></span></a></th>
+                <td>{{ project.done_by }}</td>
+                <td>{{ project.count_tasks }}</td>
+                <td>{{ project.count_24hr }}</td>
+                <td>{{ project.count_48hr }}</td>
+                <td>{{ project.count_week }}</td>
+                <td>{{ project.count_done }}</td>
+                <td>{{ project.remaining }}</td>
+                <td>{% if (project.completion is null) %}--{% else %}{{ project.completion | number_format(1) }}&nbsp;%{% endif %}</td>
             </tr>
             {% endfor %}
             </tbody>
         </table>
     </div>
 
-    <h3>wishes to be </h3>
-    <div class="table-responsive">
-        <table class="table table-hover table-striped">
-            <thead>
-            <tr>
-                <th rowspan="2">project</th>
-                <th colspan="4">completed tasks</th>
-                <th rowspan="2">remaining tasks</th>
-                <th rowspan="2">completion&nbsp;(%)</th>
-            </tr>
-            <tr>
-                <th>today</th>
-                <th>yesterday</th>
-                <th>last week</th>
-                <th>all</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th>NSB <a href="/projects/1000"><span class="small glyphicon glyphicon-pencil"></span></a></th>
-                <td>0</td>
-                <td>3</td>
-                <td>6</td>
-                <td>9</td>
-                <td>12</td>
-                <td>45%</td>
-            </tr>
-            <tr>
-                <th>CPE</th>
-                <td>1</td>
-                <td>5</td>
-                <td>4</td>
-                <td>16</td>
-                <td>2</td>
-                <td>92%</td>
-            </tr>
-            <tr>
-                <th>保険アプリ</th>
-                <td>5</td>
-                <td>2</td>
-                <td>5</td>
-                <td>7</td>
-                <td>30</td>
-                <td>25%</td>
-            </tr>
-            <tr>
-                <th>プライベート</th>
-                <td>2</td>
-                <td>1</td>
-                <td>1</td>
-                <td>26</td>
-                <td>20</td>
-                <td>40%</td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    </div>
 {% endblock %}
 
 {% block stylesheets %}

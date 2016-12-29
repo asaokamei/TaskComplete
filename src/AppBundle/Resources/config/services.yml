@@ -16,3 +16,7 @@ services:
     app.query-by-project:
         class: AppBundle\Controller\QueryService\ByProjectView
         arguments: ["@doctrine.orm.default_entity_manager"]
+        
+    app.query-task-summary:
+        class: AppBundle\Controller\QueryService\TaskSummary
+        arguments: ["@doctrine.orm.default_entity_manager"]

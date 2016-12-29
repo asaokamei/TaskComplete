@@ -43,8 +43,8 @@ class DoneDate
             return '';
         }
         $format = 'm/d';
-        $diff = $this->date->diff($today)->days;
-        if ($diff > 60 || $diff < -300) {
+        $diff = (int) $this->date->diff($today)->format('%R%a');
+        if ($diff > 31 || $diff < -300) {
             $format = 'Y/m';
         }
         return $this->date->format($format);

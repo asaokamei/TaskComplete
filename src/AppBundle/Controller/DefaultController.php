@@ -15,12 +15,14 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        $summary = $this->get('app.query-task-summary')->getSummary();
         /** @var EntityManager $em */
         $em =$this->getDoctrine()->getManager();
         $projectRepo = $em->getRepository(Project::class);
         $projects = $projectRepo->findAll();
         return $this->render('task/index.html.twig', [
             'projects' => $projects,
+            'summary' => $summary,
         ]);
     }
 
