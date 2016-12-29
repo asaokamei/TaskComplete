@@ -55,6 +55,14 @@ class TaskCrud
     }
 
     /**
+     * flushes/saves entity to database. 
+     */
+    public function flush()
+    {
+        $this->em->flush();
+    }
+
+    /**
      * @return FormInterface
      */
     public function getCreateForm()

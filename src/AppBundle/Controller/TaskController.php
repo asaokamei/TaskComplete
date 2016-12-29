@@ -123,23 +123,35 @@ class TaskController extends Controller
     }
 
     /**
-     * @Config\Route("/tasks/{id}/done")
+     * @Config\Route("/tasks/{id}/done", name="task-done")
      * @Config\Method({"POST"})
      * @param int $id
      * @return Response
      */
     public function doneAction($id)
     {
+        /** @var TaskCrud $crud */
+        $crud = $this->get('app.task-crud');
+        $task = $crud->findById($id);
+        $task->done();
+        $crud->flush();
+        return Response::create('', 200);
     }
 
     /**
-     * @Config\Route("/tasks/{id}/activate")
+     * @Config\Route("/tasks/{id}/activate", name="task-activate")
      * @Config\Method({"POST"})
      * @param int $id
      * @return Response
      */
     public function activateAction($id)
     {
+        /** @var TaskCrud $crud */
+        $crud = $this->get('app.task-crud');
+        $task = $crud->findById($id);
+        $task->activate();
+        $crud->flush();
+        return Response::create('', 200);
     }
 
     /**

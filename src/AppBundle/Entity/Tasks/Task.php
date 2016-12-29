@@ -133,6 +133,16 @@ class Task
     }
 
     /**
+     * @return $this
+     */    
+    public function activate()
+    {
+        $this->setDoneAt(null);
+        $this->status = TaskStatus::ACTIVE;
+        return $this;
+    }
+
+    /**
      * Get title
      *
      * @return string
