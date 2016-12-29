@@ -34,8 +34,10 @@ class DefaultController extends Controller
         $em =$this->getDoctrine()->getManager();
         $projects = $em->getRepository(Project::class);
         $projects = $projects->findAll();
+        $taskJs = $this->get('app.task-crud')->getDoneActivateJS();
         return $this->render('task/project.html.twig', [
             'projects' => $projects,
+            'taskJS' => $taskJs,
         ]);
     }
 

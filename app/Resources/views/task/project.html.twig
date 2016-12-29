@@ -15,7 +15,9 @@
 
         }
     </style>
-    
+
+    {{ taskJS|raw }}
+
     <div id="welcome">
         <h1><span>task list </span>by projects</h1>
     </div>
@@ -39,9 +41,11 @@
                         {% for task in group.tasks %}
                             <li class="list-group-item task-{{ task.getStatus() }}" style="">
                                 {% if (task.isActive()) %}
-                                    <a href="" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-unchecked"></span></a>
+                                    <a href="return false;" class="btn btn-xs btn-warning task-done" data-id="{{ task.getId() }}">
+                                        <span class="glyphicon glyphicon-unchecked"></span></a>
                                 {% else %}
-                                    <a href="" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-check"></span></a>
+                                    <a href="return false;" class="btn btn-xs btn-success task-activate" data-id="{{ task.getId() }}">
+                                        <span class="glyphicon glyphicon-check"></span></a>
                                 {% endif %}
                                 {{ task.getDate() }} {{ task.title }}
                             </li>

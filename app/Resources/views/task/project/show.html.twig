@@ -16,33 +16,8 @@
         }
     </style>
     
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("a.task-done").click(function () {
-                var id = $(this).data('id');
-                $.ajax({
-                    type:'POST',
-                    url:'/tasks/'+id+'/done'
-                }).success(function () {
-                    location.reload();
-                }).error(function () {
-                    alert('failed to done task')
-                });
-            });
-            $("a.task-activate").click(function () {
-                var id = $(this).data('id');
-                $.ajax({
-                    type:'POST',
-                    url:'/tasks/'+id+'/activate'
-                }).success(function () {
-                    location.reload();
-                }).error(function () {
-                    alert('failed to activate task')
-                });
-            });
-        });
-    </script>
-
+    {{ taskJS|raw }}
+    
     <div id="welcome">
         <h1><span>project detail</span>
             {{ project.name }}
@@ -71,7 +46,7 @@
                         <tbody>
                         {% for task in group.tasks %}
                             <tr class="task-{{ task.getStatus() }}">
-                                <td>                               
+                                <td>
                                     {% if (task.isActive()) %}
                                         <a href="return false;" class="btn btn-xs btn-warning task-done" data-id="{{ task.getId() }}">
                                             <span class="glyphicon glyphicon-unchecked"></span></a>

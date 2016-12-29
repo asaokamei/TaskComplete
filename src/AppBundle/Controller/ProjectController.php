@@ -62,12 +62,14 @@ class ProjectController extends Controller
         /** @var GroupCrud $gCrud */
         $gCrud = $this->get('app.group-crud');
         $gForm = $gCrud->getCreateForm($id);
+        $taskJs = $this->get('app.task-crud')->getDoneActivateJS();
         
         return $this->render('task/project/show.html.twig', [
             'project_id' => $id,
             'project' => $project,
             'updater' => $updater->createView(),
             'newGroup' => $gForm->createView(),
+            'taskJS' => $taskJs,
         ]);
     }
 

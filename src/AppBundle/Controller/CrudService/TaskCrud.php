@@ -118,4 +118,41 @@ class TaskCrud
         $this->em->persist($task);
         $this->em->flush();
     }
+
+    /**
+     * @return string
+     */
+    public function getDoneActivateJS()
+    {
+        return <<<END_JS
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("a.task-done").click(function () {
+                var id = $(this).data('id');
+                $.ajax({
+                    type:'POST',
+                    url:'/tasks/'+id+'/done'
+                }).success(function () {
+                    location.reload();
+                }).error(function () {
+                    alert('failed to done task')
+                });
+            });
+            $("a.task-activate").click(function () {
+                var id = $(this).data('id');
+                $.ajax({
+                    type:'POST',
+                    url:'/tasks/'+id+'/activate'
+                }).success(function () {
+                    location.reload();
+                }).error(function () {
+                    alert('failed to activate task')
+                });
+            });
+        });
+    </script>
+
+END_JS;
+
+    }
 }
