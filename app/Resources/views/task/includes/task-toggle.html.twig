@@ -1,0 +1,7 @@
+{% if (task.isActive()) %}
+    <a href="return false;" class="btn btn-xs btn-info task-done" data-id="{{ task.getId() }}">
+        <span class="glyphicon glyphicon-unchecked"></span></a>
+{% else %}
+    <a href="return false;" class="btn btn-xs btn-success task-activate" data-id="{{ task.getId() }}">
+        <span class="glyphicon glyphicon-check"></span></a>
+{% endif %}

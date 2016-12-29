@@ -20,3 +20,7 @@ services:
     app.query-task-summary:
         class: AppBundle\Controller\QueryService\TaskSummary
         arguments: ["@doctrine.orm.default_entity_manager"]
+                
+    app.query-by-date:
+        class: AppBundle\Controller\QueryService\ByDateView
+        arguments: ["@doctrine.orm.default_entity_manager"]

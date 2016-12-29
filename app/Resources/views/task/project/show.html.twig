@@ -47,13 +47,7 @@
                         {% for task in group.tasks %}
                             <tr class="task-{{ task.getStatus() }}">
                                 <td>
-                                    {% if (task.isActive()) %}
-                                        <a href="return false;" class="btn btn-xs btn-warning task-done" data-id="{{ task.getId() }}">
-                                            <span class="glyphicon glyphicon-unchecked"></span></a>
-                                    {% else %}
-                                        <a href="return false;" class="btn btn-xs btn-success task-activate" data-id="{{ task.getId() }}">
-                                            <span class="glyphicon glyphicon-check"></span></a>
-                                    {% endif %}
+                                    {% include 'task/includes/task-toggle.html.twig' %}
                                 </td>
                                 <td>{{ task.getDate() }}</td>
                                 <td><a href="{{ path('task-edit', {'id':task.getId()}) }}">{{ task.title }}</a></td>

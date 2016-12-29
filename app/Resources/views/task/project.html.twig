@@ -40,13 +40,7 @@
                     <ul class="list-group">
                         {% for task in group.tasks %}
                             <li class="list-group-item task-{{ task.getStatus() }}" style="">
-                                {% if (task.isActive()) %}
-                                    <a href="return false;" class="btn btn-xs btn-warning task-done" data-id="{{ task.getId() }}">
-                                        <span class="glyphicon glyphicon-unchecked"></span></a>
-                                {% else %}
-                                    <a href="return false;" class="btn btn-xs btn-success task-activate" data-id="{{ task.getId() }}">
-                                        <span class="glyphicon glyphicon-check"></span></a>
-                                {% endif %}
+                                {% include 'task/includes/task-toggle.html.twig' %}
                                 {{ task.getDate() }} {{ task.title }}
                             </li>
                         {% endfor %}

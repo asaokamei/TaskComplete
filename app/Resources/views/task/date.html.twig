@@ -6,42 +6,43 @@
 
 {% block body %}
 
+    <style type="text/css">
+        li.task-done {
+            color: #666;
+            text-decoration: line-through;
+        }
+        li.task-active {
+
+        }
+    </style>
+
+    {{ taskJS|raw }}
+
     <div id="welcome">
         <h1><span>task list </span>by dates</h1>
     </div>
 
+    {% for type, byProject in dateType %}
     <div class="col-md-4 col-sm-6 task-project">
-        <h2>No dates</h2>
+
+        <h2>{{ type }}</h2>
+        
         <div class="task-group">
-            <h3>NSB <a href="/projects/1000"><span class="small glyphicon glyphicon-pencil"></span></a></h3>
-            <ul class="list-group">
-                <li class="list-group-item"><label><input type="checkbox"> </label> 保険アプリ</li>
-                <li class="list-group-item"><label><input type="checkbox"> </label> JFAEL</li>
-            </ul>
-        </div>
-        <div class="task-group">
-            <h3>伝熱</h3>
-            <ul class="list-group">
-                <li class="list-group-item"><label><input type="checkbox"> </label> 参加登録：クレジットカード対応</li>
-                <li class="list-group-item"><label><input type="checkbox"> </label> 入会システムの構築</li>
-            </ul>
+            {% for project_name, tasks in byProject %}
+                <h3>{{ project_name }}</h3>
+                <ul class="list-group">
+                    {% for task in tasks %}
+                        <li class="list-group-item task-{{ task.getStatus() }}">
+                            {% include 'task/includes/task-toggle.html.twig' %}
+                            {{ task.getDate() }} {{ task.title }}</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
         </div>
 
     </div>
-
-    <div class="col-md-4 col-sm-6 task-project">
-        <h2>today</h2>
-    </div>
-
-    <div class="col-md-4 col-sm-6 task-project">
-        <h2>this week</h2>
-    </div>
-
-    <div class="col-md-4 col-sm-6 task-project">
-        <h2>later...</h2>
-    </div>
-
-
+    {% endfor %}
+    
 {% endblock %}
 
 {% block stylesheets %}

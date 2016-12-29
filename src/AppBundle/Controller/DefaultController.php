@@ -39,6 +39,11 @@ class DefaultController extends Controller
      */
     public function dateAction()
     {
-        return $this->render('task/date.html.twig');
+        $dateType = $this->get('app.query-by-date')->getTasks();
+        $taskJS = $this->get('app.task-crud')->getDoneActivateJS();
+        return $this->render('task/date.html.twig', [
+            'dateType' => $dateType,
+            'taskJS' => $taskJS,
+        ]);
     }
 }
