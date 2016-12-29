@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Symfony To-Do
+{% endblock %}
+
+{% block body %}
+
+    <div id="welcome">
+        <h1><span><a href="{{ path('project-detail', {'id': project.getId()}) }}">{{ project.name }}</a> / {{ group.name }} </span>edit a task</h1>
+    </div>
+
+    {{ form_start(form) }}
+
+        <div class="form-group">
+            <label>status</label>
+            <div class="clearfix"></div>
+            {{ task.status.label() }}
+        </div>
+
+        <div class="form-group">
+            <label for="title" class="required">task title</label>
+            {{ form_widget(form.title, {"attr": {"class":"form-control", "placeholder":"task name"}}) }}
+            {{ form_errors(form.title) }}
+        </div>
+    
+        <div class="form-group">
+            <label for="done_by" class="">done by</label>
+            {{ form_widget(form.done_by, {"attr": {"class":"form-control", "placeholder":"done by"}}) }}
+            {{ form_errors(form.done_by) }}
+        </div>
+
+        <div class="form-group">
+            <label for="details" class="">details</label>
+            {{ form_widget(form.details, {"attr": {"class":"form-control", "placeholder":"details of the task here..."}}) }}
+            {{ form_errors(form.details) }}
+        </div>
+
+        <div class="form-group">
+            <label>done at</label>
+            <div class="clearfix"></div>
+            {% if task.doneAt %}
+                {{ task.doneAt.format('Y/m/d H:i:s') }}
+            {% else %}
+                -- not set --
+            {% endif %}
+        </div>
+
+        <input type="submit" value="update" class="btn btn-primary">
+        <a href="/" class="btn btn-default">return to top</a>
+
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}

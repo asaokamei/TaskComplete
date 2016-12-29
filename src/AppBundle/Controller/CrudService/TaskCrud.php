@@ -69,6 +69,21 @@ class TaskCrud
     }
 
     /**
+     * @param array $data
+     * @return FormInterface
+     */
+    public function getUpdateForm(array $data)
+    {
+        $form = $this->builder->createBuilder(FormType::class, $data)
+            ->add('title', TextType::class, ['label' => 'Task name', 'required' => true])
+            ->add('done_by', DateType::class, ['widget' => 'single_text', 'required' => false, 'label' => 'done by'])
+            ->add('details', TextareaType::class, ['required' => false, 'label' => 'details'])
+            ->getForm();
+
+        return $form;
+    }
+
+    /**
      * @param Project $project
      * @param Group   $group
      * @param array   $data
@@ -81,6 +96,17 @@ class TaskCrud
         $task = new Task($data);
         $task->setGroup($group);
         
+        $this->em->persist($task);
+        $this->em->flush();
+    }
+
+    /**
+     * @param Task  $task
+     * @param array $data
+     */
+    public function update(Task $task, array $data)
+    {
+        $task->fill($data);
         $this->em->persist($task);
         $this->em->flush();
     }

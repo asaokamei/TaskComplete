@@ -52,7 +52,7 @@
                                     {% endif %}
                                 </td>
                                 <td>{{ task.getDate() }}</td>
-                                <td>{{ task.title }}</td>
+                                <td><a href="{{ path('task-edit', {'id':task.getId()}) }}">{{ task.title }}</a></td>
                                 <td>{{ task.details }}</td>
                             </tr>
                         {% endfor %}

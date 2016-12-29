@@ -70,6 +70,11 @@ class Task
     private $group;
 
     /**
+     * @var array
+     */
+    private $fillAble = ['title', 'done_by', 'details'];
+
+    /**
      * Task constructor.
      *
      * @param array $data
@@ -77,6 +82,15 @@ class Task
     public function __construct(array $data = [])
     {
         $this->fill($data);
+    }
+
+    /**
+     * @param string $key
+     * @return bool
+     */
+    protected function isFillAble($key)
+    {
+        return in_array($key, $this->fillAble);
     }
 
     /**
@@ -157,6 +171,9 @@ class Task
      */
     protected function setDoneBy($doneBy)
     {
+        if (!$doneBy) {
+            return $this;
+        }
         if (is_string($doneBy)) {
             $doneBy = new \DateTime($doneBy);
         } elseif (!$doneBy instanceof \DateTime) {
