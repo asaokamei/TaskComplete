@@ -105,4 +105,16 @@ class ProjectController extends Controller
     {
         // TODO: implement this method
     }
+
+    /**
+     * @return Response
+     */
+    public function listActiveProjectsAction()
+    {
+        $projects = $this->get('app.query-list-projects')->getList();
+        
+        return $this->render('task/includes/navbar-projects.html.twig', [
+            'projects' => $projects,
+        ]);
+    }
 }

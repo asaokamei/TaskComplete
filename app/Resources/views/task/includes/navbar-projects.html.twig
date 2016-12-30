@@ -1,0 +1,3 @@
+{% for project in projects %}
+<li><a href="{{ path('project-detail', {'id': project.getId()}) }}">{{ project.getName() }}</a></li>
+{% endfor %}
