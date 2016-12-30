@@ -23,18 +23,20 @@
     </div>
 
     {% for type, byProject in dateType %}
-    <div class="col-md-4 col-sm-6 task-project">
+    <div class="col-md-3 col-sm-6 task-project">
 
         <h2>{{ type }}</h2>
         
         <div class="task-group">
-            {% for project_name, tasks in byProject %}
-                <h3>{{ project_name }}</h3>
+            {% for project_id, tasks in byProject %}
+                <h3>{{ byProject.getProjectName(project_id) }}
+                    <a href="{{ path('project-detail', {'id':project_id}) }}">{% include 'task/includes/project-details.html.twig' %}</a>
+                </h3>
                 <ul class="list-group">
                     {% for task in tasks %}
                         <li class="list-group-item task-{{ task.getStatus() }}">
                             {% include 'task/includes/task-toggle.html.twig' %}
-                            {{ task.getDate() }} {{ task.title }}</li>
+                            {{ task.getDate() }} <a href="{{ path('task-edit', {'id':task.getId()}) }}">{{ task.title }}</a></li>
                     {% endfor %}
                 </ul>
             {% endfor %}

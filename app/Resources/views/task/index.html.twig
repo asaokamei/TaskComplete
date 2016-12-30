@@ -31,7 +31,8 @@
             <tbody>
             {% for project in summary %}
             <tr>
-                <th>{{ project.project_name }} <a href="/projects/{{ project.id }}"><span class="small glyphicon glyphicon-pencil"></span></a></th>
+                <th>{{ project.project_name }} 
+                    <a href="{{ path('project-detail', {'id':project.id}) }}">{% include 'task/includes/project-details.html.twig' %}</a></th>
                 <td>{{ project.done_by }}</td>
                 <td>{{ project.count_tasks }}</td>
                 <td>{{ project.count_24hr }}</td>

@@ -31,9 +31,8 @@
 
     {% for project in projects %}
 
-        <div class="col-md-3 col-sm-4 task-project">
-            <h2>{{ project.name }} <a href="/projects/{{ project.getId() }}"><span
-                            class="small glyphicon glyphicon-pencil"></span></a></h2>
+        <div class="col-md-3 col-sm-6 task-project">
+            <h2>{{ project.name }} <a href="{{ path('project-detail', {'id':project.getId()}) }}">{% include 'task/includes/project-details.html.twig' %}</a></h2>
             {% for group in project.groups %}
                 <div class="task-group">
                     <h3>{{ group.name }}</h3>
@@ -41,7 +40,7 @@
                         {% for task in group.tasks %}
                             <li class="list-group-item task-{{ task.getStatus() }}" style="">
                                 {% include 'task/includes/task-toggle.html.twig' %}
-                                {{ task.getDate() }} {{ task.title }}
+                                {{ task.getDate() }} <a href="{{ path('task-edit', {'id':task.getId()}) }}">{{ task.title }}</a>
                             </li>
                         {% endfor %}
                     </ul>

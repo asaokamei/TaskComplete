@@ -32,12 +32,24 @@ class TaskByProject implements IteratorAggregate
     }
 
     /**
+     * @param int $id
+     * @return string
+     */
+    public function getProjectName($id)
+    {
+        if (isset($this->projects[$id])) {
+            return $this->projects[$id]->getName();
+        }
+        throw new \InvalidArgumentException();
+    }
+
+    /**
      * @return \Generator
      */
     public function getIterator()
     {
         foreach($this->tasks as $id => $tasks) {
-            yield $this->projects[$id]->getName() => $tasks;
+            yield $id => $tasks;
         }
     }
 }
