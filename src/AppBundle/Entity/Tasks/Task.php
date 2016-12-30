@@ -137,7 +137,7 @@ class Task
      */    
     public function activate()
     {
-        $this->setDoneAt(null);
+        $this->doneAt = null;
         $this->status = TaskStatus::ACTIVE;
         return $this;
     }

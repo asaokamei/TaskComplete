@@ -6,11 +6,20 @@
 
 {% block body %}
 
+    {{ taskJS | raw }}
+    
     <div id="welcome">
         <h1><span><a href="{{ path('project-detail', {'id': project.getId()}) }}">{{ project.name }}</a> / {{ group.name }} </span>edit a task</h1>
     </div>
 
-    {{ form_start(form) }}
+    <!--
+      -- left column, main contents.
+      -->
+    <div class="col-sm-8">
+        
+        <h2>Edit Task Information</h2>
+
+        {{ form_start(form) }}
 
         <div class="form-group">
             <label>status</label>
@@ -23,7 +32,7 @@
             {{ form_widget(form.title, {"attr": {"class":"form-control", "placeholder":"task name"}}) }}
             {{ form_errors(form.title) }}
         </div>
-    
+
         <div class="form-group">
             <label for="done_by" class="">done by</label>
             {{ form_widget(form.done_by, {"attr": {"class":"form-control", "placeholder":"done by"}}) }}
@@ -49,7 +58,35 @@
         <input type="submit" value="update" class="btn btn-primary">
         <a href="/" class="btn btn-default">return to top</a>
 
-    {{ form_end(form) }}
+        {{ form_end(form) }}
+
+    </div>
+
+    <!--
+      -- right column
+      -->
+    <div class="col-sm-4">
+        <h2>Manage Task</h2>
+        
+        {% if task.isActive() %}
+            <h3>done</h3>
+            to set this task, 'done':<br>
+        {% else %}
+            <h3>activate</h3>
+            to activate this task:<br>
+        {% endif %}
+        {% include 'task/includes/task-toggle.html.twig' %}
+        
+        <h3>delete</h3>
+        
+        <form method="post">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('token_id') }}">
+            <input type="hidden" name="_method" value="DELETE">
+            To delete, <label>check →<input type="checkbox" name="action" value="delete"></label> and click: <br>
+            <input type="submit" value="delete!" class="btn btn-sm btn-danger">
+        </form>
+    </div>
+    {{ form_start(form) }}
 
 {% endblock %}
 

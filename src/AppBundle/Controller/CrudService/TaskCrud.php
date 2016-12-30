@@ -155,4 +155,13 @@ class TaskCrud
 END_JS;
 
     }
+
+    /**
+     * @param Task $task
+     */
+    public function delete($task)
+    {
+        $this->em->remove($task);
+        $this->em->flush();
+    }
 }
