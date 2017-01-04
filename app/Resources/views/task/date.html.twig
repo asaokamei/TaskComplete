@@ -6,6 +6,7 @@
 
 {% block body %}
 
+    <!--suppress CssUnusedSymbol -->
     <style type="text/css">
         li.task-done {
             color: #666;
@@ -28,9 +29,10 @@
         <h2>{{ type }}</h2>
         
         <div class="task-group">
-            {% for project_id, tasks in byProject %}
-                <h3>{{ byProject.getProjectName(project_id) }}
-                    <a href="{{ path('project-detail', {'id':project_id}) }}">{% include 'task/includes/project-details.html.twig' %}</a>
+            {% for group_id, tasks in byProject %}
+                <h3>{{ byProject.getGroup(group_id).name }} @ 
+                    {{ byProject.getProject(group_id).name }}
+                    <a href="{{ path('project-detail', {'id':byProject.getProject(group_id).getId()}) }}">{% include 'task/includes/project-details.html.twig' %}</a>
                 </h3>
                 <ul class="list-group">
                     {% for task in tasks %}

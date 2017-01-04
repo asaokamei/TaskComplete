@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Controller\QueryService;
 
+use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;
 use AppBundle\Entity\Tasks\Task;
 use IteratorAggregate;
@@ -13,9 +14,9 @@ class TaskByProject implements IteratorAggregate
     private $tasks = [];
 
     /**
-     * @var Project[]
+     * @var Group[]
      */
-    private $projects;
+    private $groups;
 
     /**
      * TaskByProject constructor.
@@ -24,23 +25,36 @@ class TaskByProject implements IteratorAggregate
      */
     public function __construct(array $tasks)
     {
-        foreach($tasks as $task) {
-            $project = $task->getGroup()->getProject();
-            $this->projects[$project->getId()] = $project;
-            $this->tasks[$project->getId()][] = $task;
+        foreach ($tasks as $task) {
+            $group = $task->getGroup();
+            $id    = $group->getId();
+            if (!isset($this->groups[$id])) {
+                $this->groups[$id] = $group;
+            }
+            $this->tasks[$id][] = $task;
         }
     }
 
     /**
-     * @param int $id
-     * @return string
+     * @param int $group_id
+     * @return Group
      */
-    public function getProjectName($id)
+    public function getGroup($group_id)
     {
-        if (isset($this->projects[$id])) {
-            return $this->projects[$id]->getName();
+        if (!isset($this->groups[$group_id])) {
+            throw new \InvalidArgumentException();
         }
-        throw new \InvalidArgumentException();
+        return $this->groups[$group_id];
+    }
+
+    /**
+     * @param int $group_id
+     * @return Project
+     */
+    public function getProject($group_id)
+    {
+        $group = $this->getGroup($group_id);
+        return $group->getProject();
     }
 
     /**
@@ -48,8 +62,8 @@ class TaskByProject implements IteratorAggregate
      */
     public function getIterator()
     {
-        foreach($this->tasks as $id => $tasks) {
-            yield $id => $tasks;
+        foreach($this->tasks as $group_id => $tasks) {
+            yield $group_id => $tasks;
         }
     }
 }
