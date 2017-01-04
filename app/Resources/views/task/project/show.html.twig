@@ -11,11 +11,19 @@
         tr.task-done {
             color: #666;
             text-decoration: line-through;
+            display: none;
         }
         tr.task-active {
             
         }
     </style>
+
+    <script type="text/javascript">
+        function toggleDone() {
+            $('tr.task-done').toggle();
+            return false;
+        }
+    </script>
     
     {{ taskJS|raw }}
     
@@ -66,6 +74,10 @@
     </div>
 
     <div class="col-sm-4 pull-left">
+        
+        <h2>Done Tasks</h2>
+
+        <a href="javascript:toggleDone();" class="btn btn-success btn-sm" >toggle show/hide tasks</a>
         
         <h2>Groups</h2>
         
