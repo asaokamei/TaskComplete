@@ -43,16 +43,17 @@ class TaskSummary
         $count48Hr  = $this->countDoneLastHours((clone $this->now)->sub(new \DateInterval('P2D')));
         $countWeek  = $this->countDoneLastHours((clone $this->now)->sub(new \DateInterval('P7D')));
         $projects   = $this->countProjects();
-        foreach ($projects as $id => $row) {
-            $projects[$id]['done_by'] = $row['done_by'] ? new DoneDate(new DateTime($row['done_by'])) : '';
-            $projects[$id]['count_tasks'] = $countTasks[$id] ?? 0;
-            $projects[$id]['count_done']  = $countDone[$id] ?? 0;
-            $projects[$id]['count_24hr']  = $count24Hr[$id] ?? 0;
-            $projects[$id]['count_48hr']  = $count48Hr[$id] ?? 0;
-            $projects[$id]['count_week']  = $countWeek[$id] ?? 0;
-            $projects[$id]['remaining']   = $projects[$id]['count_tasks'] - $projects[$id]['count_done'];
-            $projects[$id]['completion']  = $projects[$id]['count_tasks'] 
-                ? $projects[$id]['count_done'] / $projects[$id]['count_tasks'] * 100 
+        foreach ($projects as $row => $project) {
+            $id = $project['id'];
+            $projects[$row]['done_by']     = $project['done_by'] ? new DoneDate(new DateTime($project['done_by'])) : '';
+            $projects[$row]['count_tasks'] = $countTasks[$id] ?? 0;
+            $projects[$row]['count_done']  = $countDone[$id] ?? 0;
+            $projects[$row]['count_24hr']  = $count24Hr[$id] ?? 0;
+            $projects[$row]['count_48hr']  = $count48Hr[$id] ?? 0;
+            $projects[$row]['count_week']  = $countWeek[$id] ?? 0;
+            $projects[$row]['remaining']   = $projects[$row]['count_tasks'] - $projects[$row]['count_done'];
+            $projects[$row]['completion']  = $projects[$row]['count_tasks'] 
+                ? $projects[$row]['count_done'] / $projects[$row]['count_tasks'] * 100 
                 : null;
         }
 
