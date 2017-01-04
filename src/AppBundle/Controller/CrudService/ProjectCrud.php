@@ -108,4 +108,13 @@ class ProjectCrud
         $this->em->flush();
     }
 
+    /**
+     * @param Project $project
+     */
+    public function delete(Project $project)
+    {
+        $project->close();
+        $this->em->flush();
+    }
+
 }

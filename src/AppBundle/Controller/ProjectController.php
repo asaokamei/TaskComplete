@@ -75,6 +75,7 @@ class ProjectController extends Controller
 
     /**
      * @Config\Route("/projects/{id}")
+     * @Config\Method({"POST"})
      * @param Request $request
      * @param int     $id
      * @return Response
@@ -98,12 +99,26 @@ class ProjectController extends Controller
     /**
      * @Config\Route("/projects/{id}")
      * @Config\Method({"DELETE"})
-     * @param int $id
+     * @param Request $request
+     * @param int     $id
      * @return Response
      */
-    public function closeAction($id)
+    public function closeAction(Request $request, $id)
     {
-        // TODO: implement this method
+        /** @var ProjectCrud $crud */
+        $crud = $this->get('app.project-crud');
+        $project = $crud->findById($id);
+        $submittedToken = $request->get('_csrf_token');
+        if (!$this->isCsrfTokenValid('token_id', $submittedToken)) {
+            $this->addFlash('notice', 'cannot delete task: no valid token.');
+            return $this->redirectToRoute('project-detail', ['id' => $project->getId()]);
+        }
+        if ($request->get('action') !== 'delete') {
+            $this->addFlash('notice', 'please check to delete this task. ');
+            return $this->redirectToRoute('project-detail', ['id' => $project->getId()]);
+        }
+        $crud->delete($project);
+        return $this->redirectToRoute('homepage');
     }
 
     /**

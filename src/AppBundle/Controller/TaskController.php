@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 use AppBundle\Controller\CrudService\TaskCrud;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Test\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -63,9 +64,7 @@ class TaskController extends Controller
      */
     public function showAction($id)
     {
-        return $this->render('task/task/show.html.twig', [
-            'project_id' => $id,
-        ]);
+        throw new \InvalidArgumentException('task view not supported yet. id = ' . $id);
     }
 
     /**
@@ -107,6 +106,7 @@ class TaskController extends Controller
         $task = $crud->findById($id);
         $form = $crud->getUpdateForm($task->toArray());
 
+        /** @var FormInterface $form */
         $form = $form->handleRequest($request);
         $group = $task->getGroup();
         $project = $group->getProject();
@@ -159,7 +159,8 @@ class TaskController extends Controller
     /**
      * @Config\Route("/tasks/{id}/edit")
      * @Config\Method({"DELETE"})
-     * @param int $id
+     * @param Request $request
+     * @param int     $id
      * @return Response
      */
     public function deleteAction(Request $request, $id)

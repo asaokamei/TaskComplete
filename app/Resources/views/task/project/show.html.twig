@@ -6,6 +6,7 @@
 
 {% block body %}
 
+    <!--suppress CssUnusedSymbol -->
     <style type="text/css">
         tr.task-done {
             color: #666;
@@ -89,9 +90,11 @@
 
         <div class="task-group">
             <h3>close this project</h3>
-            <form class="form-group">
-                <label><input type="checkbox" name="action" id="action" value="close"> ← check here and </label>
-                <input type="submit" value="close" class="btn btn-xs btn-warning">
+            <form method="post">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('token_id') }}">
+                <input type="hidden" name="_method" value="DELETE">
+                To delete, <label>check →<input type="checkbox" name="action" value="delete"></label> and click: <br>
+                <input type="submit" value="delete!" class="btn btn-sm btn-danger">
             </form>
         </div>
     </div>
