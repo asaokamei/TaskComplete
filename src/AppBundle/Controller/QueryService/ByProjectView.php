@@ -36,7 +36,7 @@ class ByProjectView
     public function getProjects()
     {
         $dq = $this->em->createQueryBuilder();
-        return $dq->select('Project', 'Groups', 'Tasks')
+        $projects = $dq->select('Project', 'Groups', 'Tasks')
             ->from(Project::class, 'Project')
             ->leftjoin('Project.groups', 'Groups')
             ->leftjoin('Groups.tasks', 'Tasks')
@@ -52,5 +52,14 @@ class ByProjectView
             ])
             ->getQuery()
             ->getResult();
+
+        usort($projects, function (Project $p1, Project $p2) {
+            $d1 = $p1->getDoneBy()->format('Y-m-d H:i:s') ?: '2999-12-31 00:00:00';
+            $d2 = $p2->getDoneBy()->format('Y-m-d H:i:s') ?: '2999-12-31 00:00:00';
+            if ($d1 == $d2) return 0;
+            return $d1 > $d2 ? 1 : -1;
+        });
+
+        return $projects;
     }
 }

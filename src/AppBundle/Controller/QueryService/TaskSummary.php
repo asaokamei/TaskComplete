@@ -137,6 +137,13 @@ class TaskSummary
             ORDER BY p.done_by ASC
         ");
         $projects = $this->createSummaryById($query);
+        
+        usort($projects, function ($p1,  $p2) {
+            $d1 = $p1['done_by'] ?? '2999-12-31 00:00:00';
+            $d2 = $p2['done_by'] ?? '2999-12-31 00:00:00';
+            if ($d1 == $d2) return 0;
+            return $d1 > $d2 ? 1 : -1;
+        });
 
         return $projects;
     }
@@ -153,6 +160,7 @@ class TaskSummary
 
     /**
      * @param Statement $query
+     * @param string|null $column
      * @return array
      */
     private function createSummaryById($query, $column = null)

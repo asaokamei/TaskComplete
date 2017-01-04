@@ -14,6 +14,11 @@
         li.task-active {
 
         }
+        h2 span.doneBy {
+            margin-top: .4em;
+            font-size: .6em;
+            float: right;
+        }
     </style>
 
     {{ taskJS|raw }}
@@ -32,7 +37,11 @@
     {% for project in projects %}
 
         <div class="col-md-3 col-sm-6 task-project">
-            <h2>{{ project.name }} <a href="{{ path('project-detail', {'id':project.getId()}) }}">{% include 'task/includes/project-details.html.twig' %}</a></h2>
+            <h2>
+                {{ project.name }} 
+                <a href="{{ path('project-detail', {'id':project.getId()}) }}">{% include 'task/includes/project-details.html.twig' %}</a>
+                <span class="doneBy">{{ project.doneBy }}</span>
+            </h2>
             {% for group in project.groups %}
                 <div class="task-group">
                     <h3>{{ group.name }}</h3>
