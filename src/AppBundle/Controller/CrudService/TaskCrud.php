@@ -11,7 +11,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Routing\Router;
 
 class TaskCrud
 {
@@ -24,11 +23,6 @@ class TaskCrud
      * @var FormFactory
      */
     private $builder;
-
-    /**
-     * @var Router
-     */
-    private $router;
 
     /**
      * TaskCrud constructor.
@@ -50,15 +44,30 @@ class TaskCrud
     {
         $taskRepo = $this->em->getRepository(Task::class);
         $task  = $taskRepo->findOneBy(['id' => $id]);
+        if (!$task) {
+            throw new \InvalidArgumentException('no such task id: '.(int) $id);
+        }
 
         return $task;
     }
 
     /**
-     * flushes/saves entity to database. 
+     * @param int $id
      */
-    public function flush()
+    public function activate(int $id)
     {
+        $task = $this->findById($id);
+        $task->activate();
+        $this->em->flush();
+    }
+
+    /**
+     * @param int $id
+     */
+    public function done(int $id)
+    {
+        $task = $this->findById($id);
+        $task->done();
         $this->em->flush();
     }
 

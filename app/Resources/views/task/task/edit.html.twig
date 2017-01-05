@@ -7,7 +7,9 @@
 {% block body %}
 
     {{ taskJS | raw }}
-    
+    {% set group = task.group %}
+    {% set project = group.project %}
+
     <div id="welcome">
         <h1><span><a href="{{ path('project-detail', {'id': project.getId()}) }}">{{ project.name }}</a> / {{ group.name }} </span>edit a task</h1>
     </div>
