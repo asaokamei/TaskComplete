@@ -53,35 +53,4 @@ class TaskController extends Controller
         $crud->activate($id);
         return Response::create('', 200);
     }
-
-    /**
-     * completely deletes a task from database.
-     *
-     * @Config\Route("/tasks/{id}/edit")
-     * @Config\Method({"DELETE"})
-     * @param Request $request
-     * @param int     $id
-     * @return Response
-     */
-    public function deleteAction(Request $request, $id)
-    {
-        /** @var TaskCrud $crud */
-        $crud = $this->get('app.task-crud');
-        $task = $crud->findById($id);
-        $submittedToken = $request->get('_csrf_token');
-        if (!$this->isCsrfTokenValid('token_id', $submittedToken)) {
-            $this->addFlash('notice', 'cannot delete task: no valid token.');
-            return $this->redirectToRoute('task-edit', ['id' => $task->getId()]);
-        }
-        if ($request->get('action') !== 'delete') {
-            $this->addFlash('notice', 'please check to delete this task. ');
-            return $this->redirectToRoute('task-edit', ['id' => $task->getId()]);
-        }
-        $crud->delete($task);
-
-        $group = $task->getGroup();
-        $project = $group->getProject();
-        $this->addFlash('message', 'deleted a task!');
-        return $this->redirectToRoute('project-detail', ['id' => $project->getId()]);
-    }
 }
