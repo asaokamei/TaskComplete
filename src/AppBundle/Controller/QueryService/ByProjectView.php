@@ -36,15 +36,16 @@ class ByProjectView
     public function getProjects()
     {
         $dq = $this->em->createQueryBuilder();
-        $projects = $dq->select('Project', 'Groups', 'Tasks')
-            ->from(Project::class, 'Project')
-            ->leftjoin('Project.groups', 'Groups')
-            ->leftjoin('Groups.tasks', 'Tasks')
+        $projects = $dq->select('p', 'g', 't')
+            ->from(Project::class, 'p')
+            ->leftjoin('p.groups', 'g')
+            ->leftjoin('g.tasks', 't')
             ->where("
-                Tasks.status = :active
-                OR Tasks.status IS NULL 
-                OR (Tasks.status = :done AND Tasks.doneAt >= :last24)
+                t.status = :active
+                OR (t.status = :done AND t.doneAt >= :last24)
                 ")
+            ->orderBy('t.status')
+            ->addOrderBy('t.doneBy')
             ->setParameters([
                 'active' => TaskStatus::ACTIVE,
                 'done' => TaskStatus::DONE,
