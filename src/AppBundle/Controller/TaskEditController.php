@@ -2,6 +2,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Controller\CrudService\TaskCrud;
+use AppBundle\Entity\Tasks\Task;
+use InvalidArgumentException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Test\FormInterface;
@@ -11,6 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 class TaskEditController extends Controller
 {
     /**
+     * @var TaskCrud
+     */
+    private $crud;
+
+    /**
      * @Config\Route("/tasks/{id}/edit", name="task-edit")
      * @Config\Method({"GET"})
      * @param int $id
@@ -18,16 +25,41 @@ class TaskEditController extends Controller
      */
     public function editAction($id)
     {
-        $crud = $this->get('app.task-crud');
-        $task = $crud->findById($id);
-        $form = $crud->getUpdateForm($task->toArray());
+        $task = $this->getTask($id);
+        return $this->renderEdit($task);
+    }
 
-        $taskJS = $crud->getDoneActivateJS();
+    /**
+     * call this method first.
+     * gets Task entity and sets TaskCrud for later use.
+     *
+     * @param int $id
+     * @return Task
+     */
+    private function getTask($id)
+    {
+        $this->crud = $this->get('app.task-crud');
+        $task  = $this->crud->findById($id);
+        if (!$task) {
+            throw new InvalidArgumentException('no such task id: '.(int) $id);
+        }
+        return $task;
+    }
+
+    /**
+     * @param Task  $task
+     * @param array $data
+     * @return Response
+     */
+    private function renderEdit(Task $task, array $data = []): Response
+    {
+        $data = array_merge($task->toArray(), $data);
+        $form = $this->crud->getUpdateForm($data);
 
         return $this->render('task/task/edit.html.twig', [
             'form'   => $form->createView(),
             'task'   => $task,
-            'taskJS' => $taskJS,
+            'taskJS' => $this->crud->getDoneActivateJS(),
         ]);
     }
 
@@ -40,26 +72,17 @@ class TaskEditController extends Controller
      */
     public function updateAction(Request $request, $id)
     {
-        /** @var TaskCrud $crud */
-        $crud = $this->get('app.task-crud');
-        $task = $crud->findById($id);
-        $form = $crud->getUpdateForm($task->toArray());
+        $task = $this->getTask($id);
 
         /** @var FormInterface $form */
-        $form    = $form->handleRequest($request);
+        $form = $this->crud->update($task, $request);
+        if (!$form->isValid()) {
+            $this->addFlash('notice', 'please check inputs. ');
+            return $this->renderEdit($task, $form->getData());
+        }
+
         $group   = $task->getGroup();
         $project = $group->getProject();
-
-        if (!$form->isValid()) {
-
-            return $this->render('task/task/edit.html.twig', [
-                'form'    => $form->createView(),
-                'project' => $project,
-                'group'   => $group,
-            ]);
-        }
-        $crud->update($task, $form->getData());
-
         return $this->redirectToRoute('project-detail', ['id' => $project->getId()]);
     }
 }

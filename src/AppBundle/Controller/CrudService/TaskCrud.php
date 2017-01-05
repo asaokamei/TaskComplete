@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class TaskCrud
 {
@@ -44,9 +45,6 @@ class TaskCrud
     {
         $taskRepo = $this->em->getRepository(Task::class);
         $task  = $taskRepo->findOneBy(['id' => $id]);
-        if (!$task) {
-            throw new \InvalidArgumentException('no such task id: '.(int) $id);
-        }
 
         return $task;
     }
@@ -118,14 +116,22 @@ class TaskCrud
     }
 
     /**
-     * @param Task  $task
-     * @param array $data
+     * @param Task    $task
+     * @param Request $request
+     * @return FormInterface
      */
-    public function update(Task $task, array $data)
+    public function update(Task $task, Request $request)
     {
-        $task->fill($data);
+        $form = $this->getUpdateForm($task->toArray());
+        $form = $form->handleRequest($request);
+        if (!$form->isValid()) {
+            return $form;
+        }
+        $task->fill($form->getData());
         $this->em->persist($task);
         $this->em->flush();
+
+        return $form;
     }
 
     /**
