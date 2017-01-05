@@ -18,12 +18,12 @@ class TaskCrud
     /**
      * @var EntityManager
      */
-    private $em;
+    protected $em;
 
     /**
      * @var FormFactory
      */
-    private $builder;
+    protected $builder;
 
     /**
      * TaskCrud constructor.
@@ -70,71 +70,6 @@ class TaskCrud
     }
 
     /**
-     * @return FormInterface
-     */
-    public function getCreateForm()
-    {
-        $form = $this->builder->createBuilder(FormType::class)
-            ->add('title', TextType::class, ['label' => 'Task name', 'required' => true])
-            ->add('done_by', DateType::class, ['widget' => 'single_text', 'required' => false, 'label' => 'done by'])
-            ->add('details', TextareaType::class, ['required' => false, 'label' => 'details'])
-            ->getForm();
-
-        return $form;
-    }
-
-    /**
-     * @param array $data
-     * @return FormInterface
-     */
-    public function getUpdateForm(array $data)
-    {
-        $form = $this->builder->createBuilder(FormType::class, $data)
-            ->add('title', TextType::class, ['label' => 'Task name', 'required' => true])
-            ->add('done_by', DateType::class, ['widget' => 'single_text', 'required' => false, 'label' => 'done by'])
-            ->add('details', TextareaType::class, ['required' => false, 'label' => 'details'])
-            ->getForm();
-
-        return $form;
-    }
-
-    /**
-     * @param Project $project
-     * @param Group   $group
-     * @param array   $data
-     */
-    public function create(Project $project, Group $group, array $data)
-    {
-        if ($group->getProject() !== $project) {
-            throw new \InvalidArgumentException();
-        }
-        $task = new Task($data);
-        $task->setGroup($group);
-        
-        $this->em->persist($task);
-        $this->em->flush();
-    }
-
-    /**
-     * @param Task    $task
-     * @param Request $request
-     * @return FormInterface
-     */
-    public function update(Task $task, Request $request)
-    {
-        $form = $this->getUpdateForm($task->toArray());
-        $form = $form->handleRequest($request);
-        if (!$form->isValid()) {
-            return $form;
-        }
-        $task->fill($form->getData());
-        $this->em->persist($task);
-        $this->em->flush();
-
-        return $form;
-    }
-
-    /**
      * @return string
      */
     public function getDoneActivateJS()
@@ -169,14 +104,5 @@ class TaskCrud
 
 END_JS;
 
-    }
-
-    /**
-     * @param Task $task
-     */
-    public function delete($task)
-    {
-        $this->em->remove($task);
-        $this->em->flush();
     }
 }

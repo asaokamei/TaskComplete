@@ -2,6 +2,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Controller\CrudService\TaskCrud;
+use AppBundle\Controller\CrudService\TaskUpdate;
 use AppBundle\Entity\Tasks\Task;
 use InvalidArgumentException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 class TaskEditController extends Controller
 {
     /**
-     * @var TaskCrud
+     * @var TaskUpdate
      */
     private $crud;
 
@@ -38,7 +39,7 @@ class TaskEditController extends Controller
      */
     private function getTask($id)
     {
-        $this->crud = $this->get('app.task-crud');
+        $this->crud = $this->get('app.task-update');
         $task  = $this->crud->findById($id);
         if (!$task) {
             throw new InvalidArgumentException('no such task id: '.(int) $id);

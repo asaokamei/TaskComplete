@@ -21,7 +21,7 @@ class TaskCreateController extends Controller
         $project = $this->get('app.project-crud')->findById($project_id);
         $group   = $this->get('app.group-crud')->findById($group_id);
 
-        $form = $this->get('app.task-crud')->getCreateForm();
+        $form = $this->get('app.task-create')->getCreateForm();
         return $this->render('task/task/create.html.twig', [
             'form'    => $form->createView(),
             'project' => $project,
@@ -41,7 +41,7 @@ class TaskCreateController extends Controller
     {
         $project = $this->get('app.project-crud')->findById($project_id);
         $group   = $this->get('app.group-crud')->findById($group_id);
-        $crud    = $this->get('app.task-crud');
+        $crud    = $this->get('app.task-create');
 
         /** @var FormInterface $form */
         $form = $crud->getCreateForm();
