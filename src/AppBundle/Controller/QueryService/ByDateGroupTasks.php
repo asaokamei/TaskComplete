@@ -9,7 +9,7 @@ use IteratorAggregate;
 class ByDateGroupTasks implements IteratorAggregate
 {
     /**
-     * @var Task[]
+     * @var Task[][]
      */
     private $tasks = [];
 
@@ -63,6 +63,12 @@ class ByDateGroupTasks implements IteratorAggregate
     public function getIterator()
     {
         foreach($this->tasks as $group_id => $tasks) {
+            usort($tasks, function (Task $a, Task $b) {
+                if ($a->getStatus() === $b->getStatus()) {
+                    return $a->getDate() <=> $b->getDate();
+                }
+                return $a->getStatus() <=> $b->getStatus();
+            });
             yield $group_id => $tasks;
         }
     }
