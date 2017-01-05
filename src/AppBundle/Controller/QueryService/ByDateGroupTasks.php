@@ -6,7 +6,7 @@ use AppBundle\Entity\Tasks\Project;
 use AppBundle\Entity\Tasks\Task;
 use IteratorAggregate;
 
-class TaskByProject implements IteratorAggregate
+class ByDateGroupTasks implements IteratorAggregate
 {
     /**
      * @var Task[]

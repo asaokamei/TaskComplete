@@ -1,7 +1,6 @@
 <?php
 namespace AppBundle\Controller\QueryService;
 
-use AppBundle\Entity\Tasks\Project;
 use AppBundle\Entity\Tasks\Task;
 use AppBundle\Entity\Tasks\Task\TaskStatus;
 use DateTime;
@@ -32,12 +31,12 @@ class ByDateView
     }
 
     /**
-     * @return TaskByDate
+     * @return ByDateGroups
      */
     public function getTasks()
     {
         $tasks = $this->loadTasks();
-        $types = new TaskByDate();
+        $types = new ByDateGroups();
         foreach($tasks as $task) {
             $types->add($task);
         }

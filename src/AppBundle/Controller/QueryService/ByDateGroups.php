@@ -6,7 +6,7 @@ use DateTime;
 use Generator;
 use IteratorAggregate;
 
-class TaskByDate implements IteratorAggregate
+class ByDateGroups implements IteratorAggregate
 {
     const OVERDUE = 'overdue';
     const NO_DATE = 'no-date';
@@ -84,7 +84,7 @@ class TaskByDate implements IteratorAggregate
     public function getIterator()
     {
         foreach($this->tasks as $type => $tasks) {
-            yield $type => new TaskByProject($tasks);
+            yield $type => new ByDateGroupTasks($tasks);
         }
     }
 }
