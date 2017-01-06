@@ -27,12 +27,23 @@
             });
         </script>
 
+        <!--suppress CssUnusedSymbol -->
         <style>
             body { padding-top: 70px; }
             h1 { line-height: 1.2; margin: 0 0 .5em; }
             h1 { font-size: 36px; font-weight: 400; }
             #welcome, #status { margin-bottom: 2em; }
             #welcome h1 span { display: block; font-size: 60%; font-weight:200; }
+            h3 span.doneBy {
+                margin-top: .1em;
+                font-size: .9em;
+                float: right;
+                font-weight:normal;
+            }
+            li.task-done {
+                color: #666;
+                text-decoration: line-through;
+            }
             div.task-project {
                 padding: 0 .5rem .5rem .5rem;
                 border-left: 1px solid #cccccc;

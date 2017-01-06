@@ -5,6 +5,7 @@ use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;
 use AppBundle\Entity\Tasks\Task;
 use AppBundle\Entity\Tasks\Task\TaskStatus;
+use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
@@ -14,6 +15,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SystemController extends Controller
 {
+    /**
+     * @var DateTime
+     */
+    private $now;
+
     /**
      * @Config\Route("/initialize", name="initialize")
      * @Config\Method({"GET"})
@@ -34,20 +40,23 @@ class SystemController extends Controller
     {
         if ($request->get('action') !== 'initialize') {
             $this->addFlash('notice', 'please check to initialize database.');
+
             return $this->redirectToRoute('initialize');
         }
         if (!$em = $this->getDoctrine()->getManager()) {
             $this->addFlash('notice', 'entity manager for doctrine not found.');
+
             return $this->redirectToRoute('initialize');
         }
 
         $this->cleanupDb($em);
         $this->populateDb($em);
-        
+
         $this->addFlash(
             'message',
             'filled up initial tasks!'
         );
+
         return $this->redirectToRoute('initialize');
     }
 
@@ -62,43 +71,77 @@ class SystemController extends Controller
     }
 
     /**
+     * @param string|null $by
+     * @return DateTime
+     */
+    private function now($by = null)
+    {
+        $now = $this->now ?: $this->now = new DateTime('now');
+        $now = clone($now);
+        if ($by) {
+            $now->add(new \DateInterval($by));
+        }
+        return $now;
+    }
+        
+        
+    /**
      * @param ObjectManager $em
      */
     private function populateDb($em)
     {
-        $now = new \DateTime('now');
+        $now = new DateTime('now');
         
         // create 2 projects: work and life. 
-        $work = new Project(['name' => 'work']);
+        $work = new Project([
+            'name' => 'work', 
+            'done_by' => $this->now('P7D'),
+        ]);
         $em->persist($work);
 
-        $life = new Project(['name' => 'life']);
+        $life = new Project([
+            'name' => 'life',
+            'done_by' => $this->now('P14D'),
+        ]);
         $em->persist($life);
         
         // create basic groups for work and life.
-        $group1 = new Group(['name' => 'tasks']);
+        $group1 = new Group([
+            'name' => 'tasks',
+            'is_active' => Group\GroupIsActive::ACTIVE,
+            'done_by' => $this->now('P3D'),
+        ]);
         $group1->setProject($work);
         $em->persist($group1);
 
-        $group2 = new Group(['name' => 'plans']);
+        $group2 = new Group([
+            'name' => 'plans', 
+            'is_active' => Group\GroupIsActive::ACTIVE,
+            'done_by' => $this->now('P4D'),
+        ]);
         $group2->setProject($life);
         $em->persist($group2);
         
         // add tasks for work/tasks
         $task1 = new Task([
-            'status' => TaskStatus::DONE,
             'title' => 'brain storm', 
-            'doneBy' => (clone $now)->sub(new \DateInterval('P1D')),
-            'doneAt' => (clone $now),
+            'done_by' => $this->now('P1D'),
+        ]);
+        $task1->done();
+        $task1->setGroup($group1);
+        $em->persist($task1);
+
+        $task1 = new Task([
+            'title' => 'write proposal', 
+            'done_by' => $this->now('P1D'),
         ]);
         $task1->setGroup($group1);
         $em->persist($task1);
 
-        $task1 = new Task(['title' => 'write proposal', 'doneBy' => (clone $now)->add(new \DateInterval('P1D'))]);
-        $task1->setGroup($group1);
-        $em->persist($task1);
-
-        $task2 = new Task(['title' => 'develop product', 'doneBy' => (clone $now)->add(new \DateInterval('P2D'))]);
+        $task2 = new Task([
+            'title' => 'develop product', 
+            'done_by' => $this->now('P2D'),
+        ]);
         $task2->setGroup($group1);
         $em->persist($task2);
         

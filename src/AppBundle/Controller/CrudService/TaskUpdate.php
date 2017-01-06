@@ -34,7 +34,7 @@ class TaskUpdate extends TaskCrud
     {
         $form = $this->builder->createBuilder(FormType::class, $data)
             ->add('title', TextType::class, ['label' => 'Task name', 'required' => true])
-            ->add('done_by', DateType::class, ['widget' => 'single_text', 'required' => false, 'label' => 'done by'])
+            ->add('doneBy', DateType::class, ['widget' => 'single_text', 'required' => false, 'label' => 'done by'])
             ->add('details', TextareaType::class, ['required' => false, 'label' => 'details'])
             ->getForm();
 

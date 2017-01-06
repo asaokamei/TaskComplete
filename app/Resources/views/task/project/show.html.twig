@@ -13,9 +13,6 @@
             text-decoration: line-through;
             display: none;
         }
-        tr.task-active {
-            
-        }
     </style>
 
     <script type="text/javascript">
@@ -41,7 +38,8 @@
         {% for group in project.groups %}
 
             <div class="task-group">
-                <h3>{{ group.name }}</h3>
+                <h3>{{ group.name }}
+                <span class="doneBy">{{ group.getDoneBy() }}</span></h3>
                 <div class="table-responsive">
                     <table class="table table-hover table-striped">
                         <thead>

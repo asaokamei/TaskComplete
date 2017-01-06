@@ -62,6 +62,13 @@ class Task
     private $doneAt;
 
     /**
+     * @var \DateTime
+     * 
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    private $createdAt;
+
+    /**
      * A Group have one Project.
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Tasks\Group", inversedBy="tasks")
      * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
@@ -81,6 +88,7 @@ class Task
      */
     public function __construct(array $data = [])
     {
+        $this->createdAt = new \DateTime('now');
         $this->fill($data);
     }
 

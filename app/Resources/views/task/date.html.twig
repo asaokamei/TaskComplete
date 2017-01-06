@@ -8,13 +8,6 @@
 
     <!--suppress CssUnusedSymbol -->
     <style type="text/css">
-        li.task-done {
-            color: #666;
-            text-decoration: line-through;
-        }
-        li.task-active {
-
-        }
     </style>
 
     {{ taskJS|raw }}
@@ -30,9 +23,12 @@
         
         <div class="task-group">
             {% for group_id, tasks in byProject %}
-                <h3>{{ byProject.getGroup(group_id).name }} @ 
-                    {{ byProject.getProject(group_id).name }}
+                {% set group = byProject.getGroup(group_id) %}
+                {% set project = byProject.getProject(group_id) %}
+                <h3>{{ group.name }} @ 
+                    {{ project.name }}
                     <a href="{{ path('project-detail', {'id':byProject.getProject(group_id).getId()}) }}">{% include 'task/includes/project-details.html.twig' %}</a>
+                    <span class="doneBy">{{ group.getDoneBy() }}</span>
                 </h3>
                 <ul class="list-group">
                     {% for task in tasks %}
