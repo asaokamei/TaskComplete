@@ -33,7 +33,6 @@
     <div class="clearfix"></div>
 
     <div class="col-sm-8">
-        <h2>task-groups</h2>
 
         {% for group in project.groups %}
 
@@ -73,17 +72,24 @@
 
     <div class="col-sm-4 pull-left">
         
-        <h2>Done Tasks</h2>
+        <h2>Show Done Tasks</h2>
 
-        <a href="javascript:toggleDone();" class="btn btn-success btn-sm" >toggle show/hide tasks</a>
+        <a href="javascript:toggleDone();" class="btn btn-success btn-sm" >toggle tasks</a>
         
         <h2>Groups</h2>
         
         <div class="task-group">
             <h3>add a new group</h3>
-            {{ form_start(newGroup) }}
+            {{ form_start(newGroup, {
+                'action': path('group-create', {'project_id': project.getId()}), 
+                'method': 'POST'
+                }) }}
+            {{ form_label(newGroup.name) }}
             {{ form_widget(newGroup.name, {"attr":{"class":"form-control", "placeholder":"new group name"}}) }}
             {{ form_errors(newGroup.name) }}
+            {{ form_label(newGroup.doneBy) }}
+            {{ form_widget(newGroup.doneBy, {"attr":{"class":"form-control", "placeholder":"done by"}}) }}
+            {{ form_errors(newGroup.doneBy) }}
             <input type="submit" value="add" class="btn btn-xs btn-primary">
             {{ form_end(newGroup) }}
         </div>

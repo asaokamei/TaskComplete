@@ -4,13 +4,12 @@ namespace AppBundle\Controller\CrudService;
 use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Form;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Routing\Router;
 
 class GroupCrud
 {
@@ -25,22 +24,15 @@ class GroupCrud
     private $builder;
 
     /**
-     * @var Router
-     */
-    private $router;
-
-    /**
      * ProjectCrud constructor.
      *
      * @param EntityManager $em
      * @param FormFactory   $builder
-     * @param Router        $router
      */
-    public function __construct(EntityManager $em, $builder, $router)
+    public function __construct(EntityManager $em, $builder)
     {
         $this->em = $em;
         $this->builder = $builder;
-        $this->router = $router;
     }
 
     /**
@@ -56,20 +48,16 @@ class GroupCrud
     }
 
     /**
-     * @param int $project_id
      * @return Form|FormInterface
      */
-    public function getCreateForm($project_id)
+    public function getCreateForm()
     {
         $form = $this->builder
             ->createNamedBuilder('NewGroup', FormType::class)
-            ->setMethod('POST')
-            ->setAction($this->router->generate('group-create', ['project_id' => $project_id]));
-
-        /** @var FormBuilder $form */
-        return $form
             ->add('name', TextType::class, ['required' => true, 'label' => 'Group name'])
+            ->add('doneBy', DateType::class, ['required' => true, 'label' => 'Done by', 'widget' => 'single_text'])
             ->getForm();
+        return $form;
     }
     
     /**

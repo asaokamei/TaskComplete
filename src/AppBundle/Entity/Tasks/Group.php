@@ -46,7 +46,7 @@ class Group
      *
      * @ORM\Column(name="done_by", type="datetime")
      */
-    private $done_by;
+    private $doneBy;
 
     /**
      * A Group have one Project.
@@ -145,7 +145,29 @@ class Group
      */
     public function getDoneBy()
     {
-        return new DoneDate($this->done_by);
+        return new DoneDate($this->doneBy);
     }
+    /**
+     * Set doneBy
+     *
+     * @param \DateTime $doneBy
+     * @return Group
+     */
+    protected function setDoneBy($doneBy)
+    {
+        if (!$doneBy) {
+            return $this;
+        }
+        if (is_string($doneBy)) {
+            $doneBy = new \DateTime($doneBy);
+        } elseif (!$doneBy instanceof \DateTime) {
+            throw new \InvalidArgumentException();
+        }
+
+        $this->doneBy = $doneBy;
+
+        return $this;
+    }
+
 }
 
