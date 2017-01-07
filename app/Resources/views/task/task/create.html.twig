@@ -10,7 +10,7 @@
         <h1><span><a href="{{ path('project-detail', {'id': project.getId()}) }}">{{ project.name }}</a> / {{ group.name }} </span>create a new task</h1>
     </div>
 
-    {{ form_start(form) }}
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
         <div class="form-group">
             <label for="title" class="required">task title</label>
@@ -19,14 +19,14 @@
         </div>
 
         <div class="form-group">
-            <label for="done_by" class="">done by</label>
-            {{ form_widget(form.done_by, {"attr": {"class":"form-control", "placeholder":"done by"}}) }}
-            {{ form_errors(form.done_by) }}
+            <label for="doneBy" class="">done by</label>
+            {{ form_widget(form.doneBy, {"attr": {"class":"form-control", "placeholder":"done by"}}) }}
+            {{ form_errors(form.doneBy) }}
         </div>
 
         <div class="form-group">
             <label for="details" class="">details</label>
-            {{ form_widget(form.details, {"attr": {"class":"form-control", "placeholder":"details of the task here..."}}) }}
+            {{ form_widget(form.details, {"attr": {"class":"form-control", "style":"height:5em;", "placeholder":"details of the task here..."}}) }}
             {{ form_errors(form.details) }}
         </div>
 

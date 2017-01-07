@@ -18,15 +18,7 @@ class TaskCreateController extends Controller
      */
     public function createAction($project_id, $group_id)
     {
-        $project = $this->get('app.project-crud')->findById($project_id);
-        $group   = $this->get('app.group-crud')->findById($group_id);
-
-        $form = $this->get('app.task-create')->getCreateForm();
-        return $this->render('task/task/create.html.twig', [
-            'form'    => $form->createView(),
-            'project' => $project,
-            'group'   => $group,
-        ]);
+        return $this->makeCreateView($project_id, $group_id);
     }
 
     /**
@@ -47,12 +39,30 @@ class TaskCreateController extends Controller
         $form = $crud->getCreateForm();
         $form = $form->handleRequest($request);
         if (!$form->isValid()) {
-            return $this->render('task/task/create.html.twig', [
-                'form' => $form->createView(),
-            ]);
+            return $this->makeCreateView($project_id, $group_id, $form);
         }
         $crud->create($project, $group, $form->getData());
 
         return $this->redirectToRoute('project-detail', ['id' => $project->getId()]);
+    }
+
+    /**
+     * @param int  $project_id
+     * @param int  $group_id
+     * @param FormInterface|null $form
+     * @return Response
+     */
+    private function makeCreateView($project_id, $group_id, $form = null): Response
+    {
+        $project = $this->get('app.project-crud')->findById($project_id);
+        $group   = $this->get('app.group-crud')->findById($group_id);
+
+        $form = $form ?: $this->get('app.task-create')->getCreateForm();
+
+        return $this->render('task/task/create.html.twig', [
+            'form'    => $form->createView(),
+            'project' => $project,
+            'group'   => $group,
+        ]);
     }
 }

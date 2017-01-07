@@ -31,9 +31,10 @@ class TaskCreate extends TaskCrud
      */
     public function getCreateForm()
     {
-        $form = $this->builder->createBuilder(FormType::class)
+        $task = new TaskDTO();
+        $form = $this->builder->createBuilder(FormType::class, $task)
             ->add('title', TextType::class, ['label' => 'Task name', 'required' => true])
-            ->add('done_by', DateType::class, ['widget' => 'single_text', 'required' => false, 'label' => 'done by'])
+            ->add('doneBy', DateType::class, ['widget' => 'single_text', 'required' => false, 'label' => 'done by'])
             ->add('details', TextareaType::class, ['required' => false, 'label' => 'details'])
             ->getForm();
 
@@ -43,14 +44,14 @@ class TaskCreate extends TaskCrud
     /**
      * @param Project $project
      * @param Group   $group
-     * @param array   $data
+     * @param TaskDTO $data
      */
-    public function create(Project $project, Group $group, array $data)
+    public function create(Project $project, Group $group, TaskDTO $data)
     {
         if ($group->getProject() !== $project) {
             throw new \InvalidArgumentException();
         }
-        $task = new Task($data);
+        $task = new Task($data->toArray());
         $task->setGroup($group);
         
         $this->em->persist($task);
