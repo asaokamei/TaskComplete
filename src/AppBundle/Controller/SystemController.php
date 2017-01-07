@@ -21,7 +21,7 @@ class SystemController extends Controller
     private $now;
 
     /**
-     * @Config\Route("/initialize", name="initialize")
+     * @Config\Route("/settings/initialize", name="initialize")
      * @Config\Method({"GET"})
      * @return Response
      */
