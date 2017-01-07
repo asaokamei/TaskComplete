@@ -1,13 +1,12 @@
 <?php
 namespace AppBundle\Controller;
 
-use AppBundle\Controller\CrudService\TaskCrud;
 use AppBundle\Controller\CrudService\TaskUpdate;
 use AppBundle\Entity\Tasks\Task;
 use InvalidArgumentException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Test\FormInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -48,14 +47,13 @@ class TaskEditController extends Controller
     }
 
     /**
-     * @param Task  $task
-     * @param array $data
+     * @param Task          $task
+     * @param FormInterface $form
      * @return Response
      */
-    private function renderEdit(Task $task, array $data = []): Response
+    private function renderEdit(Task $task, FormInterface $form = null): Response
     {
-        $data = array_merge($task->toArray(), $data);
-        $form = $this->crud->getUpdateForm($data);
+        $form = $form ?: $this->crud->getUpdateForm($task);
 
         return $this->render('task/task/edit.html.twig', [
             'form'   => $form->createView(),
@@ -79,7 +77,7 @@ class TaskEditController extends Controller
         $form = $this->crud->update($task, $request);
         if (!$form->isValid()) {
             $this->addFlash('notice', 'please check inputs. ');
-            return $this->renderEdit($task, $form->getData());
+            return $this->renderEdit($task, $form);
         }
 
         $group   = $task->getGroup();

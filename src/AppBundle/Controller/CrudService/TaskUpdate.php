@@ -1,8 +1,6 @@
 <?php
 namespace AppBundle\Controller\CrudService;
 
-use AppBundle\Entity\Tasks\Group;
-use AppBundle\Entity\Tasks\Project;
 use AppBundle\Entity\Tasks\Task;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -27,12 +25,12 @@ class TaskUpdate extends TaskCrud
     }
 
     /**
-     * @param array $data
+     * @param Task $data
      * @return FormInterface
      */
-    public function getUpdateForm(array $data)
+    public function getUpdateForm(Task $data)
     {
-        $task = new TaskDTO($data);
+        $task = new TaskDTO($data->toArray());
         $form = $this->builder->createBuilder(FormType::class, $task)
             ->add('title', TextType::class, ['label' => 'Task name', 'required' => true])
             ->add('doneBy', DateType::class, ['widget' => 'single_text', 'required' => false, 'label' => 'done by'])
@@ -49,7 +47,7 @@ class TaskUpdate extends TaskCrud
      */
     public function update(Task $task, Request $request)
     {
-        $form = $this->getUpdateForm($task->toArray());
+        $form = $this->getUpdateForm($task);
         $form = $form->handleRequest($request);
         if (!$form->isValid()) {
             return $form;
