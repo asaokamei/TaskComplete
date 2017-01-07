@@ -34,7 +34,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/date", name="by-date")
+     * @Route("/dates", name="by-date")
      * @return Response
      */
     public function dateAction()
@@ -43,6 +43,20 @@ class DefaultController extends Controller
         $taskJS = $this->get('app.task-crud')->getDoneActivateJS();
         return $this->render('task/date.html.twig', [
             'dateType' => $dateType,
+            'taskJS' => $taskJS,
+        ]);
+    }
+
+    /**
+     * @Route("/targets", name="by-target")
+     * @return Response
+     */    
+    public function targetAction()
+    {
+        $groups = $this->get('app.query-by-target')->getGroups();
+        $taskJS = $this->get('app.task-crud')->getDoneActivateJS();
+        return $this->render('task/target.html.twig', [
+            'groups' => $groups,
             'taskJS' => $taskJS,
         ]);
     }

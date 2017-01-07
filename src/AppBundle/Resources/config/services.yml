@@ -33,6 +33,10 @@ services:
         class: AppBundle\Controller\QueryService\ByDateView
         arguments: ["@doctrine.orm.default_entity_manager"]
         
+    app.query-by-target:
+        class: AppBundle\Controller\QueryService\ByTarget
+        arguments: ["@doctrine.orm.default_entity_manager"]
+        
     app.query-list-projects:
         class: AppBundle\Controller\QueryService\ProjectList
         arguments: ["@doctrine.orm.default_entity_manager"]

@@ -46,18 +46,17 @@
             }
             div.task-project {
                 padding: 0 .5rem .5rem .5rem;
-                border-left: 1px solid #cccccc;
                 margin-bottom: 1rem;
             }
             div.task-project h2 {
                 background-color: #cccccc;
-                padding: .2rem;
+                padding: .4rem;
                 margin: 0 0 .5rem -.5rem;
             }
             div.task-group {
                 background-color: white;
                 border: 1px solid #e0e0e0;
-                border-radius: .5rem;
+                border-radius: .2rem;
                 padding: .8rem .5rem .5rem .5rem;
                 margin-top: .5rem;
             }
@@ -65,7 +64,7 @@
                 font-size:1.5rem;
                 font-weight:bold;
                 margin: .2rem .2rem .5rem .2rem;
-                background-color: #f0f4f4;
+                background-color: #e0f4f4;
                 padding: .4em;
                 border-radius: .2em;
             }
@@ -107,6 +106,7 @@
         </div>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
             <ul class="nav navbar-nav">
+                <li><a href="{{ path('by-target') }}">by targets</a></li>
                 <li><a href="{{ path('by-project') }}">by projects</a></li>
                 <li><a href="{{ path('by-date') }}">by date</a></li>
             </ul>
