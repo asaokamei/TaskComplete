@@ -2,6 +2,7 @@
 namespace AppBundle\Controller\QueryService;
 
 use AppBundle\Entity\Tasks\Generic\DoneDate;
+use AppBundle\Entity\Tasks\Group\GroupIsActive;
 use AppBundle\Entity\Tasks\Project;
 use AppBundle\Entity\Tasks\Task\TaskStatus;
 use DateTime;
@@ -37,6 +38,7 @@ class TaskSummary
      */
     public function getSummary()
     {
+        $countTargets = $this->countTargets();
         $countTasks = $this->countTasks();
         $countDone  = $this->countDoneTasks();
         $count24Hr  = $this->countDoneLastHours((clone $this->now)->sub(new \DateInterval('P1D')));
@@ -46,6 +48,7 @@ class TaskSummary
         foreach ($projects as $row => $project) {
             $id                            = $project['id'];
             $projects[$row]['done_by']     = $project['done_by'] ? new DoneDate(new DateTime($project['done_by'])) : '';
+            $projects[$row]['count_target'] = $countTargets[$id] ?? 0;
             $projects[$row]['count_tasks'] = $countTasks[$id] ?? 0;
             $projects[$row]['count_done']  = $countDone[$id] ?? 0;
             $projects[$row]['count_24hr']  = $count24Hr[$id] ?? 0;
@@ -58,6 +61,27 @@ class TaskSummary
         }
 
         return $projects;
+    }
+
+    /**
+     * @return array
+     */
+    private function countTargets()
+    {
+        $query  = $this->em->getConnection()->executeQuery("
+            SELECT p.id AS id, count(g.id) AS count
+            FROM task_group g
+              JOIN task_project p ON(project_id=p.id)
+            WHERE
+              p.is_active = :project_active AND 
+               g.is_active = :group_active
+            GROUP BY p.id
+        ", [
+            'project_active' => Project\ProjectIsActive::ACTIVE,
+            'group_active' => GroupIsActive::ACTIVE,
+        ]);
+
+        return $this->createSummaryById($query, 'count');
     }
 
     /**

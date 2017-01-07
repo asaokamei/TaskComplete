@@ -55,8 +55,8 @@ class GroupCrud
         $group = new GroupDTO();
         $form  = $this->builder
             ->createBuilder(FormType::class, $group)
-            ->add('name', TextType::class, ['required' => true, 'label' => 'Group name'])
-            ->add('doneBy', DateType::class, ['required' => true, 'label' => 'Done by', 'widget' => 'single_text'])
+            ->add('name', TextType::class, ['required' => true, 'label' => 'Target name'])
+            ->add('doneBy', DateType::class, ['required' => true, 'label' => 'Target date', 'widget' => 'single_text'])
             ->getForm();
 
         return $form;
