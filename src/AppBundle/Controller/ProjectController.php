@@ -57,11 +57,11 @@ class ProjectController extends Controller
         /** @var ProjectCrud $crud */
         $crud = $this->get('app.project-crud');
         $project = $crud->findById($id);
-        $updater = $crud->getUpdateForm($project->toArray());
+        $updater = $crud->getUpdateForm($project);
 
         /** @var GroupCrud $gCrud */
         $gCrud = $this->get('app.group-crud');
-        $gForm = $gCrud->getCreateForm($id);
+        $gForm = $gCrud->getCreateForm();
         $taskJs = $this->get('app.task-crud')->getDoneActivateJS();
         
         return $this->render('task/project/show.html.twig', [
@@ -83,14 +83,13 @@ class ProjectController extends Controller
     public function updateAction(Request $request, $id)
     {
         $crud = $this->get('app.project-crud');
-        $form = $crud->getUpdateForm();
-        $form->handleRequest($request);
+        $project = $crud->findById($id);
+
+        $form = $crud->update($project, $request);
         if (!$form->isValid()) {
             $this->addFlash('notice', 'bad input: not updated');
             return $this->redirectToRoute('project-detail', ['id' => $id]);
         }
-
-        $crud->update($id, $form->getData());
 
         $this->addFlash('message', 'updated project information!');
         return $this->redirectToRoute('project-detail', ['id' => $id]);

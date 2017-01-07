@@ -98,8 +98,10 @@
         <div class="task-group">
             <h3>change project info</h3>
             {{ form_start(updater) }}
+                {{ form_label(updater.name) }}
                 {{ form_widget(updater.name, {"attr":{"class":"form-control", "placeholder":"REQUIRED: new project name"}}) }}
-                {{ form_widget(updater.done_by, {"attr":{"class":"form-control", "placeholder":"done by"}}) }}
+                {{ form_label(updater.doneBy) }}
+                {{ form_widget(updater.doneBy, {"attr":{"class":"form-control", "placeholder":"done by"}}) }}
                 <input type="submit" value="change" class="btn btn-xs btn-primary">
             {{ form_end(updater) }}
         </div>

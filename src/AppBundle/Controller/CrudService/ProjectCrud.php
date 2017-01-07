@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProjectCrud
 {
@@ -82,30 +83,36 @@ class ProjectCrud
     }
 
     /**
-     * @param array $data
+     * @param Project $project
      * @return FormInterface
      */
-    public function getUpdateForm(array $data = [])
+    public function getUpdateForm(Project $project)
     {
+        $data = new ProjectDTO($project->toArray());
         $form = $this->builder->createBuilder(FormType::class, $data)
             ->add('name', TextType::class, ['required' => true,])
-            ->add('done_by', DateType::class, ['required' => false, 'widget' => 'single_text'])
+            ->add('doneBy', DateType::class, ['required' => false, 'widget' => 'single_text'])
             ->getForm();
 
         return $form;
     }
-    
+
     /**
-     * @param int $id
-     * @param array $data
+     * @param Project $project
+     * @param Request $request
+     * @return FormInterface
      */
-    public function update($id, $data)
+    public function update(Project $project, Request $request)
     {
-        if (!$project = $this->findById($id)) {
-            throw new \InvalidArgumentException('project not found for id: '. (int) $id);
+        $form = $this->getUpdateForm($project);
+        $form->handleRequest($request);
+        if (!$form->isValid()) {
+            return $form;
         }
+        $data = $form->getData()->toArray();
         $project->fill($data);
         $this->em->flush();
+        return $form;
     }
 
     /**

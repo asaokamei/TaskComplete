@@ -47,7 +47,7 @@ class Project
      *
      * @ORM\Column(name="done_by", type="datetime", nullable=true)
      */
-    private $done_by;
+    private $doneBy;
 
     /**
      * Project Many Groups.
@@ -109,7 +109,7 @@ class Project
      */
     public function getDoneBy()
     {
-        return new DoneDate($this->done_by);
+        return new DoneDate($this->doneBy);
     }
 
     /**
