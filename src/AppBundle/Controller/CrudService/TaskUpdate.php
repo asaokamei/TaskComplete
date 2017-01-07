@@ -32,7 +32,8 @@ class TaskUpdate extends TaskCrud
      */
     public function getUpdateForm(array $data)
     {
-        $form = $this->builder->createBuilder(FormType::class, $data)
+        $task = new TaskDTO($data);
+        $form = $this->builder->createBuilder(FormType::class, $task)
             ->add('title', TextType::class, ['label' => 'Task name', 'required' => true])
             ->add('doneBy', DateType::class, ['widget' => 'single_text', 'required' => false, 'label' => 'done by'])
             ->add('details', TextareaType::class, ['required' => false, 'label' => 'details'])
@@ -53,7 +54,7 @@ class TaskUpdate extends TaskCrud
         if (!$form->isValid()) {
             return $form;
         }
-        $task->fill($form->getData());
+        $task->fill($form->getData()->toArray());
         $this->em->persist($task);
         $this->em->flush();
 

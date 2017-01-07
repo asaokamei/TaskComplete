@@ -79,7 +79,7 @@ class Task
     /**
      * @var array
      */
-    private $fillAble = ['title', 'done_by', 'details'];
+    private $fillAble = ['title', 'doneBy', 'details'];
 
     /**
      * Task constructor.

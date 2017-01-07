@@ -27,4 +27,13 @@ class TaskDTO
      */
     public $doneBy;
 
+    /**
+     * TaskDTO constructor.
+     *
+     * @param array $data
+     */
+    public function __construct(array $data = [])
+    {
+        $this->fill($data);
+    }
 }
