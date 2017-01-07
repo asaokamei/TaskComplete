@@ -82,6 +82,7 @@ class TaskEditController extends Controller
 
         $group   = $task->getGroup();
         $project = $group->getProject();
+        $this->addFlash('message', 'updated a task. ');
         return $this->redirectToRoute('project-detail', ['id' => $project->getId()]);
     }
 

@@ -43,6 +43,7 @@ class TaskCreateController extends Controller
             return $this->makeCreateView($project_id, $group_id, $form);
         }
 
+        $this->addFlash('message', 'created a new task. ');
         return $this->redirectToRoute('project-detail', ['id' => $project->getId()]);
     }
 

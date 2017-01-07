@@ -73,20 +73,17 @@
                 content:"*";
                 color:red;
             }
-            div.flash {
-                border: 2px solid #dadada;
-                background-color: #f4f4f4;
-                border-radius: .5rem;
-                padding:1rem;
-                font-weight:400;
+            div.alert {
+                border-radius: .5em;
                 margin-bottom:2rem;
+                color: #333333;
             }
-            div.flash-notice {
-                border: 2px solid #dda6a5;
+            div.alert-danger {
+                border: 1px solid #dda6a5;
                 background-color: #f9c7c7;
             }
-            div.flash-message {
-                border: 2px solid #b2ddbb;
+            div.alert-success {
+                border: 1px solid #b2ddbb;
                 background-color: #ebf9e7;
             }
             hr.line {
@@ -142,24 +139,17 @@
     <div class="container">
 
         {% for flash_message in app.session.flashBag.get('notice') %}
-            <div class="flash flash-notice">
-                {{ flash_message }}
+            <div class="alert alert-danger alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Notice! </strong>{{ flash_message }}
             </div>
         {% endfor %}
         {% for flash_message in app.session.flashBag.get('message') %}
-            <div class="flash flash-message">
+            <div class="alert alert-success alert-dismissable">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                 {{ flash_message }}
             </div>
         {% endfor %}
-        {% if (error is defined) %}
-            <div class="flash flash-notice">
-                {{ error }}
-            </div>
-        {% elseif (notice is defined) %}
-            <div class="flash flash-message">
-                {{ notice }}
-            </div>
-        {% endif %}
         
         {% block body %}{% endblock %}
     </div>
