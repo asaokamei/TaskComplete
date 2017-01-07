@@ -44,6 +44,7 @@ class ByDateGroupTasks implements IteratorAggregate
         if (!isset($this->groups[$group_id])) {
             throw new \InvalidArgumentException();
         }
+
         return $this->groups[$group_id];
     }
 
@@ -54,6 +55,7 @@ class ByDateGroupTasks implements IteratorAggregate
     public function getProject($group_id)
     {
         $group = $this->getGroup($group_id);
+
         return $group->getProject();
     }
 
@@ -62,11 +64,12 @@ class ByDateGroupTasks implements IteratorAggregate
      */
     public function getIterator()
     {
-        foreach($this->tasks as $group_id => $tasks) {
+        foreach ($this->tasks as $group_id => $tasks) {
             usort($tasks, function (Task $a, Task $b) {
                 if ($a->getStatus() === $b->getStatus()) {
                     return $a->getDate() <=> $b->getDate();
                 }
+
                 return $a->getStatus() <=> $b->getStatus();
             });
             yield $group_id => $tasks;

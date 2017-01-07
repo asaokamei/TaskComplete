@@ -29,7 +29,7 @@ class Group
 
     /**
      * @var string
-     * 
+     *
      * @ORM\Column(name="is_active", type="string", length=16)
      */
     private $isActive = GroupIsActive::ACTIVE;
@@ -50,8 +50,9 @@ class Group
 
     /**
      * A Group have one Project.
+     *
      * @var Project
-     * 
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Tasks\Project", inversedBy="groups")
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      */
@@ -59,15 +60,16 @@ class Group
 
     /**
      * Project Many Groups.
+     *
      * @var ArrayCollection|Task[]
-     * 
+     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tasks\Task", mappedBy="group")
      */
     private $tasks;
 
     /**
      * Group constructor.
-     * 
+     *
      * @param array $data
      */
     public function __construct(array $data = [])
@@ -147,6 +149,7 @@ class Group
     {
         return new DoneDate($this->doneBy);
     }
+
     /**
      * Set doneBy
      *

@@ -1,161 +1,193 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <!-- Material Design fonts -->
-        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
-        <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
-        
-        <!-- Bootstrap -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/material.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/ripples.js"></script>
+<head>
+    <meta charset="UTF-8"/>
+    <!-- Material Design fonts -->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
 
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material.css" rel="stylesheet">
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/ripples.css" rel="stylesheet">
-        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- Bootstrap -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/material.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/js/ripples.js"></script>
 
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/material.css"
+          rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.3.0/css/ripples.css"
+          rel="stylesheet">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-        <script>
-            $(function(){
-                $.material.init();
-            });
-        </script>
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
 
-        <!--suppress CssUnusedSymbol -->
-        <style>
-            body { padding-top: 70px; }
-            h1 { line-height: 1.2; margin: 0 0 .5em; }
-            h1 { font-size: 36px; font-weight: 400; }
-            #welcome, #status { margin-bottom: 2em; }
-            #welcome h1 span { display: block; font-size: 60%; font-weight:200; }
-            h3 span.doneBy {
-                margin-top: .1em;
-                font-size: .9em;
-                float: right;
-                font-weight:normal;
-            }
-            li.task-done {
-                color: #666;
-                text-decoration: line-through;
-            }
-            div.task-project {
-                padding: 0 .5rem .5rem .5rem;
-                margin-bottom: 1rem;
-            }
-            div.task-project h2 {
-                background-color: #cccccc;
-                padding: .4rem;
-                margin: 0 0 .5rem -.5rem;
-            }
-            div.task-group {
-                background-color: white;
-                border: 1px solid #e0e0e0;
-                border-radius: .2rem;
-                padding: .8rem .5rem .5rem .5rem;
-                margin-top: .5rem;
-            }
-            div.task-group h3 {
-                font-size:1.5rem;
-                font-weight:bold;
-                margin: .2rem .2rem .5rem .2rem;
-                background-color: #e0f4f4;
-                padding: .4em;
-                border-radius: .2em;
-            }
-            .required:after {
-                content:"*";
-                color:red;
-            }
-            div.alert {
-                border-radius: .5em;
-                margin-bottom:2rem;
-                color: #333333;
-            }
-            div.alert-danger {
-                border: 1px solid #dda6a5;
-                background-color: #f9c7c7;
-            }
-            div.alert-success {
-                border: 1px solid #b2ddbb;
-                background-color: #ebf9e7;
-            }
-            hr.line {
-                color: #333333;
-                width: 80%;
-                height: 3px;
-                border-bottom:1px solid #9bcd9f;
-            }
-        </style>
+    <script>
+        $(function () {
+            $.material.init();
+        });
+    </script>
 
-    </head>
-    <body>
-    <div class="navbar navbar-default navbar-fixed-top">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">Task Manager</a>
-        </div>
-        <div class="navbar-collapse collapse navbar-responsive-collapse">
-            <ul class="nav navbar-nav">
-                <li><a href="{{ path('by-target') }}">by targets</a></li>
-                <li><a href="{{ path('by-project') }}">by projects</a></li>
-                <li><a href="{{ path('by-date') }}">by date</a></li>
-            </ul>
-            <!-- 
-            <form class="navbar-form navbar-right">
-                <input type="text" class="form-control col-lg-8" placeholder="Search">
-                <input type="submit" class="btn btn-sm btn-info" value="?">
-            </form>
-            -->
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="/initialize" data-target="#" class="dropdown-toggle" data-toggle="dropdown">project list <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ path('project-create') }}">create a new project</a></li>
-                        <li role="presentation" class="divider"></li>
-                        {{ render(controller('AppBundle:Project:listActiveProjects')) }}
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a href="/initialize" data-target="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <span class="glyphicon glyphicon-cog" style="margin-right: 1.5em;"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li ><a href="{{ path('initialize') }}">initialize database</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+    <!--suppress CssUnusedSymbol -->
+    <style>
+        body {
+            padding-top: 70px;
+        }
+
+        h1 {
+            line-height: 1.2;
+            margin: 0 0 .5em;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 400;
+        }
+
+        #welcome, #status {
+            margin-bottom: 2em;
+        }
+
+        #welcome h1 span {
+            display: block;
+            font-size: 60%;
+            font-weight: 200;
+        }
+
+        h3 span.doneBy {
+            margin-top: .1em;
+            font-size: .9em;
+            float: right;
+            font-weight: normal;
+        }
+
+        li.task-done {
+            color: #666;
+            text-decoration: line-through;
+        }
+
+        div.task-project {
+            padding: 0 .5rem .5rem .5rem;
+            margin-bottom: 1rem;
+        }
+
+        div.task-project h2 {
+            background-color: #cccccc;
+            padding: .4rem;
+            margin: 0 0 .5rem -.5rem;
+        }
+
+        div.task-group {
+            background-color: white;
+            border: 1px solid #e0e0e0;
+            border-radius: .2rem;
+            padding: .8rem .5rem .5rem .5rem;
+            margin-top: .5rem;
+        }
+
+        div.task-group h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: .2rem .2rem .5rem .2rem;
+            background-color: #e0f4f4;
+            padding: .4em;
+            border-radius: .2em;
+        }
+
+        .required:after {
+            content: "*";
+            color: red;
+        }
+
+        div.alert {
+            border-radius: .5em;
+            margin-bottom: 2rem;
+            color: #333333;
+        }
+
+        div.alert-danger {
+            border: 1px solid #dda6a5;
+            background-color: #f9c7c7;
+        }
+
+        div.alert-success {
+            border: 1px solid #b2ddbb;
+            background-color: #ebf9e7;
+        }
+
+        hr.line {
+            color: #333333;
+            width: 80%;
+            height: 3px;
+            border-bottom: 1px solid #9bcd9f;
+        }
+    </style>
+
+</head>
+<body>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Task Manager</a>
     </div>
-    <div class="container">
-
-        {% for flash_message in app.session.flashBag.get('notice') %}
-            <div class="alert alert-danger alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                <strong>Notice! </strong>{{ flash_message }}
-            </div>
-        {% endfor %}
-        {% for flash_message in app.session.flashBag.get('message') %}
-            <div class="alert alert-success alert-dismissable">
-                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                {{ flash_message }}
-            </div>
-        {% endfor %}
-        
-        {% block body %}{% endblock %}
+    <div class="navbar-collapse collapse navbar-responsive-collapse">
+        <ul class="nav navbar-nav">
+            <li><a href="{{ path('by-target') }}">by targets</a></li>
+            <li><a href="{{ path('by-project') }}">by projects</a></li>
+            <li><a href="{{ path('by-date') }}">by date</a></li>
+        </ul>
+        <!-- 
+        <form class="navbar-form navbar-right">
+            <input type="text" class="form-control col-lg-8" placeholder="Search">
+            <input type="submit" class="btn btn-sm btn-info" value="?">
+        </form>
+        -->
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="/initialize" data-target="#" class="dropdown-toggle" data-toggle="dropdown">project list <span
+                            class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('project-create') }}">create a new project</a></li>
+                    <li role="presentation" class="divider"></li>
+                    {{ render(controller('AppBundle:Project:listActiveProjects')) }}
+                </ul>
+            </li>
+            <li class="dropdown">
+                <a href="/initialize" data-target="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-cog" style="margin-right: 1.5em;"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('initialize') }}">initialize database</a></li>
+                </ul>
+            </li>
+        </ul>
     </div>
-    {% block javascripts %}{% endblock %}
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    <p>&nbsp;</p>
-    </body>
+</div>
+<div class="container">
+
+    {% for flash_message in app.session.flashBag.get('notice') %}
+        <div class="alert alert-danger alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            <strong>Notice! </strong>{{ flash_message }}
+        </div>
+    {% endfor %}
+    {% for flash_message in app.session.flashBag.get('message') %}
+        <div class="alert alert-success alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ flash_message }}
+        </div>
+    {% endfor %}
+
+    {% block body %}{% endblock %}
+</div>
+{% block javascripts %}{% endblock %}
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
 </html>

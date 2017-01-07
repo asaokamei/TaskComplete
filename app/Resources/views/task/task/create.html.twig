@@ -7,10 +7,13 @@
 {% block body %}
 
     <div id="welcome">
-        <h1><span><a href="{{ path('project-detail', {'id': project.getId()}) }}">{{ project.name }}</a> / {{ group.name }} </span>create a new task</h1>
+        <h1>
+            <span><a href="{{ path('project-detail', {'id': project.getId()}) }}">{{ project.name }}</a> / {{ group.name }} </span>create
+            a new task</h1>
     </div>
 
-    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    <div class="col-sm-8">
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
 
         <div class="form-group">
             <label for="title" class="required">task title</label>
@@ -33,7 +36,9 @@
         <input type="submit" value="create" class="btn btn-primary">
         <a href="/" class="btn btn-default">return to top</a>
 
-    {{ form_end(form) }}
+        {{ form_end(form) }}
+
+    </div>
 
 {% endblock %}
 

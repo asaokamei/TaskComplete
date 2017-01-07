@@ -10,16 +10,18 @@ trait EntityTrait
     protected function _setVariable($key, $value)
     {
         if (!$this->isFillAble($key)) {
-            return ;
+            return;
         }
         $method = 'set' . $key;
         if (method_exists($this, $method)) {
             $this->$method($value);
+
             return;
         }
         $method = 'set' . str_replace('_', '', $key);
         if (method_exists($this, $method)) {
             $this->$method($value);
+
             return;
         }
         $this->$key = $value;
@@ -32,15 +34,15 @@ trait EntityTrait
      */
     protected function isFillAble($key)
     {
-        return $key ? true: true;
+        return $key ? true : true;
     }
 
     /**
      * @param array $data
-     */    
+     */
     public function fill(array $data)
     {
-        foreach($data as $key => $value) {
+        foreach ($data as $key => $value) {
             $this->_setVariable($key, $value);
         }
     }

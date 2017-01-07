@@ -29,6 +29,7 @@ class DoneDate
         if (!$this->date) {
             return '';
         }
+
         return $this->date->format($format);
     }
 
@@ -43,13 +44,14 @@ class DoneDate
             return '';
         }
         $format = 'm/d';
-        $diff = (int) $this->date->diff($today)->format('%R%a');
+        $diff   = (int)$this->date->diff($today)->format('%R%a');
         if ($diff > 31 || $diff < -300) {
             $format = 'Y/m';
         }
+
         return $this->date->format($format);
     }
-    
+
     public function __toString()
     {
         return $this->toString();

@@ -18,10 +18,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Project
 {
     use EntityTrait;
-    
+
     /**
      * @var integer
-     * 
+     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -36,7 +36,7 @@ class Project
 
     /**
      * @var string
-     * 
+     *
      * @Assert\NotBlank()
      * @ORM\Column(name="project_name", type="string")
      */
@@ -51,8 +51,9 @@ class Project
 
     /**
      * Project Many Groups.
+     *
      * @var ArrayCollection|Group[]
-     * 
+     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Tasks\Group", mappedBy="project")
      */
     private $groups;

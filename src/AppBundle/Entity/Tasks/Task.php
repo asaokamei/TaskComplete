@@ -63,7 +63,7 @@ class Task
 
     /**
      * @var \DateTime
-     * 
+     *
      * @ORM\Column(name="created_at", type="datetime")
      */
     private $createdAt;
@@ -72,6 +72,7 @@ class Task
      * A Group have one Project.
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Tasks\Group", inversedBy="tasks")
      * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
+     *
      * @var Group
      */
     private $group;
@@ -137,16 +138,18 @@ class Task
     {
         $this->setDoneAt($doneAt);
         $this->status = TaskStatus::DONE;
+
         return $this;
     }
 
     /**
      * @return $this
-     */    
+     */
     public function activate()
     {
         $this->doneAt = null;
         $this->status = TaskStatus::ACTIVE;
+
         return $this;
     }
 
@@ -159,7 +162,7 @@ class Task
     {
         return $this->title;
     }
-    
+
     /**
      * Get details
      *

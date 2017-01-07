@@ -36,12 +36,14 @@ class GroupController extends Controller
         }
         /** @var GroupCrud $gCrud */
         $gCrud = $this->get('app.group-crud');
-        $form = $gCrud->create($project, $request);
+        $form  = $gCrud->create($project, $request);
         if (!$form->isValid()) {
             $this->addFlash('notice', 'Please check input to add a new group.');
+
             return $this->redirectToRoute("project-detail", ['id' => $project_id]);
         }
         $this->addFlash('message', 'created a new group. ');
+
         return $this->redirectToRoute("project-detail", ['id' => $project_id]);
     }
 

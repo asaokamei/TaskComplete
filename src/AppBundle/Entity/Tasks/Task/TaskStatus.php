@@ -6,13 +6,13 @@ use AppBundle\Entity\EnumTrait;
 class TaskStatus
 {
     use EnumTrait;
-    
+
     const ACTIVE = 'active';
     const DONE = 'done';
-    
+
     protected $choices = [
         self::ACTIVE => 'active',
-        self::DONE => 'done',
+        self::DONE   => 'done',
     ];
 
     /**

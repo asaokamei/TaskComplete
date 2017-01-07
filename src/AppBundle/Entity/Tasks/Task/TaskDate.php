@@ -41,9 +41,10 @@ class TaskDate
      */
     public function format()
     {
-        $date = $this->status->is(TaskStatus::DONE) 
+        $date = $this->status->is(TaskStatus::DONE)
             ? $this->doneAt
             : $this->doneBy;
+
         return new DoneDate($date);
     }
 
@@ -52,6 +53,6 @@ class TaskDate
      */
     public function __toString()
     {
-        return (string) $this->format();
+        return (string)$this->format();
     }
 }

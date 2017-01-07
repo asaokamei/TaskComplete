@@ -33,7 +33,7 @@ class TaskCrud
      */
     public function __construct(EntityManager $em, $builder)
     {
-        $this->em = $em;
+        $this->em      = $em;
         $this->builder = $builder;
     }
 
@@ -44,7 +44,7 @@ class TaskCrud
     public function findById($id)
     {
         $taskRepo = $this->em->getRepository(Task::class);
-        $task  = $taskRepo->findOneBy(['id' => $id]);
+        $task     = $taskRepo->findOneBy(['id' => $id]);
 
         return $task;
     }

@@ -26,16 +26,16 @@ class ByProjectView
      */
     public function __construct(EntityManager $em, DateTime $now = null)
     {
-        $this->em = $em;
+        $this->em  = $em;
         $this->now = $now ?: new DateTime('now');
     }
 
     /**
      * @return Project[]
-     */    
+     */
     public function getProjects()
     {
-        $dq = $this->em->createQueryBuilder();
+        $dq       = $this->em->createQueryBuilder();
         $projects = $dq->select('p', 'g', 't')
             ->from(Project::class, 'p')
             ->leftjoin('p.groups', 'g')
@@ -48,7 +48,7 @@ class ByProjectView
             ->addOrderBy('t.doneBy')
             ->setParameters([
                 'active' => TaskStatus::ACTIVE,
-                'done' => TaskStatus::DONE,
+                'done'   => TaskStatus::DONE,
                 'last24' => (clone $this->now)->sub(new \DateInterval('P1D'))->format('Y-m-d H:i:s'),
             ])
             ->getQuery()
@@ -57,7 +57,10 @@ class ByProjectView
         usort($projects, function (Project $p1, Project $p2) {
             $d1 = $p1->getDoneBy()->format('Y-m-d H:i:s') ?: '2999-12-31 00:00:00';
             $d2 = $p2->getDoneBy()->format('Y-m-d H:i:s') ?: '2999-12-31 00:00:00';
-            if ($d1 == $d2) return 0;
+            if ($d1 == $d2) {
+                return 0;
+            }
+
             return $d1 > $d2 ? 1 : -1;
         });
 

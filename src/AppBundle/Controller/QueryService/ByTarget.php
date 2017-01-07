@@ -26,7 +26,7 @@ class ByTarget
      */
     public function __construct(EntityManager $em, DateTime $now = null)
     {
-        $this->em = $em;
+        $this->em  = $em;
         $this->now = $now ?: new DateTime('now');
     }
 
@@ -36,6 +36,7 @@ class ByTarget
     public function getGroups()
     {
         $dq = $this->em->createQueryBuilder();
+
         return $dq->select('g', 't', 'p')
             ->from(Group::class, 'g')
             ->join('g.tasks', 't')
@@ -50,7 +51,7 @@ class ByTarget
             ->addOrderBy('t.id')
             ->setParameters([
                 'active' => TaskStatus::ACTIVE,
-                'done' => TaskStatus::DONE,
+                'done'   => TaskStatus::DONE,
                 'last24' => (clone $this->now)->sub(new \DateInterval('P1D'))->format('Y-m-d H:i:s'),
             ])
             ->getQuery()

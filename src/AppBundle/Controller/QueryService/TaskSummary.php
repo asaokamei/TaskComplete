@@ -44,7 +44,7 @@ class TaskSummary
         $countWeek  = $this->countDoneLastHours((clone $this->now)->sub(new \DateInterval('P7D')));
         $projects   = $this->countProjects();
         foreach ($projects as $row => $project) {
-            $id = $project['id'];
+            $id                            = $project['id'];
             $projects[$row]['done_by']     = $project['done_by'] ? new DoneDate(new DateTime($project['done_by'])) : '';
             $projects[$row]['count_tasks'] = $countTasks[$id] ?? 0;
             $projects[$row]['count_done']  = $countDone[$id] ?? 0;
@@ -52,8 +52,8 @@ class TaskSummary
             $projects[$row]['count_48hr']  = $count48Hr[$id] ?? 0;
             $projects[$row]['count_week']  = $countWeek[$id] ?? 0;
             $projects[$row]['remaining']   = $projects[$row]['count_tasks'] - $projects[$row]['count_done'];
-            $projects[$row]['completion']  = $projects[$row]['count_tasks'] 
-                ? $projects[$row]['count_done'] / $projects[$row]['count_tasks'] * 100 
+            $projects[$row]['completion']  = $projects[$row]['count_tasks']
+                ? $projects[$row]['count_done'] / $projects[$row]['count_tasks'] * 100
                 : null;
         }
 
@@ -138,11 +138,14 @@ class TaskSummary
             ORDER BY p.done_by ASC
         ");
         $projects = $this->createSummaryById($query);
-        
-        usort($projects, function ($p1,  $p2) {
+
+        usort($projects, function ($p1, $p2) {
             $d1 = $p1['done_by'] ?? '2999-12-31 00:00:00';
             $d2 = $p2['done_by'] ?? '2999-12-31 00:00:00';
-            if ($d1 == $d2) return 0;
+            if ($d1 == $d2) {
+                return 0;
+            }
+
             return $d1 > $d2 ? 1 : -1;
         });
 
@@ -160,7 +163,7 @@ class TaskSummary
     }
 
     /**
-     * @param Statement $query
+     * @param Statement   $query
      * @param string|null $column
      * @return array
      */

@@ -32,7 +32,7 @@
 
         <div class="col-md-3 col-sm-6 task-project">
             <h2>
-                {{ project.name }} 
+                {{ project.name }}
                 <a href="{{ path('project-detail', {'id':project.getId()}) }}">{% include 'task/includes/project-details.html.twig' %}</a>
                 <span class="doneBy">{{ project.doneBy }}</span>
             </h2>
@@ -43,7 +43,8 @@
                         {% for task in group.tasks %}
                             <li class="list-group-item task-{{ task.getStatus() }}" style="">
                                 {% include 'task/includes/task-toggle.html.twig' %}
-                                {{ task.getDate() }} <a href="{{ path('task-edit', {'id':task.getId()}) }}">{{ task.title }}</a>
+                                {{ task.getDate() }} <a
+                                        href="{{ path('task-edit', {'id':task.getId()}) }}">{{ task.title }}</a>
                             </li>
                         {% endfor %}
                     </ul>

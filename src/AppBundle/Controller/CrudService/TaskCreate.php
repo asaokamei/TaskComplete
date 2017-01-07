@@ -62,7 +62,7 @@ class TaskCreate extends TaskCrud
 
         $this->em->persist($task);
         $this->em->flush();
-        
+
         return $form;
     }
 }

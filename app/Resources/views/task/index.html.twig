@@ -30,18 +30,19 @@
             </thead>
             <tbody>
             {% for project in summary %}
-            <tr>
-                <th>{{ project.project_name }} 
-                    <a href="{{ path('project-detail', {'id':project.id}) }}">{% include 'task/includes/project-details.html.twig' %}</a></th>
-                <td>{{ project.done_by }}</td>
-                <td>{{ project.count_tasks }}</td>
-                <td>{{ project.count_24hr }}</td>
-                <td>{{ project.count_48hr }}</td>
-                <td>{{ project.count_week }}</td>
-                <td>{{ project.count_done }}</td>
-                <td>{{ project.remaining }}</td>
-                <td>{% if (project.completion is null) %}--{% else %}{{ project.completion | number_format(1) }}&nbsp;%{% endif %}</td>
-            </tr>
+                <tr>
+                    <th>{{ project.project_name }}
+                        <a href="{{ path('project-detail', {'id':project.id}) }}">{% include 'task/includes/project-details.html.twig' %}</a>
+                    </th>
+                    <td>{{ project.done_by }}</td>
+                    <td>{{ project.count_tasks }}</td>
+                    <td>{{ project.count_24hr }}</td>
+                    <td>{{ project.count_48hr }}</td>
+                    <td>{{ project.count_week }}</td>
+                    <td>{{ project.count_done }}</td>
+                    <td>{{ project.remaining }}</td>
+                    <td>{% if (project.completion is null) %}--{% else %}{{ project.completion | number_format(1) }}&nbsp;%{% endif %}</td>
+                </tr>
             {% endfor %}
             </tbody>
         </table>

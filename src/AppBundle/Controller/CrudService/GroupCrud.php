@@ -31,7 +31,7 @@ class GroupCrud
      */
     public function __construct(EntityManager $em, $builder)
     {
-        $this->em = $em;
+        $this->em      = $em;
         $this->builder = $builder;
     }
 
@@ -53,11 +53,12 @@ class GroupCrud
     public function getCreateForm()
     {
         $group = new GroupDTO();
-        $form = $this->builder
+        $form  = $this->builder
             ->createBuilder(FormType::class, $group)
             ->add('name', TextType::class, ['required' => true, 'label' => 'Group name'])
             ->add('doneBy', DateType::class, ['required' => true, 'label' => 'Done by', 'widget' => 'single_text'])
             ->getForm();
+
         return $form;
     }
 
@@ -78,17 +79,17 @@ class GroupCrud
         $group->setProject($project);
         $this->em->persist($group);
         $this->em->flush();
-        
+
         return $form;
     }
-    
+
     /**
      * @param Project $project
-     * @param array $data
+     * @param array   $data
      */
     public function createX($project, array $data)
     {
-        $group   = new Group($data);
+        $group = new Group($data);
         $group->setProject($project);
         $em = $this->em;
         $em->persist($group);

@@ -32,7 +32,7 @@ class ProjectCrud
      */
     public function __construct(EntityManager $em, $builder)
     {
-        $this->em = $em;
+        $this->em      = $em;
         $this->builder = $builder;
     }
 
@@ -43,8 +43,8 @@ class ProjectCrud
     public function findById($id)
     {
         $projectRepo = $this->em->getRepository(Project::class);
-        $project = $projectRepo->findOneBy(['id' => $id]);
-        
+        $project     = $projectRepo->findOneBy(['id' => $id]);
+
         return $project;
     }
 
@@ -54,7 +54,7 @@ class ProjectCrud
     public function getCreateForm()
     {
         $project = new ProjectDTO();
-        foreach(range(0, 2) as $i) {
+        foreach (range(0, 2) as $i) {
             $project->groups[$i] = new GroupDTO();
         }
         $form = $this->builder->createBuilder(FormType::class, $project)
@@ -82,18 +82,20 @@ class ProjectCrud
         }
         /** @var ProjectDTO $projectDto */
         $projectDto = $form->getData();
-        $em = $this->em;
+        $em         = $this->em;
 
         $project = new Project($projectDto->toArray());
         $em->persist($project);
-        foreach($projectDto->groups as $groupDTO) {
-            if (!$groupDTO->name || $groupDTO->doneBy) {continue; }
+        foreach ($projectDto->groups as $groupDTO) {
+            if (!$groupDTO->name || $groupDTO->doneBy) {
+                continue;
+            }
             $group = new Group($groupDTO->toArray());
             $group->setProject($project);
             $em->persist($group);
         }
         $em->flush();
-        
+
         $projectDto->id = $project->getId();
 
         return $form;
@@ -129,6 +131,7 @@ class ProjectCrud
         $data = $form->getData()->toArray();
         $project->fill($data);
         $this->em->flush();
+
         return $form;
     }
 

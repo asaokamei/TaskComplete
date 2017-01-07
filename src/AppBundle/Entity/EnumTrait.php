@@ -21,9 +21,9 @@ trait EnumTrait
     public function __construct($value)
     {
         if (!$this->isDefined($value)) {
-            throw new \InvalidArgumentException(__CLASS__ . ' has no such value: '.$value);
+            throw new \InvalidArgumentException(__CLASS__ . ' has no such value: ' . $value);
         }
-        $this->value = (string) $value;
+        $this->value = (string)$value;
     }
 
     /**
@@ -32,7 +32,7 @@ trait EnumTrait
      */
     public function is($value)
     {
-        return $this->value === (string) $value;
+        return $this->value === (string)$value;
     }
 
     /**

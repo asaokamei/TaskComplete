@@ -19,6 +19,7 @@ class TaskCreateController extends Controller
     public function createAction(int $project_id, int $group_id): Response
     {
         $form = $this->get('app.task-create')->getCreateForm();
+
         return $this->makeCreateView($project_id, $group_id, $form);
     }
 
@@ -40,16 +41,18 @@ class TaskCreateController extends Controller
         $form = $crud->create($project, $group, $request);
         if (!$form->isValid()) {
             $this->addFlash('notice', 'please check inputs. ');
+
             return $this->makeCreateView($project_id, $group_id, $form);
         }
 
         $this->addFlash('message', 'created a new task. ');
+
         return $this->redirectToRoute('project-detail', ['id' => $project->getId()]);
     }
 
     /**
-     * @param int  $project_id
-     * @param int  $group_id
+     * @param int                $project_id
+     * @param int                $group_id
      * @param FormInterface|null $form
      * @return Response
      */

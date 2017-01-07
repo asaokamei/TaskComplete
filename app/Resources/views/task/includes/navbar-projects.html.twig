@@ -1,3 +1,4 @@
 {% for project in projects %}
-<li><a href="{{ path('project-detail', {'id': project.getId()}) }}"><strong>{{ project.getName() }}</strong> ({{ project.getDoneBy() }})</a></li>
+    <li><a href="{{ path('project-detail', {'id': project.getId()}) }}"><strong>{{ project.getName() }}</strong>
+            ({{ project.getDoneBy() }})</a></li>
 {% endfor %}

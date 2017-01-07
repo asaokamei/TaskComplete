@@ -11,7 +11,7 @@ class ProjectGroupType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', TextType::class, ['required' => false, ]);
+        $builder->add('name', TextType::class, ['required' => false,]);
         $builder->add('doneBy', DateType::class, ['required' => false, 'widget' => 'single_text']);
     }
 

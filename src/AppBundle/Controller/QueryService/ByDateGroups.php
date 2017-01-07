@@ -16,8 +16,8 @@ class ByDateGroups implements IteratorAggregate
      * @var DateTime[]
      */
     private $list = [
-        'today' => 'P1D',
-        'tomorrow' => 'P2D',
+        'today'     => 'P1D',
+        'tomorrow'  => 'P2D',
         'this week' => 'P7D'
     ];
 
@@ -38,11 +38,11 @@ class ByDateGroups implements IteratorAggregate
      */
     public function __construct(DateTime $now = null)
     {
-        $this->now = $now ?: new DateTime('now');
+        $this->now                  = $now ?: new DateTime('now');
         $this->tasks[self::NO_DATE] = [];
         $this->tasks[self::OVERDUE] = [];
-        foreach($this->list as $type => $interval) {
-            $this->list[$type] = (clone $this->now)->add(new \DateInterval($interval));
+        foreach ($this->list as $type => $interval) {
+            $this->list[$type]  = (clone $this->now)->add(new \DateInterval($interval));
             $this->tasks[$type] = [];
         }
         $this->tasks[self::LATER] = [];
@@ -53,7 +53,7 @@ class ByDateGroups implements IteratorAggregate
      */
     public function add(Task $task)
     {
-        $type = $this->getType($task);
+        $type                 = $this->getType($task);
         $this->tasks[$type][] = $task;
     }
 
@@ -70,20 +70,21 @@ class ByDateGroups implements IteratorAggregate
         if ($doneBy < $this->now) {
             return self::OVERDUE;
         }
-        foreach($this->list as $type => $date) {
+        foreach ($this->list as $type => $date) {
             if ($doneBy <= $date) {
                 return $type;
             }
         }
+
         return self::LATER;
     }
 
     /**
      * @return Generator
-     */    
+     */
     public function getIterator()
     {
-        foreach($this->tasks as $type => $tasks) {
+        foreach ($this->tasks as $type => $tasks) {
             yield $type => new ByDateGroupTasks($tasks);
         }
     }

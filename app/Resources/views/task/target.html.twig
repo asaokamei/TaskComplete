@@ -18,26 +18,27 @@
 
     {% for group in groups %}
         {% set project = group.getProject() %}
-    <div class="col-md-3 col-sm-6 task-group">
+        <div class="col-md-3 col-sm-6 task-group">
 
-        <h3>
-            <span class="doneBy">{{ group.getDoneBy() }}</span>
-            {{ group.name }} @
-            {{ project.name }}
-            <a href="{{ path('project-detail', {'id':project.getId()}) }}">{% include 'task/includes/project-details.html.twig' %}</a>
-        </h3>
+            <h3>
+                <span class="doneBy">{{ group.getDoneBy() }}</span>
+                {{ group.name }} @
+                {{ project.name }}
+                <a href="{{ path('project-detail', {'id':project.getId()}) }}">{% include 'task/includes/project-details.html.twig' %}</a>
+            </h3>
 
-        <ul class="list-group">
-            {% for task in group.getTasks() %}
-                <li class="list-group-item task-{{ task.getStatus() }}">
-                    {% include 'task/includes/task-toggle.html.twig' %}
-                    {{ task.getDate() }} <a href="{{ path('task-edit', {'id':task.getId()}) }}">{{ task.title }}</a></li>
-            {% endfor %}
-        </ul>
+            <ul class="list-group">
+                {% for task in group.getTasks() %}
+                    <li class="list-group-item task-{{ task.getStatus() }}">
+                        {% include 'task/includes/task-toggle.html.twig' %}
+                        {{ task.getDate() }} <a href="{{ path('task-edit', {'id':task.getId()}) }}">{{ task.title }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
 
-    </div>
+        </div>
     {% endfor %}
-    
+
 {% endblock %}
 
 {% block stylesheets %}

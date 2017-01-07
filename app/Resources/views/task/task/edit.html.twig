@@ -11,14 +11,16 @@
     {% set project = group.project %}
 
     <div id="welcome">
-        <h1><span><a href="{{ path('project-detail', {'id': project.getId()}) }}">{{ project.name }}</a> / {{ group.name }} </span>edit a task</h1>
+        <h1>
+            <span><a href="{{ path('project-detail', {'id': project.getId()}) }}">{{ project.name }}</a> / {{ group.name }} </span>edit
+            a task</h1>
     </div>
 
     <!--
       -- left column, main contents.
       -->
     <div class="col-sm-8">
-        
+
         <h2>Edit Task Information</h2>
 
         {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
@@ -43,7 +45,7 @@
 
         <div class="form-group">
             <label for="details" class="">details</label>
-            {{ form_widget(form.details, {"attr": {"class":"form-control", "placeholder":"details of the task here..."}}) }}
+            {{ form_widget(form.details, {"attr": {"class":"form-control", "style":"height:5em;", "placeholder":"details of the task here..."}}) }}
             {{ form_errors(form.details) }}
         </div>
 
@@ -69,7 +71,7 @@
       -->
     <div class="col-sm-4">
         <h2>Manage Task</h2>
-        
+
         {% if task.isActive() %}
             <h3>done</h3>
             to set this task, 'done':<br>
@@ -78,9 +80,9 @@
             to activate this task:<br>
         {% endif %}
         {% include 'task/includes/task-toggle.html.twig' %}
-        
+
         <h3>delete</h3>
-        
+
         <form method="post">
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('token_id') }}">
             <input type="hidden" name="_method" value="DELETE">

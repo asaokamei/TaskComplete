@@ -14,45 +14,46 @@
 
         {{ form_start(form) }}
 
-            <div class="form-group">
-                {{ form_label(form.name) }}
-                {{ form_widget(form.name, {"attr": {"class":"form-control", "placeholder":"project name..."}}) }}
-                {{ form_errors(form.name) }}
-            </div>
+        <div class="form-group">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name, {"attr": {"class":"form-control", "placeholder":"project name..."}}) }}
+            {{ form_errors(form.name) }}
+        </div>
 
-            <div class="form-group">
-                {{ form_label(form.doneBy) }}
-                {{ form_widget(form.doneBy, {"attr": {"class":"form-control", "placeholder":"project name..."}}) }}
-                {{ form_errors(form.doneBy) }}
-            </div>
-        
-            <label>Add Groups</label>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th><label for="">#</label></th>
-                    <th><label for="" class="required">Group Name</label></th>
-                    <th><label for="" class="required">Done by</label></th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for idx, group in form.groups %}
-                    <tr>
-                        <td>{{ idx + 1 }}</td>
-                        <td>{{ form_widget(group.name, {"attr":{"placeholder":"group name"}}) }}</td>
-                        <td>{{ form_widget(group.doneBy, {"attr":{"placeholder":"done by"}}) }}</td>
-                    </tr>
-                {% endfor %}
-                <tr>
-                    <td colspan="3"><span class="text-info">※add task groups for the project (input name and doneBy)</span></td>
-                </tr>
-                </tbody>
-            </table>
-        
+        <div class="form-group">
+            {{ form_label(form.doneBy) }}
+            {{ form_widget(form.doneBy, {"attr": {"class":"form-control", "placeholder":"project name..."}}) }}
+            {{ form_errors(form.doneBy) }}
+        </div>
 
-            <input type="submit" value="create" class="btn btn-primary">
-            <a href="/" class="btn btn-default">return to top</a>
-        
+        <label>Add Groups</label>
+        <table class="table">
+            <thead>
+            <tr>
+                <th><label for="">#</label></th>
+                <th><label for="" class="required">Group Name</label></th>
+                <th><label for="" class="required">Done by</label></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for idx, group in form.groups %}
+                <tr>
+                    <td>{{ idx + 1 }}</td>
+                    <td>{{ form_widget(group.name, {"attr":{"placeholder":"group name"}}) }}</td>
+                    <td>{{ form_widget(group.doneBy, {"attr":{"placeholder":"done by"}}) }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="3"><span class="text-info">※add task groups for the project (input name and doneBy)</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+
+        <input type="submit" value="create" class="btn btn-primary">
+        <a href="/" class="btn btn-default">return to top</a>
+
         {{ form_end(form) }}
 
     </div>

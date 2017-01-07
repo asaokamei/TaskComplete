@@ -26,7 +26,7 @@ class ByDateView
      */
     public function __construct(EntityManager $em, DateTime $now = null)
     {
-        $this->em = $em;
+        $this->em  = $em;
         $this->now = $now ?: new DateTime('now');
     }
 
@@ -37,18 +37,20 @@ class ByDateView
     {
         $tasks = $this->loadTasks();
         $types = new ByDateGroups();
-        foreach($tasks as $task) {
+        foreach ($tasks as $task) {
             $types->add($task);
         }
+
         return $types;
     }
-    
+
     /**
      * @return Task[]
-     */    
+     */
     private function loadTasks()
     {
         $dq = $this->em->createQueryBuilder();
+
         return $dq->select('Task', 'g', 'p')
             ->from(Task::class, 'Task')
             ->join('Task.group', 'g')
@@ -58,11 +60,11 @@ class ByDateView
                 OR Task.status IS NULL 
                 OR (Task.status = :done AND Task.doneAt >= :last24)
                 ")
-/*            ->orderBy('Project.id')
-            ->orderBy('Group.id') */
+            /*            ->orderBy('Project.id')
+                        ->orderBy('Group.id') */
             ->setParameters([
                 'active' => TaskStatus::ACTIVE,
-                'done' => TaskStatus::DONE,
+                'done'   => TaskStatus::DONE,
                 'last24' => (clone $this->now)->sub(new \DateInterval('P1D'))->format('Y-m-d H:i:s'),
             ])
             ->getQuery()

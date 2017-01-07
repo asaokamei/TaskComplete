@@ -34,6 +34,7 @@ class TaskController extends Controller
         /** @var TaskCrud $crud */
         $crud = $this->get('app.task-crud');
         $crud->done($id);
+
         return Response::create('', 200);
     }
 
@@ -51,6 +52,7 @@ class TaskController extends Controller
         /** @var TaskCrud $crud */
         $crud = $this->get('app.task-crud');
         $crud->activate($id);
+
         return Response::create('', 200);
     }
 }

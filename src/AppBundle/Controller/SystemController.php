@@ -81,50 +81,51 @@ class SystemController extends Controller
         if ($by) {
             $now->add(new \DateInterval($by));
         }
+
         return $now;
     }
-        
-        
+
+
     /**
      * @param ObjectManager $em
      */
     private function populateDb($em)
     {
         $now = new DateTime('now');
-        
+
         // create 2 projects: work and life. 
         $work = new Project([
-            'name' => 'work', 
+            'name'    => 'work',
             'done_by' => $this->now('P7D'),
         ]);
         $em->persist($work);
 
         $life = new Project([
-            'name' => 'life',
+            'name'    => 'life',
             'done_by' => $this->now('P14D'),
         ]);
         $em->persist($life);
-        
+
         // create basic groups for work and life.
         $group1 = new Group([
-            'name' => 'tasks',
+            'name'      => 'tasks',
             'is_active' => Group\GroupIsActive::ACTIVE,
-            'done_by' => $this->now('P3D'),
+            'done_by'   => $this->now('P3D'),
         ]);
         $group1->setProject($work);
         $em->persist($group1);
 
         $group2 = new Group([
-            'name' => 'plans', 
+            'name'      => 'plans',
             'is_active' => Group\GroupIsActive::ACTIVE,
-            'done_by' => $this->now('P4D'),
+            'done_by'   => $this->now('P4D'),
         ]);
         $group2->setProject($life);
         $em->persist($group2);
-        
+
         // add tasks for work/tasks
         $task1 = new Task([
-            'title' => 'brain storm', 
+            'title'   => 'brain storm',
             'done_by' => $this->now('P1D'),
         ]);
         $task1->done();
@@ -132,19 +133,19 @@ class SystemController extends Controller
         $em->persist($task1);
 
         $task1 = new Task([
-            'title' => 'write proposal', 
+            'title'   => 'write proposal',
             'done_by' => $this->now('P1D'),
         ]);
         $task1->setGroup($group1);
         $em->persist($task1);
 
         $task2 = new Task([
-            'title' => 'develop product', 
+            'title'   => 'develop product',
             'done_by' => $this->now('P2D'),
         ]);
         $task2->setGroup($group1);
         $em->persist($task2);
-        
+
         // add tasks for life/plans
         $task3 = new Task(['title' => 'go camping']);
         $task3->setGroup($group2);
@@ -156,5 +157,5 @@ class SystemController extends Controller
 
         // save to database. 
         $em->flush();
-    }    
+    }
 }
