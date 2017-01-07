@@ -82,7 +82,8 @@
             <h3>add a new group</h3>
             {{ form_start(newGroup, {
                 'action': path('group-create', {'project_id': project.getId()}), 
-                'method': 'POST'
+                'method': 'POST',
+                'attr': {'novalidate': 'novalidate'}
                 }) }}
             {{ form_label(newGroup.name) }}
             {{ form_widget(newGroup.name, {"attr":{"class":"form-control", "placeholder":"new group name"}}) }}
