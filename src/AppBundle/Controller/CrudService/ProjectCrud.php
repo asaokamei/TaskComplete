@@ -4,6 +4,7 @@ namespace AppBundle\Controller\CrudService;
 use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -52,34 +53,50 @@ class ProjectCrud
      */
     public function getCreateForm()
     {
-        $form = $this->builder->createBuilder(FormType::class)
-            ->add('name', TextType::class, ['required' => true, 'label' => 'Project name'])
-            ->add('done_by', DateType::class, ['widget' => 'single_text', 'required' => false])
-            ->add('group_name', TextType::class, ['required' => true])
+        $project = new ProjectDTO();
+        foreach(range(0, 2) as $i) {
+            $project->groups[$i] = new GroupDTO();
+        }
+        $form = $this->builder->createBuilder(FormType::class, $project)
+            ->add('name', TextType::class, ['label' => 'Project name'])
+            ->add('doneBy', DateType::class, ['widget' => 'single_text', 'required' => false])
+            ->add('name', TextType::class, ['required' => true])
+            ->add('groups', CollectionType::class, [
+                'entry_type' => ProjectGroupType::class,
+            ])
             ->getForm();
 
         return $form;
     }
 
     /**
-     * @param array $data
-     * @return int
+     * @param Request $request
+     * @return FormInterface
      */
-    public function create(array $data)
+    public function create(Request $request)
     {
-        $group_data = ['name' => $data['group_name']];
-        unset($data['group_name']);
-
-        $project = new Project($data);
-        $group   = new Group($group_data);
-        $group->setProject($project);
-
+        $form = $this->getCreateForm();
+        $form->handleRequest($request);
+        if (!$form->isValid()) {
+            return $form;
+        }
+        /** @var ProjectDTO $projectDto */
+        $projectDto = $form->getData();
         $em = $this->em;
-        $em->persist($project);
-        $em->persist($group);
-        $em->flush();
 
-        return $project->getId();
+        $project = new Project($projectDto->toArray());
+        $em->persist($project);
+        foreach($projectDto->groups as $groupDTO) {
+            if (!$groupDTO->name || $groupDTO->doneBy) {continue; }
+            $group = new Group($groupDTO->toArray());
+            $group->setProject($project);
+            $em->persist($group);
+        }
+        $em->flush();
+        
+        $projectDto->id = $project->getId();
+
+        return $form;
     }
 
     /**

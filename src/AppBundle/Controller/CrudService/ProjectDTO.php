@@ -9,6 +9,11 @@ class ProjectDTO
     use EntityTrait;
 
     /**
+     * @var int
+     */
+    public $id;
+
+    /**
      * @var string
      *
      * @Assert\NotBlank()
@@ -20,6 +25,11 @@ class ProjectDTO
      * @Assert\Type("\DateTime")
      */
     public $doneBy;
+
+    /**
+     * @var GroupDTO[]
+     */
+    public $groups;
 
     /**
      * TaskDTO constructor.

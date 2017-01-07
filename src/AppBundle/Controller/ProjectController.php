@@ -33,17 +33,16 @@ class ProjectController extends Controller
     public function insertAction(Request $request)
     {
         $crud = $this->get('app.project-crud');
-        $form = $crud->getCreateForm();
-        $form->handleRequest($request);
+        $form = $crud->create($request);
         if (!$form->isValid()) {
+            $this->addFlash('notice', 'please check the input values!');
             return $this->render('task/project/create.html.twig', [
                 'form' => $form->createView(),
-                'notice' => 'please check the input values!',
             ]);
         }
-        $id = $crud->create($form->getData());
+
         $this->addFlash('message', 'created a new project!');
-        return $this->redirectToRoute('project-detail', ['id' => $id]);
+        return $this->redirectToRoute('project-detail', ['id' => $form->getData()->id]);
     }
 
     /**
