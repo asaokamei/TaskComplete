@@ -3,7 +3,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Test\FormInterface;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,9 +16,10 @@ class TaskCreateController extends Controller
      * @param int $group_id
      * @return Response
      */
-    public function createAction($project_id, $group_id)
+    public function createAction(int $project_id, int $group_id): Response
     {
-        return $this->makeCreateView($project_id, $group_id);
+        $form = $this->get('app.task-create')->getCreateForm();
+        return $this->makeCreateView($project_id, $group_id, $form);
     }
 
     /**
@@ -29,19 +30,18 @@ class TaskCreateController extends Controller
      * @param int     $project_id
      * @return Response
      */
-    public function insertAction(Request $request, $project_id, $group_id)
+    public function insertAction(Request $request, int $project_id, int $group_id): Response
     {
         $project = $this->get('app.project-crud')->findById($project_id);
         $group   = $this->get('app.group-crud')->findById($group_id);
         $crud    = $this->get('app.task-create');
 
         /** @var FormInterface $form */
-        $form = $crud->getCreateForm();
-        $form = $form->handleRequest($request);
+        $form = $crud->create($project, $group, $request);
         if (!$form->isValid()) {
+            $this->addFlash('notice', 'please check inputs. ');
             return $this->makeCreateView($project_id, $group_id, $form);
         }
-        $crud->create($project, $group, $form->getData());
 
         return $this->redirectToRoute('project-detail', ['id' => $project->getId()]);
     }
@@ -52,12 +52,10 @@ class TaskCreateController extends Controller
      * @param FormInterface|null $form
      * @return Response
      */
-    private function makeCreateView($project_id, $group_id, $form = null): Response
+    private function makeCreateView(int $project_id, int $group_id, FormInterface $form): Response
     {
         $project = $this->get('app.project-crud')->findById($project_id);
         $group   = $this->get('app.group-crud')->findById($group_id);
-
-        $form = $form ?: $this->get('app.task-create')->getCreateForm();
 
         return $this->render('task/task/create.html.twig', [
             'form'    => $form->createView(),

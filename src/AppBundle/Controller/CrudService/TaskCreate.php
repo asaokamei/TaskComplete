@@ -44,17 +44,25 @@ class TaskCreate extends TaskCrud
     /**
      * @param Project $project
      * @param Group   $group
-     * @param TaskDTO $data
+     * @param Request $request
+     * @return FormInterface
      */
-    public function create(Project $project, Group $group, TaskDTO $data)
+    public function create(Project $project, Group $group, Request $request)
     {
         if ($group->getProject() !== $project) {
             throw new \InvalidArgumentException();
         }
-        $task = new Task($data->toArray());
+        $form = $this->getCreateForm();
+        $form = $form->handleRequest($request);
+        if (!$form->isValid()) {
+            return $form;
+        }
+        $task = new Task($form->getData()->toArray());
         $task->setGroup($group);
-        
+
         $this->em->persist($task);
         $this->em->flush();
+        
+        return $form;
     }
 }
