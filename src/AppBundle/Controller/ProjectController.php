@@ -5,6 +5,7 @@ use AppBundle\Controller\CrudService\GroupCrud;
 use AppBundle\Controller\CrudService\ProjectCrud;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Test\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,9 +21,7 @@ class ProjectController extends Controller
         $crud = $this->get('app.project-crud');
         $form = $crud->getCreateForm();
 
-        return $this->render('task/project/create.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        return $this->viewCreateForm($form);
     }
 
     /**
@@ -36,10 +35,7 @@ class ProjectController extends Controller
         $form = $crud->create($request);
         if (!$form->isValid()) {
             $this->addFlash('notice', 'please check the input values!');
-
-            return $this->render('task/project/create.html.twig', [
-                'form' => $form->createView(),
-            ]);
+            return $this->viewCreateForm($form);
         }
 
         $this->addFlash('message', 'created a new project!');
@@ -135,6 +131,17 @@ class ProjectController extends Controller
 
         return $this->render('task/includes/navbar-projects.html.twig', [
             'projects' => $projects,
+        ]);
+    }
+
+    /**
+     * @param FormInterface $form
+     * @return Response
+     */
+    private function viewCreateForm($form): Response
+    {
+        return $this->render('task/project/create.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 }
