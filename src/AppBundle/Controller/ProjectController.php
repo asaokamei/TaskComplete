@@ -32,7 +32,8 @@ class ProjectController extends Controller
     public function insertAction(Request $request)
     {
         $crud = $this->get('app.project-crud');
-        $form = $crud->create($request);
+        /** @var FormInterface $form */
+        list($form, $id) = $crud->create($request);
         if (!$form->isValid()) {
             $this->addFlash('notice', 'please check the input values!');
             return $this->viewCreateForm($form);
@@ -40,7 +41,7 @@ class ProjectController extends Controller
 
         $this->addFlash('message', 'created a new project!');
 
-        return $this->redirectToRoute('project-detail', ['id' => $form->getData()->id]);
+        return $this->redirectToRoute('project-detail', ['id' => $id]);
     }
 
     /**

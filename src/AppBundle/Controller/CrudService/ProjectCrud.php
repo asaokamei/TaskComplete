@@ -71,14 +71,14 @@ class ProjectCrud
 
     /**
      * @param Request $request
-     * @return FormInterface
+     * @return array [FormInterface, int]
      */
     public function create(Request $request)
     {
         $form = $this->getCreateForm();
         $form->handleRequest($request);
         if (!$form->isValid()) {
-            return $form;
+            return [$form, null];
         }
         /** @var ProjectDTO $projectDto */
         $projectDto = $form->getData();
@@ -98,7 +98,7 @@ class ProjectCrud
 
         $projectDto->id = $project->getId();
 
-        return $form;
+        return [$form, $project->getId()];
     }
 
     /**
