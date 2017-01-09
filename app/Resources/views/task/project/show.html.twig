@@ -88,10 +88,10 @@
                 'attr': {'novalidate': 'novalidate'}
             }) }}
             {{ form_label(newGroup.name) }}
-            {{ form_widget(newGroup.name, {"attr":{"class":"form-control", "placeholder":"new group name"}}) }}
+            {{ form_widget(newGroup.name, {"attr":{"placeholder":"new group name"}}) }}
             {{ form_errors(newGroup.name) }}
             {{ form_label(newGroup.doneBy) }}
-            {{ form_widget(newGroup.doneBy, {"attr":{"class":"form-control", "placeholder":"done by"}}) }}
+            {{ form_widget(newGroup.doneBy, {"attr":{"placeholder":"done by"}}) }}
             {{ form_errors(newGroup.doneBy) }}
             <input type="submit" value="add" class="btn btn-xs btn-primary">
             {{ form_end(newGroup) }}
@@ -102,9 +102,9 @@
             <h3>change project info</h3>
             {{ form_start(updater) }}
             {{ form_label(updater.name) }}
-            {{ form_widget(updater.name, {"attr":{"class":"form-control", "placeholder":"REQUIRED: new project name"}}) }}
+            {{ form_widget(updater.name, {"attr":{"placeholder":"REQUIRED: new project name"}}) }}
             {{ form_label(updater.doneBy) }}
-            {{ form_widget(updater.doneBy, {"attr":{"class":"form-control", "placeholder":"done by"}}) }}
+            {{ form_widget(updater.doneBy, {"attr":{"placeholder":"done by"}}) }}
             <input type="submit" value="change" class="btn btn-xs btn-primary">
             {{ form_end(updater) }}
         </div>
