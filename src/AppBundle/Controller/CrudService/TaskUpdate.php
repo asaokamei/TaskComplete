@@ -30,7 +30,7 @@ class TaskUpdate extends TaskCrud
      */
     public function getUpdateForm(Task $data)
     {
-        $task = new TaskDTO(new \DateTime());
+        $task = new TaskDTO();
         $task->fill($data->toArray());
         $form = $this->builder->createBuilder(FormType::class, $task)
             ->add('title', TextType::class, ['label' => 'Task name', 'required' => true])

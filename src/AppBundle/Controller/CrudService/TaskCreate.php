@@ -31,7 +31,7 @@ class TaskCreate extends TaskCrud
      */
     public function getCreateForm()
     {
-        $task = new TaskDTO();
+        $task = new TaskDTO(new \DateTime());
         $form = $this->builder->createBuilder(FormType::class, $task)
             ->add('title', TextType::class, ['label' => 'Task name', 'required' => true])
             ->add('doneBy', DateType::class, ['widget' => 'single_text', 'required' => false, 'label' => 'done by'])

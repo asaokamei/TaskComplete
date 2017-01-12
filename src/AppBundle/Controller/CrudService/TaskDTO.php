@@ -41,8 +41,10 @@ class TaskDTO
      */
     public function __construct(\DateTime $now = null)
     {
-        $this->now = $now ? clone($now): new \DateTime('now');
-        $this->now->setTime(0,0,0);
+        $this->now = $now ? clone($now): null;
+        if ($this->now) {
+            $this->now->setTime(0,0,0);
+        }
     }
 
     /**
@@ -51,7 +53,7 @@ class TaskDTO
      */
     public function validateDoneByHasFutureDate(ExecutionContextInterface $context)
     {
-        if ($this->doneBy && $this->doneBy < $this->now) {
+        if ($this->doneBy && $this->now && $this->doneBy < $this->now) {
             $context->buildViolation('please select future date as done-by.')
                     ->atPath('doneBy')
                     ->addViolation();
