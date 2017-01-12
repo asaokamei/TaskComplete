@@ -3,6 +3,7 @@ namespace AppBundle\Controller\CrudService;
 
 use AppBundle\Entity\EntityTrait;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class TaskDTO
 {
@@ -28,12 +29,32 @@ class TaskDTO
     public $doneBy;
 
     /**
+     * @var \DateTime
+     */
+    private $now;
+
+    /**
      * TaskDTO constructor.
      *
-     * @param array $data
+     * @param \DateTime $now
+     * @internal param array $data
      */
-    public function __construct(array $data = [])
+    public function __construct(\DateTime $now = null)
     {
-        $this->fill($data);
+        $this->now = $now ? clone($now): new \DateTime('now');
+        $this->now->setTime(0,0,0);
+    }
+
+    /**
+     * @param ExecutionContextInterface $context
+     * @Assert\Callback()
+     */
+    public function validateDoneByHasFutureDate(ExecutionContextInterface $context)
+    {
+        if ($this->doneBy && $this->doneBy < $this->now) {
+            $context->buildViolation('please select future date as done-by.')
+                    ->atPath('doneBy')
+                    ->addViolation();
+        }
     }
 }

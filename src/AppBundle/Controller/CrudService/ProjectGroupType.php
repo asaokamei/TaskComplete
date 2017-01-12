@@ -9,12 +9,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProjectGroupType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', TextType::class, ['required' => false,]);
         $builder->add('doneBy', DateType::class, ['required' => false, 'widget' => 'single_text']);
     }
 
+    /**
+     * @param OptionsResolver $resolver
+     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
