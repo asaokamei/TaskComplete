@@ -31,7 +31,7 @@ class SystemController extends Controller
     }
 
     /**
-     * @Config\Route("/initialize")
+     * @Config\Route("/settings/initialize")
      * @Config\Method({"POST"})
      * @param Request $request
      * @return Response
