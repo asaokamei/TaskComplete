@@ -1,6 +1,9 @@
 <?php
-namespace AppBundle\Controller\CrudService;
+namespace AppBundle\AppService\ProjectCrud;
 
+use AppBundle\AppService\GroupCrud\GroupDTO;
+use AppBundle\AppService\ProjectCrud\ProjectDTO;
+use AppBundle\AppService\ProjectCrud\ProjectGroupType;
 use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;
 use Doctrine\ORM\EntityManager;

@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Controller\CrudService;
+namespace AppBundle\AppService\GroupCrud;
 
 use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;

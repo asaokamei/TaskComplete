@@ -1,7 +1,7 @@
 <?php
 namespace AppBundle\Controller;
 
-use AppBundle\Controller\CrudService\TaskUpdate;
+use AppBundle\AppService\TaskCrud\TaskUpdate;
 use AppBundle\Entity\Tasks\Task;
 use InvalidArgumentException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;

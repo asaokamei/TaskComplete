@@ -3,6 +3,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -40,7 +41,7 @@ class TaskCreateController extends Controller
         /** @var FormInterface $form */
         $form = $crud->create($project, $group, $request);
         if (!$form->isValid()) {
-            $this->addFlash('notice', 'please check inputs. ');
+            $form->addError(new FormError('please check inputs. '));
 
             return $this->makeCreateView($project_id, $group_id, $form);
         }

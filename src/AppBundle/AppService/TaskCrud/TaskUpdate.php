@@ -1,8 +1,6 @@
 <?php
-namespace AppBundle\Controller\CrudService;
+namespace AppBundle\AppService\TaskCrud;
 
-use AppBundle\Entity\Tasks\Group;
-use AppBundle\Entity\Tasks\Project;
 use AppBundle\Entity\Tasks\Task;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -13,7 +11,7 @@ use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class TaskCreate extends TaskCrud
+class TaskUpdate extends TaskCrud
 {
     /**
      * TaskCrud constructor.
@@ -27,11 +25,13 @@ class TaskCreate extends TaskCrud
     }
 
     /**
+     * @param Task $data
      * @return FormInterface
      */
-    public function getCreateForm()
+    public function getUpdateForm(Task $data)
     {
-        $task = new TaskDTO(new \DateTime());
+        $task = new TaskDTO();
+        $task->fill($data->toArray());
         $form = $this->builder->createBuilder(FormType::class, $task)
             ->add('title', TextType::class, ['label' => 'Task name', 'required' => true])
             ->add('doneBy', DateType::class, ['widget' => 'single_text', 'required' => false, 'label' => 'done by'])
@@ -42,27 +42,30 @@ class TaskCreate extends TaskCrud
     }
 
     /**
-     * @param Project $project
-     * @param Group   $group
+     * @param Task    $task
      * @param Request $request
      * @return FormInterface
      */
-    public function create(Project $project, Group $group, Request $request)
+    public function update(Task $task, Request $request)
     {
-        if ($group->getProject() !== $project) {
-            throw new \InvalidArgumentException();
-        }
-        $form = $this->getCreateForm();
+        $form = $this->getUpdateForm($task);
         $form = $form->handleRequest($request);
         if (!$form->isValid()) {
             return $form;
         }
-        $task = new Task($form->getData()->toArray());
-        $task->setGroup($group);
-
+        $task->fill($form->getData()->toArray());
         $this->em->persist($task);
         $this->em->flush();
 
         return $form;
+    }
+
+    /**
+     * @param Task $task
+     */
+    public function delete($task)
+    {
+        $this->em->remove($task);
+        $this->em->flush();
     }
 }

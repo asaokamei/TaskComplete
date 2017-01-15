@@ -2,42 +2,42 @@ parameters:
 
 services:
     app.project-crud: 
-        class:  AppBundle\Controller\CrudService\ProjectCrud
+        class:  AppBundle\AppService\ProjectCrud\ProjectCrud
         arguments:  ["@doctrine.orm.default_entity_manager", "@form.factory"]
         
     app.group-crud:
-        class:  AppBundle\Controller\CrudService\GroupCrud
+        class:  AppBundle\AppService\GroupCrud\GroupCrud
         arguments:  ["@doctrine.orm.default_entity_manager", "@form.factory"]
         
     app.task-crud:
-        class: AppBundle\Controller\CrudService\TaskCrud
+        class: AppBundle\AppService\TaskCrud\TaskCrud
         arguments:  ["@doctrine.orm.default_entity_manager", "@form.factory"]
 
     app.task-create:
-        class: AppBundle\Controller\CrudService\TaskCreate
+        class: AppBundle\AppService\TaskCrud\TaskCreate
         arguments:  ["@doctrine.orm.default_entity_manager", "@form.factory"]
 
     app.task-update:
-        class: AppBundle\Controller\CrudService\TaskUpdate
+        class: AppBundle\AppService\TaskCrud\TaskUpdate
         arguments:  ["@doctrine.orm.default_entity_manager", "@form.factory"]
 
     app.query-by-project:
-        class: AppBundle\Controller\QueryService\ByProjectView
+        class: AppBundle\AppService\Queries\ByProjectView
         arguments: ["@doctrine.orm.default_entity_manager"]
         
     app.query-task-summary:
-        class: AppBundle\Controller\QueryService\TaskSummary
+        class: AppBundle\AppService\Queries\TaskSummary
         arguments: ["@doctrine.orm.default_entity_manager"]
                 
     app.query-by-date:
-        class: AppBundle\Controller\QueryService\ByDateView
+        class: AppBundle\AppService\Queries\ByDateView
         arguments: ["@doctrine.orm.default_entity_manager"]
         
     app.query-by-target:
-        class: AppBundle\Controller\QueryService\ByTarget
+        class: AppBundle\AppService\Queries\ByTarget
         arguments: ["@doctrine.orm.default_entity_manager"]
         
     app.query-list-projects:
-        class: AppBundle\Controller\QueryService\ProjectList
+        class: AppBundle\AppService\Queries\ProjectList
         arguments: ["@doctrine.orm.default_entity_manager"]
          

@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Controller\CrudService;
+namespace AppBundle\AppService\GroupCrud;
 
 use AppBundle\Entity\EntityTrait;
 use Symfony\Component\Validator\Constraints as Assert;

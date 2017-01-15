@@ -1,8 +1,8 @@
 <?php
 namespace AppBundle\Controller;
 
-use AppBundle\Controller\CrudService\GroupCrud;
-use AppBundle\Controller\CrudService\ProjectCrud;
+use AppBundle\AppService\GroupCrud\GroupCrud;
+use AppBundle\AppService\ProjectCrud\ProjectCrud;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Test\FormInterface;

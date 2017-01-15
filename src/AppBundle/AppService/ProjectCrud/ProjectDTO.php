@@ -1,6 +1,7 @@
 <?php
-namespace AppBundle\Controller\CrudService;
+namespace AppBundle\AppService\ProjectCrud;
 
+use AppBundle\AppService\GroupCrud\GroupDTO;
 use AppBundle\Entity\EntityTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;

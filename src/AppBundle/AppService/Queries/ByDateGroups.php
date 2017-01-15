@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Controller\QueryService;
+namespace AppBundle\AppService\Queries;
 
 use AppBundle\Entity\Tasks\Task;
 use DateTime;

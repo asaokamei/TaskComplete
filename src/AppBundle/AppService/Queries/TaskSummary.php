@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Controller\QueryService;
+namespace AppBundle\AppService\Queries;
 
 use AppBundle\Entity\Tasks\Generic\DoneDate;
 use AppBundle\Entity\Tasks\Group\GroupIsActive;

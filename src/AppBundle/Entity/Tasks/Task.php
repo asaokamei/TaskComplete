@@ -134,7 +134,7 @@ class Task
      * @param null|\DateTime $doneAt
      * @return string
      */
-    public function done($doneAt = null)
+    public function done(\DateTime $doneAt = null)
     {
         $this->setDoneAt($doneAt);
         $this->status = TaskStatus::DONE;
