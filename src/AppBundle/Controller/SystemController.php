@@ -4,7 +4,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;
 use AppBundle\Entity\Tasks\Task;
-use AppBundle\Entity\Tasks\Task\TaskStatus;
 use DateTime;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
@@ -12,6 +11,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class SystemController extends Controller
 {
@@ -20,6 +21,27 @@ class SystemController extends Controller
      */
     private $now;
 
+    /**
+     * @Config\Route("/settings/login", name="settings-login")
+     * @Config\Method({"GET"})
+     * @return Response
+     */
+    public function login()
+    {
+        $user = $this->getUser();
+        if ($user instanceof UserInterface) {
+            return $this->redirectToRoute('homepage');
+        }
+
+        /** @var AuthenticationException $exception */
+        $exception = $this->get('app.settings_authenticator')
+            ->getLastAuthenticationError();
+
+        return $this->render('task/system/login.html.twig', [
+            'error' => $exception ? $exception->getMessage() : NULL,
+        ]);
+    }
+    
     /**
      * @Config\Route("/settings/initialize", name="initialize")
      * @Config\Method({"GET"})
