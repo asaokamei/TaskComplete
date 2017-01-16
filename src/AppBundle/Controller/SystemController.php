@@ -13,6 +13,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class SystemController
+ *
+ * @package AppBundle\Controller
+ * @Config\Route("/settings")
+ */
 class SystemController extends Controller
 {
     /**
@@ -21,7 +27,7 @@ class SystemController extends Controller
     private $now;
 
     /**
-     * @Config\Route("/settings/initialize", name="initialize")
+     * @Config\Route("/initialize", name="initialize")
      * @Config\Method({"GET"})
      * @return Response
      */
@@ -31,7 +37,7 @@ class SystemController extends Controller
     }
 
     /**
-     * @Config\Route("/settings/initialize")
+     * @Config\Route("/initialize")
      * @Config\Method({"POST"})
      * @param Request $request
      * @return Response

@@ -10,6 +10,12 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class TaskRootController
+ *
+ * @package AppBundle\Controller
+ * @Config\Route("/tasks/")
+ */
 class TaskEditController extends Controller
 {
     /**
@@ -18,7 +24,7 @@ class TaskEditController extends Controller
     private $crud;
 
     /**
-     * @Config\Route("/tasks/{id}/edit", name="task-edit")
+     * @Config\Route("{id}/edit", name="task-edit", requirements={"id": "\d+"})
      * @Config\Method({"GET"})
      * @param int $id
      * @return Response
@@ -65,7 +71,7 @@ class TaskEditController extends Controller
     }
 
     /**
-     * @Config\Route("/tasks/{id}/edit")
+     * @Config\Route("{id}/edit", requirements={"id": "\d+"})
      * @Config\Method({"POST"})
      * @param Request $request
      * @param int     $id
@@ -93,7 +99,7 @@ class TaskEditController extends Controller
     /**
      * completely deletes a task from database.
      *
-     * @Config\Route("/tasks/{id}/edit")
+     * @Config\Route("{id}/edit")
      * @Config\Method({"DELETE"})
      * @param Request $request
      * @param int     $id

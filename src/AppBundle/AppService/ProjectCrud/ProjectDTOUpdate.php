@@ -6,7 +6,7 @@ use AppBundle\Entity\EntityTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class ProjectDTO
+class ProjectDTOUpdate
 {
     use EntityTrait;
 
@@ -41,25 +41,5 @@ class ProjectDTO
     public function __construct(array $data = [])
     {
         $this->fill($data);
-    }
-
-    /**
-     * @param ExecutionContextInterface $context
-     * @Assert\Callback()
-     */
-    public function validateAtLeastOneGroup(ExecutionContextInterface $context)
-    {
-        $groups = $this->groups;
-        $this->groups = [];
-        foreach($groups as $group) {
-            if ($group->name) {
-                $this->groups[] = $group;
-            }
-        }
-        if (empty($this->groups)) {
-            $context->buildViolation('please add at least one target.')
-                    ->addViolation()
-            ;
-        }
     }
 }

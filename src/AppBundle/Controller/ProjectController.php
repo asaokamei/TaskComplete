@@ -9,10 +9,16 @@ use Symfony\Component\Form\Test\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class ProjectController
+ *
+ * @package AppBundle\Controller
+ * @Config\Route("/projects/")
+ */
 class ProjectController extends Controller
 {
     /**
-     * @Config\Route("/projects/create", name="project-create")
+     * @Config\Route("create", name="project-create")
      * @Config\Method({"GET"})
      * @return Response
      */
@@ -25,7 +31,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Config\Route("/projects/create")
+     * @Config\Route("create")
      * @param Request $request
      * @return Response
      */
@@ -45,7 +51,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Config\Route("/projects/{id}", name="project-detail")
+     * @Config\Route("{id}", name="project-detail", requirements={"id": "\d+"})
      * @Config\Method({"GET"})
      * @param int $id
      * @return Response
@@ -72,7 +78,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Config\Route("/projects/{id}")
+     * @Config\Route("{id}", requirements={"id": "\d+"})
      * @Config\Method({"POST"})
      * @param Request $request
      * @param int     $id
@@ -96,7 +102,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * @Config\Route("/projects/{id}")
+     * @Config\Route("{id}", requirements={"id": "\d+"})
      * @Config\Method({"DELETE"})
      * @param Request $request
      * @param int     $id

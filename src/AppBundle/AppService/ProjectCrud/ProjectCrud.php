@@ -2,8 +2,6 @@
 namespace AppBundle\AppService\ProjectCrud;
 
 use AppBundle\AppService\GroupCrud\GroupDTO;
-use AppBundle\AppService\ProjectCrud\ProjectDTO;
-use AppBundle\AppService\ProjectCrud\ProjectGroupType;
 use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;
 use Doctrine\ORM\EntityManager;
@@ -110,7 +108,7 @@ class ProjectCrud
      */
     public function getUpdateForm(Project $project)
     {
-        $data = new ProjectDTO($project->toArray());
+        $data = new ProjectDTOUpdate($project->toArray());
         $form = $this->builder->createBuilder(FormType::class, $data)
             ->add('name', TextType::class, ['required' => true,])
             ->add('doneBy', DateType::class, ['required' => false, 'widget' => 'single_text'])
