@@ -11,15 +11,10 @@ security:
 
     # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        in_memory:
-            memory:
-                users:
-                    admin:
-                        password: "admin"
-                        roles: ['ROLE_ADMIN']
-                    user:
-                        password: "user"
-                        roles: ['ROLE_USER']
+
+        users:
+            entity: { class: AppBundle\Entity\User\User, property: username }
+
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs

@@ -23,7 +23,7 @@ class SystemController extends Controller
 
     /**
      * @Config\Route("/settings/login", name="settings-login")
-     * @Config\Method({"GET"})
+     * @Config\Method({"GET", "POST"})
      * @return Response
      */
     public function login()
@@ -34,12 +34,19 @@ class SystemController extends Controller
         }
 
         /** @var AuthenticationException $exception */
-        $exception = $this->get('app.settings_authenticator')
-            ->getLastAuthenticationError();
+        $utils = $this->get('security.authentication_utils');
+        $exception = $utils->getLastAuthenticationError();
+        $lastName  = $utils->getLastUsername();
 
-        return $this->render('task/system/login.html.twig', [
-            'error' => $exception ? $exception->getMessage() : NULL,
-        ]);
+        $data = [
+            'lastName' => $lastName,
+        ];
+        if ($exception) {
+            $this->addFlash('notice', $exception->getMessage());
+        } else {
+            $this->addFlash('message', 'please login');
+        }
+        return $this->render('task/system/login.html.twig', $data);
     }
     
     /**

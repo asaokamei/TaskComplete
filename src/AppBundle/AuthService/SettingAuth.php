@@ -1,12 +1,15 @@
 <?php
 namespace AppBundle\AuthService;
 
+use AppBundle\Entity\User\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
@@ -22,6 +25,11 @@ class SettingAuth extends AbstractGuardAuthenticator
      * @var EntityManager
      */
     private $em;
+
+    /**
+     * @var string
+     */
+    private $message = 'please check inputs. ';
 
     /**
      * SettingAuth constructor.
@@ -87,8 +95,13 @@ class SettingAuth extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
+        if ($request->getMethod() !== 'POST') {
+            return null;
+        }
+        $username = $request->request->get('_username');
+        $request->getSession()->set(Security::LAST_USERNAME, $username);
         return array(
-            'username' => $request->request->get('_username'),
+            'username' => $username,
             'password' => $request->request->get('_password'),
         );
     }
@@ -110,14 +123,17 @@ class SettingAuth extends AbstractGuardAuthenticator
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        if (!isset($credentials['_username'])) {
+        if (!isset($credentials['username'])) {
             return null;
         }
-        $username = $credentials['_username'];
-        $user = $this->em->getRepository('AppBundle:User')
+        $username = $credentials['username'];
+        $user = $this->em->getRepository(User::class)
             ->findOneBy(['username' => $username]);
 
-        return $user;
+        if ($user) {
+            return $user;
+        }
+        throw new CustomUserMessageAuthenticationException($this->message);
     }
 
     /**
@@ -138,10 +154,14 @@ class SettingAuth extends AbstractGuardAuthenticator
      */
     public function checkCredentials($credentials, UserInterface $user)
     {
-        if (!isset($credentials['_password'])) {
-            return false;
+        $password = $credentials['password'];
+        if (password_verify($password, $user->getPassword())) {
+            return true;
         }
-        return password_verify($credentials['_password'], $user->getPassword());
+        if ($password === $user->getPassword()) {
+            return true;
+        }
+        throw new CustomUserMessageAuthenticationException($this->message);
     }
 
     /**
@@ -160,6 +180,7 @@ class SettingAuth extends AbstractGuardAuthenticator
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
+        $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
         $url = $this->router->generate('settings-login');
         return new RedirectResponse($url);
     }
@@ -181,7 +202,8 @@ class SettingAuth extends AbstractGuardAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        return null;
+        $url = $this->router->generate('initialize');
+        return new RedirectResponse($url);
     }
 
     /**
