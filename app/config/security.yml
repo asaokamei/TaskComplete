@@ -3,11 +3,7 @@
 security:
 
     encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
-        # for using password_hash.  
-    #    Symfony\Component\Security\Core\User\User:
-    #         algorithm:      bcrypt
-    #         cost:           13
+        Symfony\Component\Security\Core\User\User: bcrypt
 
     # http://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
@@ -36,12 +32,3 @@ security:
     access_control:
         - { path: ^/settings/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/settings/, roles: ROLE_ADMIN}
-            
-
-            # activate different ways to authenticate
-
-            # http_basic: ~
-            # http://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html

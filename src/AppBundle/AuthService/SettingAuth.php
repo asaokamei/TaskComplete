@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
@@ -17,7 +18,7 @@ use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 class SettingAuth extends AbstractGuardAuthenticator
 {
     /**
-     * @var \Symfony\Component\Routing\RouterInterface
+     * @var RouterInterface
      */
     private $router;
 
@@ -95,7 +96,8 @@ class SettingAuth extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request)
     {
-        if ($request->getMethod() !== 'POST') {
+        $url = $this->router->generate('settings-login');
+        if ($request->getPathInfo() != $url || $request->getMethod() !== 'POST') {
             return null;
         }
         $username = $request->request->get('_username');

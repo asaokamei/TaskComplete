@@ -30,7 +30,7 @@ class SystemController extends Controller
     {
         $user = $this->getUser();
         if ($user instanceof UserInterface) {
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('initialize');
         }
 
         /** @var AuthenticationException $exception */
@@ -60,7 +60,7 @@ class SystemController extends Controller
     }
 
     /**
-     * @Config\Route("/initialize")
+     * @Config\Route("/settings/initialize")
      * @Config\Method({"POST"})
      * @param Request $request
      * @return Response
