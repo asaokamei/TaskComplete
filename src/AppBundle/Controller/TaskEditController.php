@@ -81,12 +81,9 @@ class TaskEditController extends Controller
     {
         $task = $this->getTask($id);
 
-        /** @var FormInterface $form */
-        $form = $this->crud->update($task, $request);
-        if (!$form->isValid()) {
-            $this->addFlash('notice', 'please check inputs. ');
-
-            return $this->renderEdit($task, $form);
+        $dto = $this->crud->update($task, $request);
+        if (!$dto->isValid()) {
+            return $this->renderEdit($task, $dto->getForm());
         }
 
         $group   = $task->getGroup();

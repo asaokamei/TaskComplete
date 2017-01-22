@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\AppService\TaskCrud;
 
+use AppBundle\AppService\Common\ServiceDTO;
 use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;
 use AppBundle\Entity\Tasks\Task;
@@ -45,7 +46,7 @@ class TaskCreate extends TaskCrud
      * @param Project $project
      * @param Group   $group
      * @param Request $request
-     * @return FormInterface
+     * @return ServiceDTO
      */
     public function create(Project $project, Group $group, Request $request)
     {
@@ -55,7 +56,7 @@ class TaskCreate extends TaskCrud
         $form = $this->getCreateForm();
         $form = $form->handleRequest($request);
         if (!$form->isValid()) {
-            return $form;
+            return ServiceDTO::failed($form)->setMessage('please check inputs.');
         }
         $task = new Task($form->getData()->toArray());
         $task->setGroup($group);
@@ -63,6 +64,6 @@ class TaskCreate extends TaskCrud
         $this->em->persist($task);
         $this->em->flush();
 
-        return $form;
+        return ServiceDTO::success();
     }
 }

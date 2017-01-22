@@ -39,15 +39,15 @@ class ProjectController extends Controller
     {
         $crud = $this->get('app.project-crud');
         /** @var FormInterface $form */
-        list($form, $id) = $crud->create($request);
-        if (!$form->isValid()) {
-            $this->addFlash('notice', 'please check the input values!');
-            return $this->viewCreateForm($form);
+        $dto = $crud->create($request);
+        if (!$dto->isValid()) {
+            $this->addFlash('notice', $dto->getMessage());
+            return $this->viewCreateForm($dto->getForm());
         }
 
         $this->addFlash('message', 'created a new project!');
 
-        return $this->redirectToRoute('project-detail', ['id' => $id]);
+        return $this->redirectToRoute('project-detail', ['id' => $dto->getCreatedId()]);
     }
 
     /**

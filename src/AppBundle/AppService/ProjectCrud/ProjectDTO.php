@@ -52,7 +52,7 @@ class ProjectDTO
         $groups = $this->groups;
         $this->groups = [];
         foreach($groups as $group) {
-            if ($group->name) {
+            if ($group->name && $group->doneBy) {
                 $this->groups[] = $group;
             }
         }

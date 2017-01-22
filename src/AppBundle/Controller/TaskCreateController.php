@@ -1,9 +1,9 @@
 <?php
 namespace AppBundle\Controller;
 
+use AppBundle\AppService\TaskCrud\TaskCreate;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration as Config;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,12 +36,12 @@ class TaskCreateController extends Controller
     {
         $project = $this->get('app.project-crud')->findById($project_id);
         $group   = $this->get('app.group-crud')->findById($group_id);
-        $crud    = $this->get('app.task-create');
 
-        /** @var FormInterface $form */
-        $form = $crud->create($project, $group, $request);
-        if (!$form->isValid()) {
-            $form->addError(new FormError('please check inputs. '));
+        /** @var TaskCreate $crud */
+        $crud = $this->get('app.task-create');
+        $dto  = $crud->create($project, $group, $request);
+        if (!$dto->isValid()) {
+            $form = $dto->getForm();
 
             return $this->makeCreateView($project_id, $group_id, $form);
         }

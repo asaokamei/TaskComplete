@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\AppService\ProjectCrud;
 
+use AppBundle\AppService\Common\ServiceDTO;
 use AppBundle\AppService\GroupCrud\GroupDTO;
 use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;
@@ -72,14 +73,14 @@ class ProjectCrud
 
     /**
      * @param Request $request
-     * @return array [FormInterface, int]
+     * @return ServiceDTO
      */
     public function create(Request $request)
     {
         $form = $this->getCreateForm();
         $form->handleRequest($request);
         if (!$form->isValid()) {
-            return [$form, null];
+            return ServiceDTO::failed($form)->setMessage('please check inputs.');
         }
         /** @var ProjectDTO $projectDto */
         $projectDto = $form->getData();
@@ -88,7 +89,7 @@ class ProjectCrud
         $project = new Project($projectDto->toArray());
         $em->persist($project);
         foreach ($projectDto->groups as $groupDTO) {
-            if (!$groupDTO->name || $groupDTO->doneBy) {
+            if (!$groupDTO->name || !$groupDTO->doneBy) {
                 continue;
             }
             $group = new Group($groupDTO->toArray());
@@ -97,9 +98,7 @@ class ProjectCrud
         }
         $em->flush();
 
-        $projectDto->id = $project->getId();
-
-        return [$form, $project->getId()];
+        return ServiceDTO::success()->setCreatedId($project->getId());
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\AppService\TaskCrud;
 
+use AppBundle\AppService\Common\ServiceDTO;
 use AppBundle\Entity\Tasks\Task;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -44,20 +45,20 @@ class TaskUpdate extends TaskCrud
     /**
      * @param Task    $task
      * @param Request $request
-     * @return FormInterface
+     * @return ServiceDTO
      */
     public function update(Task $task, Request $request)
     {
         $form = $this->getUpdateForm($task);
         $form = $form->handleRequest($request);
         if (!$form->isValid()) {
-            return $form;
+            return ServiceDTO::failed($form)->setMessage('please check inputs. ');
         }
         $task->fill($form->getData()->toArray());
         $this->em->persist($task);
         $this->em->flush();
 
-        return $form;
+        return ServiceDTO::success();
     }
 
     /**
