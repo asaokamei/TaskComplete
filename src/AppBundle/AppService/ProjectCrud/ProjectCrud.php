@@ -2,6 +2,8 @@
 namespace AppBundle\AppService\ProjectCrud;
 
 use AppBundle\AppService\Common\ServiceDTO;
+use AppBundle\AppService\Common\ServiceInterface;
+use AppBundle\AppService\Common\Transaction;
 use AppBundle\AppService\GroupCrud\GroupDTO;
 use AppBundle\Entity\Tasks\Group;
 use AppBundle\Entity\Tasks\Project;
@@ -14,7 +16,7 @@ use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class ProjectCrud
+class ProjectCrud implements ServiceInterface
 {
     /**
      * @var EntityManager
@@ -27,6 +29,11 @@ class ProjectCrud
     private $builder;
 
     /**
+     * @var Transaction
+     */
+    private $transaction;
+
+    /**
      * ProjectCrud constructor.
      *
      * @param EntityManager $em
@@ -36,6 +43,7 @@ class ProjectCrud
     {
         $this->em      = $em;
         $this->builder = $builder;
+        $this->transaction = new Transaction($em, $this);
     }
 
     /**
@@ -75,7 +83,16 @@ class ProjectCrud
      * @param Request $request
      * @return ServiceDTO
      */
-    public function create(Request $request)
+    public function create($request)
+    {
+        return $this->transaction->run($request);
+    }
+
+    /**
+     * @param Request $request
+     * @return ServiceDTO
+     */
+    public function run($request)
     {
         $form = $this->getCreateForm();
         $form->handleRequest($request);
@@ -94,9 +111,9 @@ class ProjectCrud
             }
             $group = new Group($groupDTO->toArray());
             $group->setProject($project);
+            $project->getGroups()->add($group);
             $em->persist($group);
         }
-        $em->flush();
 
         return ServiceDTO::success()->setCreatedId($project->getId());
     }
